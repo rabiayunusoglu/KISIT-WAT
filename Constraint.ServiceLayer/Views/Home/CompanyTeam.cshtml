@@ -1,0 +1,210 @@
+﻿
+@{
+    ViewBag.Title = "CompanyTeam";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!doctype html>
+<html lang="en">
+<head>
+    <script src="~/Scripts/angular.js"></script>
+    <script src="~/App/controller.js"></script>
+</head>
+<body ng-app="app" ng-controller="companyTeamCtrl">
+    <br />
+    <div class="panel panel-default" ng-init="getData()" >
+
+        <div class="panel-heading">
+            <center>
+                <h4>
+                    Firmalar-Ekipler
+                </h4>
+            </center>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+
+                <br />
+            </div>
+            <div class="row">
+                <div class="col-lg-5">
+                    <button type="button" class="btn  btn-success" data-toggle="modal" data-target="#basicModal">Ekip Ekle</button>
+                    <button type="button" class="btn " style="background:gray; color:white" data-toggle="modal" data-target="#basicModalCompany">Firma Ekle</button>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-group pull-left">
+                        <label>Ara</label>
+                        <label>
+                            <input type="text" class="form-control" ng-model="searchText" style="font-weight: normal" />
+                        </label>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group pull-right">
+                        Sayfalar
+                        <label>
+                            <select class="form-control" ng-model="itemsPerPage" style="font-weight: normal">
+                                <option ng-value="5">5</option>
+                                <option ng-value="10">10</option>
+                                <option ng-value="25">25</option>
+                                <option ng-value="50">50</option>
+                            </select>
+                        </label>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th ng-click="sortBy('companyName')">
+                            Firma-Ekip
+                            <span class="glyphicon" ng-show="sortColumn=='companyName'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                        </th>
+                        <th ng-click="sortBy('companyCode')">
+                            Satıcı Kodu
+                            <span class="glyphicon" ng-show="sortColumn=='companyCode'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                        </th>
+                        <th>Düzenle</th>
+                        <th>Sil</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="i in companyTeam | orderBy: sortColumn: reverse | limitTo: itemsPerPage: (currentPage - 1) * itemsPerPage">
+                        <td>
+                            {{i.id}}
+                        </td>
+                        <td>
+                            {{i.companyName}}
+                        </td>
+                        <td>
+                            {{i.companyCode}}
+                        </td>
+                        <td>
+                            <input type="button" class="btn  btn-primary" data-toggle="modal" data-target="#basicModalUpdate" value="Düzenle" ng-click="UpdateDataH(i)" />
+
+
+                        </td>
+                        <td>
+
+                            <input type="button" class="btn btn-danger" value="Sil" ng-click="Delete(i)" />
+                        </td>
+                    </tr>
+                    <tr ng-if="!companyTeam || companyTeam.length == 0">
+                        <td colspan="3" style="text-align:center">
+                            Firma-Ekip Yok
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="pull-left">
+                        <br />
+
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="pull-right">
+                        <ul uib-pagination total-items="companyTeam.length" items-per-page="itemsPerPage" ng-model="currentPage" max-size="5" boundary-links="true" num-pages="numPages"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">Ekip Ekle</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal" name="frmAddUser" novalidate>
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label">Ekip Adı:</label>
+                                <div class="col-lg-9">
+                                    <input type="text" class="form-control" name="name" ng-model="companyName"  />
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label">Satıcı Kodu:</label>
+                                <div class="col-lg-9">
+                                    <input type="text" class="form-control" name="name" value="-" disabled />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnSave" class="btn btn-success" value="Submit" ng-click="InsertDataTeam()" data-dismiss="modal">Ekle</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="basicModalUpdate" tabindex="-1" role="dialog" aria-labelledby="basicModalUpdate" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">Firma-Ekip Düzenle</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal" name="frmUpdateUser" novalidate>
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label">Firma-Ekip:</label>
+                                <div class="col-lg-9">
+                                    <input type="text" class="form-control" name="name" ng-model="companyNameUpdate"  />
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label">Satıcı Kodu:</label>
+                                <div class="col-lg-9">
+                                    <input type="text" class="form-control" name="nameCode" ng-model="companyCodeUpdate"  />
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnSaveUpdate" class="btn btn-success" ng-click="UpdateData()" data-dismiss="modal">Düzenle</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="basicModalCompany" tabindex="-1" role="dialog" aria-labelledby="basicModalCompany" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">Firma Ekle</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal" name="frmAddUser" novalidate>
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label">Firma Adı:</label>
+                                <div class="col-lg-9">
+                                    <input type="text" class="form-control" name="name" ng-model="companyName"  />
+                                   
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label">Satıcı Kodu:</label>
+                                <div class="col-lg-9">
+                                    <input type="text" class="form-control" name="nameCode" ng-model="companyCode"  />
+                                    
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnSave" class="btn btn-success" value="Submit" ng-click="InsertDataCompany()" data-dismiss="modal">Ekle</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

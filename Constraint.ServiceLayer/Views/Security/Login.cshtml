@@ -1,0 +1,40 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="~/Content/login.css">
+
+</head>
+<body>
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    @using (Html.BeginForm("Login", "Security", FormMethod.Post))
+    {
+        <form>
+            <center> <img src="@Url.Content("~/Content/wat.png")" width="250" height="250" /></center>
+            <br />
+            <h3>Kısıt Takip</h3>
+            <br />
+
+            <input type="text" placeholder="Mailinizi giriniz..." id="email" name="email" class="form-control">
+
+            <br />
+            <i class=" glyphicon glyphicon-lock"></i>
+            <input type="password" placeholder="Şifrenizi giriniz..." id="password" name="password" class="form-control">
+            <center><button type="submit">Giriş</button></center>
+
+
+
+        </form>
+    }
+</body>
+</html>
+<script>
+
+</script>

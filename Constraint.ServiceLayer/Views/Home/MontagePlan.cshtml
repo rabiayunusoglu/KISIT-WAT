@@ -1,0 +1,162 @@
+﻿
+@{
+    ViewBag.Title = "MontagePlan";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!doctype html>
+<html lang="en">
+<head>
+    <script src="~/Scripts/angular.js"></script>
+    <script src="~/App/controller.js"></script>
+</head>
+<body ng-app="app" ng-controller="montagePlanCtrl">
+    <br />
+    <div class="panel panel-default" ng-init="getData()">
+
+        <div class="panel-heading">
+            <center>
+                <h4>
+                    Montaj-Üretim Planı
+                </h4>
+            </center>
+        </div>
+        <div class="panel-body" ng-if="!uploading">
+            <div class="spin-container">
+                <div class="spin" id="loader"></div>
+                <div class="spin" id="loader2"></div>
+                <div class="spin" id="loader3"></div>
+                <div class="spin" id="loader4"></div>
+                <span id="text">Yükleniyor...</span>
+            </div>
+        </div>
+        <div class="panel-body" ng-if="uploading">
+            <div class="row">
+
+                <br />
+            </div>
+            <div class="row">
+
+                <div class="col-lg-6">
+                    <div class="form-group pull-left">
+                        <label>Ara</label>
+                        <label>
+                            <input type="text" class="form-control" ng-model="searchText" style="font-weight: normal" />
+                        </label>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group pull-right">
+                        Sayfalar
+                        <label>
+                            <select class="form-control" ng-model="itemsPerPage" style="font-weight: normal">
+                                <option ng-value="5">5</option>
+                                <option ng-value="10">10</option>
+                                <option ng-value="25">25</option>
+                                <option ng-value="50">50</option>
+                            </select>
+                        </label>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            #
+                        </th>
+                        <th ng-click="sortBy('aboveLine')">
+                            Hat Bilgisi
+                            <span class="glyphicon" ng-show="sortColumn=='aboveLine'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                        </th>
+                        <th ng-click="sortBy('productCode')">
+                            Ürün Kodu
+                            <span class="glyphicon" ng-show="sortColumn=='productCode'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                        </th>
+                        <th ng-click="sortBy('version')">
+                            Hat Bilgisi
+                            <span class="glyphicon" ng-show="sortColumn=='version'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                        </th>
+                        <th ng-click="sortBy('plannedDate')">
+                            Plan Tarihi
+                            <span class="glyphicon" ng-show="sortColumn=='plannedDate'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                        </th>
+                        <th ng-click="sortBy('amount')">
+                            Miktar
+                            <span class="glyphicon" ng-show="sortColumn=='amount'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                        </th>
+                        <th ng-click="sortBy('customerType')">
+                            Müşteri
+                            <span class="glyphicon" ng-show="sortColumn=='customerType'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                        </th>
+                        <th ng-click="sortBy('frame')">
+                            Frame
+                            <span class="glyphicon" ng-show="sortColumn=='frame'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                        </th>
+                        <th ng-click="sortBy('relevant_month')">
+                            İlgili Ay
+                            <span class="glyphicon" ng-show="sortColumn=='relevant_month'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="i in montagePlan | orderBy: sortColumn: reverse | limitTo: itemsPerPage: (currentPage - 1) * itemsPerPage">
+                        <td>
+                            {{i.id}}
+                        </td>
+                        <td>
+                            {{i.aboveLine}}
+                        </td>
+                        <td>
+                            {{i.productCode}}
+                        </td>
+                        <td>
+                            {{i.version}}
+                        </td>
+                        <td>
+                            {{i.plannedDate}}
+                        </td>
+                        <td>
+                            {{i.amount}}
+                        </td>
+                        <td>
+                            {{i.customerType}}
+                        </td>
+                        <td>
+                            {{i.frame}}
+                        </td>
+                        <td>
+                            {{i.relevant_month}}
+                        </td>
+                    </tr>
+                    <tr ng-if="!montagePlan || montagePlan.length == 0">
+                        <td colspan="8" style="text-align:center">
+                            <h3>Tablo Boş</h3>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="pull-left">
+                        <br />
+
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="pull-right">
+                        <ul uib-pagination total-items="montagePlan.length" items-per-page="itemsPerPage" ng-model="currentPage" max-size="5" boundary-links="true" num-pages="numPages"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
+
+
+
+

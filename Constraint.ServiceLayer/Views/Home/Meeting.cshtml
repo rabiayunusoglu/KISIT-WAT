@@ -1,0 +1,316 @@
+﻿
+@{
+    ViewBag.Title = "Meeting";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!doctype html>
+<html lang="en">
+<head>
+    <script src="~/Scripts/angular.js"></script>
+    <script src="~/App/controller.js"></script>
+</head>
+<body ng-app="app" ng-controller="meetingCtrl">
+    <br />
+    <div class="panel panel-default" ng-init="fetchData()">
+
+        <div class="panel-heading">
+            <center>
+                <h4>
+                    Toplantı-Firma
+                </h4>
+            </center>
+        </div>
+        <div class="panel-body" ng-if="!uploading">
+            <div class="spin-container">
+                <div class="spin" id="loader"></div>
+                <div class="spin" id="loader2"></div>
+                <div class="spin" id="loader3"></div>
+                <div class="spin" id="loader4"></div>
+                <span id="text">Yükleniyor...</span>
+            </div>
+        </div>
+        <div class="panel-body" ng-if="uploading">
+
+            <div class="row">
+                <div class="col-lg-7">
+                    <div class="form-group" style="align-content:end">
+                        <div class="col-lg-1">
+                            <label class="control-label">Başlangıç:</label>
+                        </div>
+                        <div class="col-lg-3">
+                            <input id="data-startDate" type="date" class="form-control" name="name" ng-value="startDate" />
+                        </div>
+
+                        <div class="form-group col-lg-3">
+                            <button type="button" ng-click="fetchDataFromDate()" class="btn btn-success">
+                                Getir
+                            </button>
+                            <button type="button" ng-click="fetchData()" class="btn btn-primary">
+                                Tümünü Getir
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-1 ">
+
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group pull-right">
+
+                        <button type="button" ng-click="deleteAllItem()" class="btn btn-danger" data-toggle="modal" data-target="#basicModalDelete">
+                            Tümünü Sil
+                        </button>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="row">
+
+                <div class="col-lg-7">
+                    <div class="col-lg-1">
+                        <label class="control-label">Bitiş:</label>
+                    </div>
+                    <div class="col-lg-3">
+                        <input id="data-endDate" type="date" class="form-control" name="name" ng-value="endDate" />
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="form-group pull-right">
+                        Sayfalar
+                        <label>
+                            <select class="form-control" ng-model="itemsPerPage" style="font-weight: normal">
+                                <option ng-value="5">5</option>
+                                <option ng-value="10">10</option>
+                                <option ng-value="25">25</option>
+                                <option ng-value="50">50</option>
+                                <option ng-value="100">100</option>
+                                <option ng-value="200">200</option>
+                                <option ng-value="500">500</option>
+
+                            </select>
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+
+            <div>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                #
+                            </th>
+                            <th ng-click="sortBy('dateCurrent')">
+                                Girildiği Tarih
+                                <span class="glyphicon" ng-show="sortColumn=='dateCurrent'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                            </th>
+                            <th ng-click="sortBy('chargePerson')">
+                                Sorumlu Birey
+                                <span class="glyphicon" ng-show="sortColumn=='chargePerson'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                            </th>
+                            <th ng-click="sortBy('companyTeam')">
+                                Firma-Takım
+                                <span class="glyphicon" ng-show="sortColumn=='companyTeam'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                            </th>
+                            <th ng-click="sortBy('materialText')">
+                                Malzeme Tanımı
+                                <span class="glyphicon" ng-show="sortColumn=='materialText'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                            </th>
+                            <th ng-click="sortBy('materialCode')">
+                                Malzeme Kodu
+                                <span class="glyphicon" ng-show="sortColumn=='materialCode'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                            </th>
+
+                            <th ng-click="sortBy('productCode')">
+                                Ürün Kodu
+                                <span class="glyphicon" ng-show="sortColumn=='productCode'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                            </th>
+                            <th ng-click="sortBy('amount')">
+                                Plandaki Miktar
+                                <span class="glyphicon" ng-show="sortColumn=='amount'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                            </th>
+                            <th ng-click="sortBy('plannedDate')">
+                                Plan Tarihi
+                                <span class="glyphicon" ng-show="sortColumn=='plannedDate'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                            </th>
+
+                            <th ng-click="sortBy('customer')">
+                                Müşteri
+                                <span class="glyphicon" ng-show="sortColumn=='customer'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                            </th>
+                            <th ng-click="sortBy('delayAmount')">
+                                Öteleme Miktarı
+                                <span class="glyphicon" ng-show="sortColumn=='delayAmount'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                            </th>
+                            <th ng-click="sortBy('delayDate')">
+                                Ötelenecek Tarih
+                                <span class="glyphicon" ng-show="sortColumn=='delayDate'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                            </th>
+                            <th ng-click="sortBy('delayReason')">
+                                Öteleme Sebebi
+                                <span class="glyphicon" ng-show="sortColumn=='delayReason'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                            </th>
+
+                            <th ng-click="sortBy('delayDetail')">
+                                Öteleme Açıklama
+                                <span class="glyphicon" ng-show="sortColumn=='delayDetail'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                            </th>
+
+
+                            <th ng-click="sortBy('version')">
+                                Hat Bilgisi
+                                <span class="glyphicon" ng-show="sortColumn=='version'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                            </th>
+
+                            <th>
+                                Çoklu Kopyala
+                            </th>
+                            <th>
+                                Satırı Kopyala
+                            </th>
+                            <th>
+                                Sil
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="i in meetingList  | orderBy: sortColumn: reverse | limitTo: itemsPerPage: (currentPage - 1) * itemsPerPage ">
+                            <td>
+                                {{i.id}}
+                            </td>
+                            <td>
+                                {{i.dateCurrent}}
+                            </td>
+                            <td>
+                                {{i.chargePerson}}
+                            </td>
+                            <td>
+                                {{i.companyTeam}}
+                            </td>
+                            <td>
+                                {{i.materialText}}
+                            </td>
+                            <td>
+                                {{i.materialCode}}
+                            </td>
+
+                            <td>
+                                {{i.productCode}}
+                            </td>
+                            <td>
+                                {{i.amount}}
+                            </td>
+                            <td>
+                                {{i.plannedDate}}
+                            </td>
+
+                            <td>
+                                {{i.customer}}
+                            </td>
+
+                            <td>
+                                {{i.delayAmount}}
+                            </td>
+                            <td>
+                                {{i.delayDate}}
+                            </td>
+                            <td>
+                                {{i.delayReason}}
+                            </td>
+                            <td>
+                                {{i.delayDetail}}
+                            </td>
+
+                            <td>
+                                {{i.version}}
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-warning" ng-click="toogleMultipleCopy(i)" data-toggle="modal" data-target="#basicModal">
+                                    Çokla
+                                </button>
+                            </td>
+                            <td>
+                                <button type="button" class="btn" style="background: #636f83; color: white;" ng-click="copyLine(i)">
+                                    Kopyala
+                                </button>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-danger" ng-click="deleteItem(i)">
+                                    <i class="glyphicon glyphicon-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr ng-if="!meetingList || meetingList.length == 0">
+                            <td colspan="17" style="text-align:center">
+                                <h3>Tablo Boş</h3>
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="pull-left">
+                        <br />
+
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="pull-right">
+                        <ul uib-pagination total-items="meetingList.length" items-per-page="itemsPerPage" ng-model="currentPage" max-size="5" boundary-links="true" num-pages="numPages"></ul>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade " id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <center><h4 class="modal-title" id="myModalLabel"></h4></center>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <label class="col-lg-2 control-label">Satır Sayısı:</label>
+                                <div class="col-lg-4">
+                                    <input id="data-copyCount" type="number" class="form-control " min="1" string-to-number ng-model="copylineCount" />
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="btnSave" class="btn btn-success" value="Sil" ng-click="multipleCopyMethod(multipleCopyItem)" data-dismiss="modal">Çoklu Kopyala</button>
+                            <button type="button" id="btnSave" class="btn btn-danger" value="Sil" data-dismiss="modal">Vazgeç</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade " id="basicModalDelete" tabindex="-1" role="dialog" aria-labelledby="basicModalDelete" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <center><h4 class="modal-title" id="myModalLabel"></h4></center>
+                        </div>
+                        <div class="modal-body">
+                            <center><h4> {{message}}</h4></center>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="btnSave" class="btn btn-success" value="Sil" ng-click="yesItem()" data-dismiss="modal">Evet</button>
+                            <button type="button" id="btnSave" class="btn btn-danger" value="Sil" data-dismiss="modal">Hayır</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
+

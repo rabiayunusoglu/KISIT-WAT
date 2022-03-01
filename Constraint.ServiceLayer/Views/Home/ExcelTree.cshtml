@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewBag.Title = "ExcelTree";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <script src="~/Scripts/angular.js"></script>
+    <script src="~/App/controller.js"></script>
+</head>
+<body ng-app="app" ng-controller="excelTreeCtrl">
+    <br />
+    @using (Html.BeginForm("Upload", "ProductTree", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <center>
+                    <h4>
+                        Ürün Ağacını Yükleyiniz
+                    </h4>
+                </center>
+            </div>
+            <div class="panel-body">
+                <br />
+                <form>
+                    <div>
+                        <input type="file" name="UploadedFile" />
+                    </div>
+                </form>
+                <br />
+            </div>
+            <div class="panel-footer">
+                <center>
+                    <input class="btn btn-primary" type="submit" name="Submit" value="Gönder" />
+                </center>
+            </div>
+
+        </div>
+    }
+</body>
+</html>
+
+

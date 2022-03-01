@@ -1,0 +1,137 @@
+﻿
+@{
+    ViewBag.Title = "UserList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <script src="~/Scripts/angular.js"></script>
+    <script src="~/App/controller.js"></script>
+</head>
+<body ng-app="app">
+    <br />
+    <div class="panel panel-default" ng-controller="userListCtrl" ng-init="getData()">
+
+        <div class="panel-heading">
+            <center>
+                <h4>
+                    Kullanıcılar
+                </h4>
+            </center>
+        </div>
+        <div class="panel-body" ng-if="!uploading">
+            <div class="spin-container">
+                <div class="spin" id="loader"></div>
+                <div class="spin" id="loader2"></div>
+                <div class="spin" id="loader3"></div>
+                <div class="spin" id="loader4"></div>
+                <span id="text">Yükleniyor...</span>
+            </div>
+        </div>
+        <div class="panel-body" ng-if="uploading">
+            <div class="row">
+
+                <br />
+            </div>
+            <div class="row">
+
+                <div class="col-lg-6">
+                    <div class="form-group pull-left">
+                        <label>Ara</label>
+                        <label>
+                            <input type="text" class="form-control" ng-model="searchText" style="font-weight: normal" />
+                        </label>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group pull-right">
+                        Sayfalar
+                        <label>
+                            <select class="form-control" ng-model="itemsPerPage" style="font-weight: normal">
+                                <option ng-value="5">5</option>
+                                <option ng-value="10">10</option>
+                                <option ng-value="25">25</option>
+                                <option ng-value="50">50</option>
+                            </select>
+                        </label>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            #
+                        </th>
+                        <th ng-click="sortBy('userType')">
+                            Hesap Türü
+                            <span class="glyphicon" ng-show="sortColumn=='userType'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                        </th>
+                        <th ng-click="sortBy('email')">
+                            Sicil No
+                            <span class="glyphicon" ng-show="sortColumn=='email'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                        </th>
+                        <th ng-click="sortBy('userName')">
+                            Ad-Soyad
+                            <span class="glyphicon" ng-show="sortColumn=='userName'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                        </th>
+                        <th>
+                            Türü Değiştir
+                        </th>
+                       
+                        <th>
+                            Sil
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="i in userList | orderBy: sortColumn: reverse | limitTo: itemsPerPage: (currentPage - 1) * itemsPerPage">
+                        <td>
+                            {{i.id}}
+                        </td>
+                        <td>
+                            {{i.userType}}
+                        </td>
+                        <td>
+                            {{i.email}}
+                        </td>
+                        <td>
+                            {{i.userName}}
+                        </td>
+                        <td>
+                            <input type="button" class="btn  btn-primary" value="Değiştir" ng-click="updateMethod(i)" />
+                        </td>
+                        <td>
+                            <input type="button" class="btn btn-danger" value="Sil" ng-click="deleteMethod(i)" />
+                        </td>
+                    </tr>
+                    <tr ng-if="!userList || userList.length == 0">
+                        <td colspan="12" style="text-align:center">
+                            <h3>Tablo Boş</h3>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="pull-left">
+                        <br />
+
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="pull-right">
+                        <ul uib-pagination total-items="userList.length" items-per-page="itemsPerPage" ng-model="currentPage" max-size="5" boundary-links="true" num-pages="numPages"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,161 @@
+﻿
+@{
+    ViewBag.Title = "ChargePerson";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <script src="~/Scripts/angular.js"></script>
+    <script src="~/App/controller.js"></script>
+</head>
+<body ng-app="app">
+    <br />
+    <div class="panel panel-default" ng-controller="chargePersonCtrl">
+
+        <div class="panel-heading">
+            <center>
+                <h4>
+                    Sorumlu Bireyler
+                </h4>
+            </center>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+
+                <br />
+            </div>
+            <div class="row">
+                <div class="col-lg-5">
+
+                    <button type="button" class="btn  btn-success" data-toggle="modal" data-target="#basicModal">Ekle</button>
+                </div>
+
+                <div class="col-lg-3">
+                    <div class="form-group pull-left">
+                        <label>Ara</label>
+                        <label>
+                            <input type="text" class="form-control" ng-model="searchText" style="font-weight: normal" />
+                        </label>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group pull-right">
+                        Sayfalar
+                        <label>
+                            <select class="form-control" ng-model="itemsPerPage" style="font-weight: normal">
+                                <option ng-value="5">5</option>
+                                <option ng-value="10">10</option>
+                                <option ng-value="25">25</option>
+                                <option ng-value="50">50</option>
+                            </select>
+                        </label>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th ng-click="sortBy('personName')">
+                            Sorumlu Birey
+                            <span class="glyphicon" ng-show="sortColumn=='personName'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                        </th>
+                        <th>Düzenle</th>
+                        <th>Sil</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="i in chargePerson | orderBy: sortColumn: reverse | limitTo: itemsPerPage: (currentPage - 1) * itemsPerPage">
+                        <td>
+                            {{i.id}}
+                        </td>
+                        <td>
+                            {{i.personName}}
+                        </td>
+                        <td>
+                            <input type="button" class="btn  btn-primary" data-toggle="modal" data-target="#basicModalUpdate" value="Düzenle" ng-click="UpdateDataH(i)" />
+
+
+                        </td>
+                        <td>
+
+                            <input type="button" class="btn btn-danger" value="Sil" ng-click="DeleteChargePerson(i)" />
+                        </td>
+                    </tr>
+                    <tr ng-if="!chargePerson || chargePerson.length == 0">
+                        <td colspan="3" style="text-align:center">
+                            Sorumlu Birey Yok
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="pull-left">
+                        <br />
+
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="pull-right">
+                        <ul uib-pagination total-items="chargePerson.length" items-per-page="itemsPerPage" ng-model="currentPage" max-size="5" boundary-links="true" num-pages="numPages"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">Sorumlu Birey Ekle</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal" name="frmAddUser" novalidate>
+                            <div class="form-group">
+                                <label class="col-lg-4 control-label">İsim Soyisim:</label>
+                                <div class="col-lg-8">
+                                    <input type="text" class="form-control" name="name" ng-model="personName"  />
+                                   
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnSave" class="btn btn-success" value="Submit" ng-click="InsertData()" data-dismiss="modal">Ekle</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="basicModalUpdate" tabindex="-1" role="dialog" aria-labelledby="basicModalUpdate" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">Sorumlu Birey Düzenle</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal" name="frmUpdateUser" novalidate>
+                            <div class="form-group">
+                                <label class="col-lg-4 control-label">İsim Soyisim:</label>
+                                <div class="col-lg-8">
+                                    <input type="text" class="form-control" name="name" ng-model="personNameUpdate"  />
+                                   
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnSaveUpdate" class="btn btn-success" ng-click="UpdateData()" data-dismiss="modal">Düzenle</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,68 @@
+﻿
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!doctype html>
+<html lang="en">
+<head>
+    <script src="~/Scripts/angular.js"></script>
+    <script src="~/App/controller.js"></script>
+</head>
+<body ng-app="app" ng-controller="registerCtrl">
+    <br />
+    <div class="container-fluid">
+        <div class="row">
+            <center style=" margin: auto; width: 60%; padding: 75px;">
+                <div class="panel panel-default" ng-init="getData()">
+                    <div class="panel-heading">
+                        <center>
+                            <h4>
+                                Hesap Ekle
+                            </h4>
+                        </center>
+                    </div>
+                    <div class="panel-body">
+                        <br />
+
+                        <form>
+                            <div class="form-group">
+                                <div class="row">
+                                    <label class="col-lg-2 control-label">Hesap Türü:</label>
+                                    <div class="col-lg-10">
+                                        <select class="form-control" ng-model="type" ng-options="x for x in ['Yönetici','Kullanıcı']">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <br />
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon2"><i class=" glyphicon glyphicon-user"></i></span>
+                            <input type="text" class="form-control" placeholder="Ad ve Soyad giriniz..." aria-describedby="basic-addon2" ng-model="username">
+                        </div>
+                        <br />
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1"><i class=" glyphicon glyphicon-plus"></i></span>
+                            <input type="text" class="form-control" placeholder="Sicil giriniz..." aria-describedby="basic-addon1" ng-model="email">
+                        </div>
+                        <br />
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1"><i class=" glyphicon glyphicon-lock"></i></span>
+                            <input type="password" class="form-control" placeholder="Şifre giriniz..." aria-describedby="basic-addon1" ng-model="password">
+                        </div>
+                        <br />
+                    </div>
+                    <div class="panel-footer">
+                        <button type="button" id="btnSave" class="btn btn-success" value="Düzenle" ng-click="Add()" data-dismiss="modal">Ekle</button>
+                    </div>
+                </div>
+            </center>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+

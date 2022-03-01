@@ -1,0 +1,181 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kısıt Takip - WAT Elektrik Motorları</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Content/toastr.min.css" rel="stylesheet" />
+    <link href="~/Content/angular-toggle-switch.css" rel="stylesheet" />
+</head>
+<body>
+    
+    <!-- Sidebar  -->
+    <nav id="sidebar">
+        <br /><br />
+        <div class="sidebar-header">
+            <center> <img src="@Url.Content("~/Content/wat.png")" width="100" height="100" /></center>
+
+        </div>
+
+        <ul class="list-unstyled components">
+            <li>
+                <a href="/Home/Index">
+                    <i class="fas fa-briefcase"></i>
+                    Anasayfa
+                </a>
+            </li>
+            <li>
+
+                <i class="fas fa-copy"></i>
+                <a>Kısıt</a>
+
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="/Home/ConstraintEntry"><span class="glyphicon glyphicon-pencil" style="right: 10px"></span>Kısıt Giriş</a>
+                    </li>
+                    <li>
+                        <a href="/Home/ConstraintNoMarked"><span class="glyphicon glyphicon-thumbs-down" style="right: 10px"></span>İşaretlenmemiş Kısıtlar</a>
+                    </li>
+                    <li>
+                        <a href="/Home/ConstraintMarked"><span class="glyphicon glyphicon-thumbs-up" style="right: 10px"></span>İşaretlenmiş Kısıtlar</a>
+                    </li>
+                    <li>
+                        <a href="/Home/ArchiveConstraint"><span class="glyphicon glyphicon-check" style="right: 10px"></span>Arşivlenmiş Kısıtlar</a>
+                    </li>
+                </ul>
+
+                <i class="fas fa-copy"></i>
+                <a>Toplantı</a>
+
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="/Home/Meeting"><span class="glyphicon glyphicon-calendar" style="right: 10px"></span>Toplantı-Firma</a>
+                    </li>
+                    <li>
+                        <a href="/Home/ZKP3"><span class="glyphicon glyphicon-list-alt" style="right: 10px"></span>ZKP3 Değişiklik</a>
+                    </li>
+                    <li>
+                        <a href="/Home/MeetingTeam"><span class="glyphicon glyphicon-calendar" style="right: 10px"></span>Toplantı-Ekip</a>
+                    </li>
+                    <li>
+                        <a href="/Home/ReportTeam"><span class="glyphicon glyphicon-list-alt" style="right: 10px"></span>Rapor-Ekip</a>
+                    </li>
+                </ul>
+
+
+                <i class="fas fa-copy"></i>
+                <a>Bilgiler</a>
+
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="/Home/ChargePerson"><span class="glyphicon glyphicon-user" style="right: 10px"></span>Sorumlu Bireyler</a>
+                    </li>
+                    <li>
+                        <a href="/Home/CompanyTeam"><span class="glyphicon glyphicon-book" style="right: 10px"></span>Firmalar-Ekipler</a>
+                    </li>
+                    <li>
+                        <a href="/Home/PostponementReason"><span class="glyphicon glyphicon-tags" style="right: 10px"></span>Öteleme Sebepleri</a>
+                    </li>
+                    <li>
+                        <a href="/Home/Version"><span class="glyphicon glyphicon-road" style="right: 10px"></span>Hat Bilgisi</a>
+                    </li>
+                </ul>
+
+                <i class="fas fa-copy"></i>
+                <a>Hesap</a>
+
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="/Home/Register"><span class="glyphicon glyphicon-user" style="right: 10px"></span>Hesap Ekle</a>
+                    </li>
+                    <li>
+                        <a href="/Home/UserList"><span class="glyphicon glyphicon-user" style="right: 10px"></span>Kullanıcılar</a>
+                    </li>
+
+                </ul>
+                <i class="fas fa-copy"></i>
+                <a>Listeleme</a>
+
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="/Home/MontagePlan"><span class="glyphicon glyphicon-th-list" style="right: 10px"></span>Montaj-Üretim Planı</a>
+                    </li>
+                    <li>
+                        <a href="/Home/ProductTree"><span class="glyphicon glyphicon-th-list" style="right: 10px"></span>Ürün Ağacı</a>
+                    </li>
+                </ul>
+
+                <i class="fas fa-copy"></i>
+                <a>Yükleme</a>
+
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="/Home/ExcelMontage"><span class="glyphicon glyphicon-cloud-upload" style="right: 10px"></span>Montaj-Üretim Planı-Excel</a>
+                    </li>
+                    <li>
+                        <a href="/Home/ExcelTree"><span class="glyphicon glyphicon-cloud-upload" style="right: 10px"></span>Ürün Ağacı-Excel</a>
+                    </li>
+                </ul>
+            </li>
+
+        </ul>
+
+    </nav>
+    <div class="body-content" id="content">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="row">
+                <div class="col-md-10">
+                    <button type="button" id="sidebarCollapse" class="btn" style="background: #fafafa">
+                        <span class="glyphicon glyphicon-th-large" style="color: black"></span>
+                    </button>
+                    <u1 style="font-size:20px;"><img src="@Url.Content("~/Content/wat.png")" width="60" height="60" />   WAT-Elektrik Motorları</u1>
+                </div>
+
+                <div class="col-lg-offset-0">
+                    <center>
+                        <button class="btn btn-default" style="color:black; border-color:white" type="button" disabled>
+                            @HttpContext.Current.Session["Email"].ToString()
+                        </button>
+                    
+                        <a class="btn dl-horizontal" style="background: #b9bec7; color: #4f5d73; " href="/Security/Logout">
+                            <span class="glyphicon glyphicon-log-out" style="color: #4f5d73"></span> Çıkış
+                        </a>
+                    </center>
+
+                </div>
+            </div>
+        </nav>
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>  Kısıt Takip &copy; @DateTime.Now.Year -  <a href="https://www.wat.com.tr/"> WAT Elektrik Motorları</a></p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script>
+        $(document).ready(function () {
+
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar, #content').toggleClass('active');
+                $('.collapse.in').toggleClass('in');
+                $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+            });
+        });
+    </script>
+    <script src="~/Scripts/toastr.js"></script>
+    <script src="~/Scripts/toastr.min.js"></script>
+    <script src="~/Scripts/angular.js"></script>
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/angular-route.min.js"></script>
+    <script src="~/Scripts/angular-ui/ui-bootstrap-tpls.min.js"></script>
+    <script src="~/Scripts/angular-toggle-switch.min.js"></script>
+
+    <script src="~/App/app.js"></script>
+    <script src="~/App/controller.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

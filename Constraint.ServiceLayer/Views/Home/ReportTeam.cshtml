@@ -1,0 +1,203 @@
+﻿
+@{
+    ViewBag.Title = "ReportTeam";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <script src="~/Scripts/angular.js"></script>
+    <script src="~/App/controller.js"></script>
+</head>
+<body ng-app="app" ng-controller="reportTeamCtrl">
+    <br />
+    <div class="panel panel-default" ng-init="fetchData()">
+
+        <div class="panel-heading">
+            <center>
+                <h4>
+                    Rapor-Ekip
+                </h4>
+            </center>
+        </div>
+        <div class="panel-body" ng-if="!uploading">
+            <div class="spin-container">
+                <div class="spin" id="loader"></div>
+                <div class="spin" id="loader2"></div>
+                <div class="spin" id="loader3"></div>
+                <div class="spin" id="loader4"></div>
+                <span id="text">Yükleniyor...</span>
+            </div>
+        </div>
+        <div class="panel-body" ng-if="uploading">
+
+            <div class="row">
+                <div class="col-lg-7">
+                    <div class="form-group" style="align-content:end">
+                        <div class="col-lg-1">
+                            <label class="control-label">Başlangıç:</label>
+                        </div>
+                        <div class="col-lg-3">
+                            <input id="data-startDate" type="date" class="form-control" name="name" ng-value="startDate" />
+                        </div>
+
+                        <div class="form-group col-lg-3">
+                            <button type="button" ng-click="fetchDataFromDateReason()" class="btn btn-primary">
+                                Hesapla
+                            </button>
+                            <button type="button" ng-click="ExportByDate()" class="btn btn-success">
+                                Excel Aktar
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-1 ">
+
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group pull-right">
+
+                        <button type="button" ng-click="setButtonLocation()" class="btn btn-danger">
+                            <span ng-bind="toggleButton ? 'Göster' : 'Gizle'"></span>
+                        </button>
+                        <button type="button" ng-click="fetchData()" class="btn btn-primary">
+                            Tümünü Hesapla
+                        </button>
+                        <button type="button" ng-click="Export()" class="btn btn-success">
+                            Excel Aktar
+                        </button>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="row">
+
+                <div class="col-lg-7">
+                    <div class="col-lg-1">
+                        <label class="control-label">Bitiş:</label>
+                    </div>
+                    <div class="col-lg-3">
+                        <input id="data-endDate" type="date" class="form-control" name="name" ng-value="endDate" />
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="form-group pull-right">
+                        Sayfalar
+                        <label>
+                            <select class="form-control" ng-model="itemsPerPage" style="font-weight: normal">
+                                <option ng-value="5">5</option>
+                                <option ng-value="10">10</option>
+                                <option ng-value="25">25</option>
+                                <option ng-value="50">50</option>
+                                <option ng-value="100">100</option>
+                                <option ng-value="200">200</option>
+                                <option ng-value="500">500</option>
+
+                            </select>
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+
+            <div>
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+
+
+                            <th>
+                                Seç
+                            </th>
+
+                            <th ng-click="sortBy('teamName')">
+                                Ekip
+                                <span class="glyphicon" ng-show="sortColumn=='dateCurrent'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                            </th>
+
+                            <th ng-click="sortBy('sumAmount')">
+                                Toplam Miktar
+                                <span class="glyphicon" ng-show="sortColumn=='materialCode'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat-start="i in meetingList  | orderBy: sortColumn: reverse | limitTo: itemsPerPage: (currentPage - 1) * itemsPerPage ">
+
+                            <td style="width:25px;">
+
+                                <button ng-click="i.hide = !i.hide" expand class="btn btn-primary">
+                                    <span ng-bind="i.hide ? 'Gizle' : 'Göster'"></span>
+                                </button>
+
+                            </td>
+
+                            <td>
+                                {{i.teamName}}
+                            </td>
+
+                            <td>
+                                {{i.sumAmount}}
+                            </td>
+
+                        </tr>
+                        <tr ng-repeat-end ng-show="i.hide" class="sub" style="background: #ced2d8">
+                            <td>
+                            </td>
+                            <td colspan="3">
+                                <table class="table table-bordered table-hover" style="background: #ced2d8">
+                                    <thead>
+                                        <tr>
+                                            <th>Öteleme Sebebi</th>
+                                            <th>Öteleme Miktarı</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="order in meetingListReasons| filter:{'teamName' : i.teamName}">
+
+                                            <td>{{order.delayReason}}</td>
+                                            <td>{{order.sumAmount}}</td>
+
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr ng-if="!meetingList || meetingList.length == 0">
+                            <td colspan="12" style="text-align:center">
+                                <h3>Tablo Boş</h3>
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="pull-left">
+                        <br />
+
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="pull-right">
+                        <ul uib-pagination total-items="meetingList.length" items-per-page="itemsPerPage" ng-model="currentPage" max-size="5" boundary-links="true" num-pages="numPages"></ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
+
+
+

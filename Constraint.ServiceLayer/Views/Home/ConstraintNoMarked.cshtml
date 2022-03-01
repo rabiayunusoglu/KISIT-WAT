@@ -1,0 +1,355 @@
+﻿
+@{
+    ViewBag.Title = "ConstraintNoMarked";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <script src="~/Scripts/angular.js"></script>
+    <script src="~/App/controller.js"></script>
+</head>
+<body ng-app="app" ng-controller="constraintNoMarkedCtrl">
+    <br />
+    <div class="panel panel-default" ng-init="fetchData()">
+
+        <div class="panel-heading">
+            <center>
+                <h4>
+                    İşaretlenmemiş Kısıtlar
+                </h4>
+            </center>
+        </div>
+        <div class="panel-body" ng-if="!uploading">
+            <div class="spin-container">
+                <div class="spin" id="loader"></div>
+                <div class="spin" id="loader2"></div>
+                <div class="spin" id="loader3"></div>
+                <div class="spin" id="loader4"></div>
+                <span id="text">Yükleniyor...</span>
+            </div>
+        </div>
+        <div class="panel-body" ng-if="uploading">
+
+            <div class="row">
+
+                <div class="col-lg-6">
+                    <div class="form-group pull-left">
+                        <button type="button" ng-click="sendToMarked()" class="btn btn-primary">
+                            Seçilenleri İşaretle
+                        </button>
+                        <button type="button" ng-click="chosenAll()" class="btn btn-info">
+                            <span ng-bind="choseAll ? 'Tümünü Seç' : 'Tümünü Seçme'"></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group pull-right">
+                        <button type="button" ng-click="Export()" class="btn btn-success">
+                            Excel Aktar
+                        </button>
+                        Sayfalar
+                        <label>
+                            <select class="form-control" ng-model="itemsPerPage" style="font-weight: normal">
+                                <option ng-value="5">5</option>
+                                <option ng-value="10">10</option>
+                                <option ng-value="25">25</option>
+                                <option ng-value="50">50</option>
+                            </select>
+                        </label>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            #
+                        </th>
+                        <th>
+                            Seç
+                        </th>
+                        <th ng-click="sortBy('aboveLine')">
+                            Hat Bilgisi
+                            <span class="glyphicon" ng-show="sortColumn=='aboveLine'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                        </th>
+                        <th ng-click="sortBy('dateCurrent')">
+                            Girildiği Tarih
+                            <span class="glyphicon" ng-show="sortColumn=='dateCurrent'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                        </th>
+                        <th ng-click="sortBy('chargePerson')">
+                            Sorumlu Birey
+                            <span class="glyphicon" ng-show="sortColumn=='chargePerson'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                        </th>
+                        <th ng-click="sortBy('companyTeam')">
+                            Firma-Takım
+                            <span class="glyphicon" ng-show="sortColumn=='companyTeam'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                        </th>
+                        <th ng-click="sortBy('materialText')">
+                            Malzeme Tanımı
+                            <span class="glyphicon" ng-show="sortColumn=='materialText'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                        </th>
+                        <th ng-click="sortBy('materialCode')">
+                            Malzeme Kodu
+                            <span class="glyphicon" ng-show="sortColumn=='materialCode'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                        </th>
+                        <th ng-click="sortBy('productCode')">
+                            Ürün Kodu
+                            <span class="glyphicon" ng-show="sortColumn=='productCode'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                        </th>
+                        <th ng-click="sortBy('amount')">
+                            Plandaki Miktar
+                            <span class="glyphicon" ng-show="sortColumn=='amount'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                        </th>
+                        <th ng-click="sortBy('plannedDate')">
+                            Plan Tarihi
+                            <span class="glyphicon" ng-show="sortColumn=='plannedDate'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                        </th>
+                        <th ng-click="sortBy('delayAmount')">
+                            Öteleme Miktarı
+                            <span class="glyphicon" ng-show="sortColumn=='delayAmount'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                        </th>
+                        <th ng-click="sortBy('delayDate')">
+                            Ötelenecek Tarih
+                            <span class="glyphicon" ng-show="sortColumn=='delayDate'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                        </th>
+                        <th ng-click="sortBy('delayReason')">
+                            Öteleme Sebebi
+                            <span class="glyphicon" ng-show="sortColumn=='delayReason'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                        </th>
+
+                        <th ng-click="sortBy('delayDetail')">
+                            Öteleme Açıklama
+                            <span class="glyphicon" ng-show="sortColumn=='delayDetail'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                        </th>
+                        <th ng-click="sortBy('version')">
+                            Hat Bilgisi
+                            <span class="glyphicon" ng-show="sortColumn=='version'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                        </th>
+                        <th>
+                            Düzenle
+                        </th>
+                        <th>
+                            Sil
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="i in constraintList  | orderBy: sortColumn: reverse | limitTo: itemsPerPage: (currentPage - 1) * itemsPerPage ">
+                        <td>
+                            {{i.id}}
+                        </td>
+                        <td>
+                            <center>
+                                <input class="checkbox" type="checkbox" style=" width: 30px; height: 30px;" ng-click="i.isMarked = !i.isMarked" ng-model="i.isMarked">
+                            </center>
+
+                        </td>
+                        <td>
+                            {{i.aboveLine}}
+                        </td>
+                        <td>
+                            {{i.dateCurrent}}
+                        </td>
+                        <td>
+                            {{i.chargePerson}}
+                        </td>
+                        <td>
+                            {{i.companyTeam}}
+                        </td>
+                        <td>
+                            {{i.materialText}}
+                        </td>
+                        <td>
+                            {{i.materialCode}}
+                        </td>
+                        <td>
+                            {{i.productCode}}
+                        </td>
+                        <td>
+                            {{i.amount}}
+                        </td>
+                        <td>
+                            {{i.plannedDate}}
+                        </td>
+                        <td>
+                            {{i.delayAmount}}
+                        </td>
+                        <td>
+                            {{i.delayDate}}
+                        </td>
+                        <td>
+                            {{i.delayReason}}
+                        </td>
+                        <td>
+                            {{i.delayDetail}}
+                        </td>
+                        <td>
+                            {{i.version}}
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-info" ng-click="toogleConstraint(i)" data-toggle="modal" data-target="#basicModal">
+                                <i class="glyphicon glyphicon-edit"></i>
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger" ng-click="deleteDelay(i)">
+                                <i class="glyphicon glyphicon-trash"></i>
+                            </button>
+                        </td>
+
+                    </tr>
+                    <tr ng-if="!constraintList || constraintList.length == 0">
+                        <td colspan="17" style="text-align:center">
+                            <h3>Tablo Boş</h3>
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="pull-left">
+                        <br />
+
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="pull-right">
+                        <ul uib-pagination total-items="constraintList.length" items-per-page="itemsPerPage" ng-model="currentPage" max-size="5" boundary-links="true" num-pages="numPages"></ul>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade " id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <center><h4 class="modal-title" id="myModalLabel">İşaretlenmemiş Kısıtı Düzenle</h4></center>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <label class="col-lg-2 control-label">Malzeme K.:</label>
+                                        <div class="col-lg-4">
+                                            <input type="text" class="form-control" name="name" ng-model="updateDelay.materialCode" disabled />
+                                        </div>
+                                        <label class="col-lg-2 control-label">Malzeme:</label>
+                                        <div class="col-lg-4">
+                                            <input type="text" class="form-control" name="name" ng-model="updateDelay.materialText" disabled />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <label class="col-lg-2 control-label">Malzeme K.:</label>
+                                        <div class="col-lg-4">
+                                            <input type="text" class="form-control" name="name" ng-model="updateDelay.materialCode" disabled />
+                                        </div>
+                                        <label class="col-lg-2 control-label">Malzeme:</label>
+                                        <div class="col-lg-4">
+                                            <input type="text" class="form-control" name="name" ng-model="updateDelay.materialText" disabled />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <label class="col-lg-2 control-label">Ürün Kodu:</label>
+                                        <div class="col-lg-4">
+                                            <input type="text" class="form-control" name="name" ng-model="updateDelay.productCode" disabled />
+                                        </div>
+                                        <label class="col-lg-2 control-label">Müşteri:</label>
+                                        <div class="col-lg-4">
+                                            <input type="text" class="form-control" name="name" ng-model="updateDelay.customer" disabled />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <label class="col-lg-2 control-label">Plan Tarihi:</label>
+                                        <div class="col-lg-4">
+                                            <input type="text" class="form-control" name="name" ng-model="updateDelay.plannedDate" disabled />
+                                        </div>
+                                        <label class="col-lg-2 control-label">Mikar:</label>
+                                        <div class="col-lg-4">
+                                            <input type="text" class="form-control" name="name" ng-model="updateDelay.amount" disabled />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group ">
+
+                                    <div class="row">
+                                        <label class="col-lg-2 control-label">Öteleme Kodu:</label>
+                                        <div class="col-lg-4">
+                                            <input type="text" name="name" class="form-control" ng-model="updateDelay.materialCode" disabled />
+                                        </div>
+                                        <label class="col-lg-2 control-label">Öteleme Miktarı:</label>
+                                        <div class="col-lg-4">
+                                            <input type="text" class="form-control" name="name" ng-model="updateDelay.delayAmount" input-normal />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group ">
+                                    <div class="row">
+                                        <label class="col-lg-2 control-label">Öteleme Tarihi:</label>
+                                        <div class="col-lg-4">
+                                            <input type="date" class="form-control" name="name" ng-value="updateDelay.delayDate" id="data-delay" />
+                                        </div>
+                                        <label class="col-lg-2 control-label">Öteleme Sebebi:</label>
+                                        <div class="col-lg-4">
+                                            <select class="form-control" ng-model="updateDelay.delayReason" ng-options="x for x in reasons">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group ">
+                                    <div class="row">
+                                        <label class="col-lg-2 control-label">Firma-Takım:</label>
+                                        <div class="col-lg-4">
+                                            <select class="form-control" ng-model="updateDelay.companyTeam" ng-options="x for x in teams">
+                                            </select>
+                                        </div>
+                                        <label class="col-lg-2 control-label">Sorumlu Birey:</label>
+                                        <div class="col-lg-4">
+                                            <select class="form-control" ng-model="updateDelay.chargePerson" ng-options="x for x in persons">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group ">
+                                    <div class="row">
+                                        <label class="col-lg-2 control-label">Öteleme Açıklama:</label>
+                                        <div class="col-lg-4">
+                                            <input type="text" class="form-control" name="name" ng-model="updateDelay.delayDetail" />
+                                        </div>
+
+                                        <label class="col-lg-2 control-label">Girildiği Tarih:</label>
+                                        <div class="col-lg-4">
+                                            <input type="date" class="form-control" name="name" ng-value="updateDelay.dateCurrent" id="data-current" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="btnSave" class="btn btn-info" value="Düzenle" ng-click="updateMethod(updateDelay)" data-dismiss="modal">Düzenle</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
+
+

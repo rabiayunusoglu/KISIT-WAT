@@ -14,14 +14,11 @@ using System.Net.Http.Headers;
 
 namespace Constraint.ServiceLayer.Controllers
 {
+    [Authorize(Roles = "A,U")]
     public class ConstraintEntryController : Controller
     {
         ConstraintManager manager = new ConstraintManager();
-        // GET: ConstraintEntry
-        public ActionResult Index()
-        {
-            return View();
-        }
+        
         public JsonResult GetManager()
         {
             var _list = manager.GetAllConstraints();

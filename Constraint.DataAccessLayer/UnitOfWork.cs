@@ -15,7 +15,6 @@ namespace Constraint.DataAccessLayer
         {
             _context = context;
             ArchiveConstraintRepository = new ArchiveConstraintRepository(_context);
-            ChargePersonRepository = new ChargePersonRepository(_context);
             CompanyTeamRepository = new CompanyTeamRepository(_context);
             ConstraintRepository = new ConstraintRepository(_context);
             DelayHistoryRepository = new DelayHistoryRepository(_context);
@@ -32,7 +31,7 @@ namespace Constraint.DataAccessLayer
 
         public IArchiveConstraintRepository ArchiveConstraintRepository { get; private set; }
 
-        public IChargePersonRepository ChargePersonRepository { get; private set; }
+       
 
         public ICompanyTeamRepository CompanyTeamRepository { get; private set; }
 

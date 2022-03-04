@@ -51,9 +51,6 @@
     <Compile Include="ArchiveConstraint.cs">
       <DependentUpon>ConstraintWAT.tt</DependentUpon>
     </Compile>
-    <Compile Include="ChargePerson.cs">
-      <DependentUpon>ConstraintWAT.tt</DependentUpon>
-    </Compile>
     <Compile Include="CompanyTeam.cs">
       <DependentUpon>ConstraintWAT.tt</DependentUpon>
     </Compile>
@@ -96,7 +93,6 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Abstract\IArchiveConstraintRepository.cs" />
-    <Compile Include="Repositories\Abstract\IChargePersonRepository.cs" />
     <Compile Include="Repositories\Abstract\ICompanyTeamRepository.cs" />
     <Compile Include="Repositories\Abstract\IConstraintRepository.cs" />
     <Compile Include="Repositories\Abstract\IDelayHistoryRepository.cs" />
@@ -109,7 +105,6 @@
     <Compile Include="Repositories\Abstract\IUserRepository.cs" />
     <Compile Include="Repositories\Abstract\IVersionRepository.cs" />
     <Compile Include="Repositories\Concrete\ArchiveConstraintRepository.cs" />
-    <Compile Include="Repositories\Concrete\ChargePersonRepository.cs" />
     <Compile Include="Repositories\Concrete\CompanyTeamRepository.cs" />
     <Compile Include="Repositories\Concrete\ConstraintRepository.cs" />
     <Compile Include="Repositories\Concrete\DelayHistoryRepository.cs" />

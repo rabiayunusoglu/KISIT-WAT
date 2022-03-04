@@ -12,34 +12,41 @@
 </head>
 <body ng-app="app" ng-controller="excelTreeCtrl">
     <br />
-    @using (Html.BeginForm("Upload", "ProductTree", FormMethod.Post, new { enctype = "multipart/form-data" }))
-    {
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <center>
-                    <h4>
-                        Ürün Ağacını Yükleyiniz
-                    </h4>
-                </center>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <center>
+                <h4>
+                    Ürün Ağacı Yükleyiniz
+                </h4>
+            </center>
+        </div>
+
+        <div class="panel-body" ng-if="!uploading">
+            <div class="spin-container">
+                <div class="spin" id="loader"></div>
+                <div class="spin" id="loader2"></div>
+                <div class="spin" id="loader3"></div>
+                <div class="spin" id="loader4"></div>
+                <span id="text">Yükleniyor...</span>
             </div>
-            <div class="panel-body">
-                <br />
-                <form>
-                    <div>
-                        <input type="file" name="UploadedFile" />
-                    </div>
-                </form>
-                <br />
-            </div>
-            <div class="panel-footer">
-                <center>
-                    <input class="btn btn-primary" type="submit" name="Submit" value="Gönder" />
-                </center>
-            </div>
+        </div>
+        <div class="panel-body" ng-if="uploading">
+            <br />
+            <input type="file" id="file1" name="file" multiple
+                   ng-files="getTheFiles($files)" />
 
         </div>
-    }
+        <div class="panel-footer" ng-if="uploading">
+            <center>
+
+                <input class="btn btn-primary" type="submit" name="Submit" ng-click="uploadFiles()" value="Yükle" />
+            </center>
+        </div>
+
+    </div>
+
 </body>
 </html>
+
 
 

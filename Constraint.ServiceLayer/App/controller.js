@@ -27,7 +27,6 @@
             $scope.archiveConstraintList = [];
             $scope.markedList = [];
             $http.get("/ArchiveConstraint/GetConstraint").then(function (response) {
-
                 var i = 0;
                 $scope.archiveConstraintList = response.data.map((x) => {
                     return { ...x, isMarked: false, isDelayEntered: true, id: ++i };
@@ -36,7 +35,6 @@
 
             }, function () {
                 $scope.uploading = true;
-                toastr.error("Yüklenemedi.");
             });
         };
         /**
@@ -153,6 +151,8 @@
             }
         };
         $scope.setDateFilter = function () {
+            if (document.getElementById("data-endDate").value == null || document.getElementById("data-startDate").value == null)
+                return;
             $scope.endDate = document.getElementById("data-endDate").value;
             $scope.startDate = document.getElementById("data-startDate").value;
         };
@@ -176,82 +176,6 @@
         $scope.sortBy = function (column) {
             $scope.sortColumn = column;
             $scope.reverse = !$scope.reverse;
-        };
-    }])
-    constraintApp.controller('chargePersonCtrl', ['$scope', '$filter', '$location', '$http', function ($scope, $filter, $location, $http) {
-        $scope.chargePerson = [];
-        $scope.currentPage = 1;
-        $scope.itemsPerPage = 10;
-        $scope.toggleCreateBtn = true;
-        $scope.toggleUpdateBtn = false;
-        $scope.personName = "";
-
-        getData();
-        function getData() {
-            $http.get('/ChargePerson/GetManager').then(function (result) {
-                $scope.$watch('searchText', function (term) {
-                    $scope.chargePerson = $filter('filter')(result.data, term);
-                    var i = 0;
-                    $scope.chargePerson = $scope.chargePerson.map(x => { return { ...x, id: ++i } });
-                });
-            });
-        }
-        $scope.DeleteChargePerson = function (i) {
-            $http.post('/ChargePerson/Delete/' + i.personID).then(function (result) {
-                if (result.data) {
-                    toastr.success(i.personName + " silindi.");
-                    getData();
-                }
-            })
-        };
-
-        $scope.sortBy = function (column) {
-            $scope.sortColumn = column;
-            $scope.reverse = !$scope.reverse;
-        };
-        $scope.InsertData = function () {
-            if ($scope.personName !== null && $scope.personName !== "") {
-                $scope.chargePersonDTO = {};
-                $scope.chargePersonDTO.personName = $scope.personName;
-                $http({
-                    method: "post",
-                    url: '/ChargePerson/Create',
-                    data: $scope.chargePersonDTO
-                }).then(function (result) {
-                    if (result.data != null) {
-                        toastr.success($scope.personName + " eklendi.");
-                        $scope.toggleCreateBtn = false;
-                        getData();
-                        $scope.personName = "";
-                    }
-                })
-            }
-            else toastr.warning("Sorumlu adı giriniz.");
-        };
-        $scope.UpdateData = function () {
-            $scope.chargePersonDTO = {};
-            $scope.chargePersonDTO.personID = $scope.personIDUpdate;
-            $scope.chargePersonDTO.personName = $scope.personNameUpdate;
-            if ($scope.personNameUpdate !== null && $scope.personNameUpdate !== "") {
-                $http({
-                    method: "post",
-                    url: '/ChargePerson/Edit',
-                    data: $scope.chargePersonDTO
-                }).then(function (result) {
-                    if (result.data != null) {
-                        toastr.success($scope.chargePersonDTO.personName + " düzenlendi.");
-                        getData();
-                        $scope.personIDUpdate = "";
-                        $scope.personNameUpdate = "";
-                    }
-                })
-            }
-            else toastr.warning("Sorumlu adı giriniz.");
-
-        };
-        $scope.UpdateDataH = function (i) {
-            $scope.personIDUpdate = i.personID;
-            $scope.personNameUpdate = i.personName;
         };
     }])
     constraintApp.controller('companyTeamCtrl', ['$scope', '$filter', '$location', '$http', function ($scope, $filter, $location, $http) {
@@ -428,7 +352,7 @@
                             (x.delayDetail = "")
                         )
                     );
-                    $scope.constraintList.map(x => ($scope.delayHistoryList.map(t => t.productCode === x.productCode ? x._delayList.push(t) : true, x.aboveLine == "Hat Üstü" ? x._isAboveLine = true : x._isAboveLine = false)));
+                    $scope.constraintList.map(x => ($scope.delayHistoryList.map(t => (t.productCode === x.productCode && t.boundConstraintID === x.constraintID) ? x._delayList.push(t) : true, x.aboveLine == "Hat Üstü" ? x._isAboveLine = true : x._isAboveLine = false)));
                     $scope.constraintList.map(x => x._delayList = x._delayList.map(t => { return { ...t, constraintID: x.constraintID, materialCode: x.materialCode, materialText: x.materialText, plannedDate: x.plannedDate, amount: x.amount, customer: x.customer, constraintDelayID: x.delayID, version: x.version, aboveLine: x.aboveLine, mip: x.mip, tob: x.tob, treeAmount: x.treeAmount, madeDate: x.dateCurrent } }));
                     $scope.uploading = true;
                 }, function () {
@@ -488,7 +412,7 @@
                     );
                     if ($scope.constraintList.length !== 0)
                         $scope.searchMaterialText = $scope.constraintList[0].materialText;
-                    $scope.constraintList.map(x => ($scope.delayHistoryList.map(t => t.productCode === x.productCode ? x._delayList.push(t) : true, x.aboveLine == "Hat Üstü" ? x._isAboveLine = true : x._isAboveLine = false)));
+                    $scope.constraintList.map(x => ($scope.delayHistoryList.map(t => (t.productCode === x.productCode && t.boundConstraintID === x.constraintID) ? x._delayList.push(t) : true, x.aboveLine == "Hat Üstü" ? x._isAboveLine = true : x._isAboveLine = false)));
                     $scope.constraintList.map(x => x._delayList = x._delayList.map(t => { return { ...t, constraintID: x.constraintID, materialCode: x.materialCode, materialText: x.materialText, plannedDate: x.plannedDate, amount: x.amount, customer: x.customer, constraintDelayID: x.delayID, version: x.version, aboveLine: x.aboveLine, mip: x.mip, tob: x.tob, treeAmount: x.treeAmount, madeDate: x.dateCurrent } }));
                     $scope.uploading = true;
                 }, function () {
@@ -524,8 +448,8 @@
         };
         $scope.fetchPersons = function () {
             if ($scope.searchMaterial !== "") {
-                $http.get('/ChargePerson/GetManager').then(function (response) {
-                    $scope.persons = response.data.map((x) => x.personName);
+                $http.get('/User/GetManager').then(function (response) {
+                    $scope.persons = response.data.map((x) => x.userName);
                 }, function () {
                     toastr.error("Yüklenemedi.");
                 })
@@ -540,14 +464,7 @@
                 })
             }
         };
-        $scope.addTable = function (addedItem) {
-            $scope.sortConstraint();
-            $scope.getCurrentDate(addedItem);
-            $scope.setCheckBox(addedItem);
-            addedItem.delayCode = addedItem.materialCode;
-            $scope.controlCheckedConstraint(addedItem);
-            $scope.toogleConstraintTable();
-        };
+
         $scope.toogleConstraintTable = function () {
             if ($scope.checkedConstraint.length === 0) {
                 $scope.displayConstraintTable = false;
@@ -564,30 +481,44 @@
         };
         $scope.getCurrentDate = function (item) {
             item.dateCurrent = new Date().toISOString().slice(0, 10);
+            $http.get('/Security/GetUserName').then(function (response) {
+                item.chargePerson = response.data;
+            })
         };
-
-        $scope.controlCheckedConstraint = function (temp) {
+        $scope.addTable = async function (addedItem) {
+            await control();
+            $scope.getCurrentDate(addedItem);
+            $scope.setCheckBox(addedItem);
+            addedItem.delayCode = addedItem.materialCode;
+            await $scope.controlCheckedConstraint(addedItem);
+            await $scope.toogleConstraintTable();
+        };
+        $scope.controlCheckedConstraint = async function (temp) {
             var index = $scope.checkedConstraint.indexOf(temp);
             if (index === -1) {
-                $scope.checkedConstraint.push(temp);
+                await $scope.checkedConstraint.push(temp);
                 $scope.totalDelayAmount += parseInt(temp.amount);
-
                 //$scope.restOfDelayAmount=$scope.totalDelayAmount-$scope.enteredDelayAmount;
             } else {
                 $scope.totalDelayAmount -= parseInt(temp.amount);
                 $scope.enteredDelayAmount -= parseInt(temp.delayAmount);
                 $scope.checkedConstraint.splice(index, 1);
             }
-            $scope.sortConstraint();
+            await control();
         };
-        $scope.sortConstraint = function () {
-            $scope.checkedConstraint.sort(function (a, b) {
-                
-                var dateA = new Date(parseInt(a.plannedDate.split(".").join("/").toString()));
-                var dateB = new Date(parseInt(b.plannedDate.split(".").join("/").toString()));
-
-                return dateA - dateB;
-            });
+        async function control() {
+            await $scope.checkedConstraint.sort(compare);
+        };
+        function compare(a, key) {
+            const bandB = parseInt(key.id);
+            const bandA = parseInt(a.id);
+            let comparison = 0;
+            if (bandA > bandB) {
+                comparison = 1;
+            } else if (bandA < bandB) {
+                comparison = -1;
+            }
+            return comparison;
         };
         $scope.save = function (item) {
             item.delayDate = document.getElementById("data-delay").value;
@@ -737,9 +668,7 @@
                     toastr.error("Tekrar Deneyiniz!");
                 })
             }
-            else {
-                toastr.error("Tekrar Deneyiniz!");
-            }
+
         };
         $scope.contolAllDelayAmountBeforeSave = function () {
             for (var i = 0; i < $scope.checkedConstraint.length; i++) {
@@ -775,13 +704,15 @@
             }
             return true;
         };
-        $scope.changeEnteredDelayAmount = function (item) {
+        $scope.changeEnteredDelayAmount = async function (item) {
             if (item.delayAmount === undefined) {
                 item.delayAmount = 0;
                 return;
             }
+            var value = parseInt(item.delayAmount);
+            var valueTemp = parseInt(item.amount);
             if (
-                parseInt(item.delayAmount) < parseInt(item.amount) &&
+                value < valueTemp &&
                 parseInt(item.delayAmount) >= 0 &&
                 $scope.enteredDelayAmount === $scope.totalDelayAmount
             ) {
@@ -789,11 +720,11 @@
                     parseInt(item.delayAmount) - parseInt(item.amount);
                 return;
             }
-            else if (parseInt(item.delayAmount) > parseInt(item.amount)) {
-                toastr.warning("Öteleme miktarını planlanandan daha az girmelisiniz.");
-                //item.delayAmount = 0;
+            else if (value > valueTemp) {
+                await toastr.warning("Öteleme miktarını planlanandan daha az girmelisiniz.");
+                item.delayAmount = 0;
             }
-            $scope.calculateEntered();
+            await $scope.calculateEntered();
         };
         $scope.calculateEntered = function () {
             if ($scope.checkedConstraint.length !== 0) {
@@ -806,43 +737,47 @@
             }
         };
         $scope.divideForFaraway = function () {
-            $scope.sortConstraint();
             $scope.inputBoxDelayAmount = document.getElementById("data-amount-input").value;
-            $scope.enteredDelayAmount = 0;
-            $scope.checkedConstraint.map((x) => (x.delayAmount = 0));
-            for (var i = $scope.checkedConstraint.length - 1; i >= 0; i--) {
-                var item = $scope.checkedConstraint[i];
-                if ($scope.inputBoxDelayAmount > parseInt(item.amount)) {
-                    item.delayAmount = item.amount;
-                    $scope.inputBoxDelayAmount -= parseInt(item.amount);
-                    $scope.enteredDelayAmount += parseInt(item.amount);
-                } else {
-                    item.delayAmount = $scope.inputBoxDelayAmount;
-                    $scope.enteredDelayAmount += parseInt($scope.inputBoxDelayAmount);
-                    break;
+            if ($scope.inputBoxDelayAmount >= 0) {
+                $scope.enteredDelayAmount = 0;
+                $scope.checkedConstraint.map((x) => (x.delayAmount = 0));
+                for (var i = $scope.checkedConstraint.length - 1; i >= 0; i--) {
+                    var item = $scope.checkedConstraint[i];
+                    if ($scope.inputBoxDelayAmount > parseInt(item.amount)) {
+                        item.delayAmount = item.amount;
+                        $scope.inputBoxDelayAmount -= parseInt(item.amount);
+                        $scope.enteredDelayAmount += parseInt(item.amount);
+                    } else {
+                        item.delayAmount = $scope.inputBoxDelayAmount;
+                        $scope.enteredDelayAmount += parseInt($scope.inputBoxDelayAmount);
+                        break;
+                    }
                 }
             }
             document.getElementById("data-amount-input").value = 0;
+
         };
         $scope.divideForNear = function () {
-            $scope.sortConstraint();
             $scope.inputBoxDelayAmount = document.getElementById("data-amount-input").value;
-            $scope.enteredDelayAmount = 0;
-            $scope.checkedConstraint.map((x) => (x.delayAmount = 0));
-            for (var i = 0; i < $scope.checkedConstraint.length; i++) {
-                var item = $scope.checkedConstraint[i];
-                if ($scope.inputBoxDelayAmount > parseInt(item.amount)) {
-                    item.delayAmount = item.amount;
-                    $scope.inputBoxDelayAmount -= parseInt(item.amount);
-                    $scope.enteredDelayAmount += parseInt(item.amount);
-                } else {
-                    item.delayAmount = $scope.inputBoxDelayAmount;
-                    //$scope.inputBoxDelayAmount -= parseInt(item.delayAmount);
-                    $scope.enteredDelayAmount += parseInt($scope.inputBoxDelayAmount);
-                    break;
+            if ($scope.inputBoxDelayAmount >= 0) {
+                $scope.enteredDelayAmount = 0;
+                $scope.checkedConstraint.map((x) => (x.delayAmount = 0));
+                for (var i = 0; i < $scope.checkedConstraint.length; i++) {
+                    var item = $scope.checkedConstraint[i];
+                    if ($scope.inputBoxDelayAmount > parseInt(item.amount)) {
+                        item.delayAmount = item.amount;
+                        $scope.inputBoxDelayAmount -= parseInt(item.amount);
+                        $scope.enteredDelayAmount += parseInt(item.amount);
+                    } else {
+                        item.delayAmount = $scope.inputBoxDelayAmount;
+                        //$scope.inputBoxDelayAmount -= parseInt(item.delayAmount);
+                        $scope.enteredDelayAmount += parseInt($scope.inputBoxDelayAmount);
+                        break;
+                    }
                 }
             }
             document.getElementById("data-amount-input").value = 0;
+
         };
         $scope.hideAboveLine = function () {
 
@@ -1138,16 +1073,16 @@
                 $scope.archiveConstraintList.push(archiveConstraint);
             }
             $http.post('/ConstraintEntry/TransferToMeeting', meetingList).then(function (response) {
+                $http.post('/ConstraintEntry/TransferToMeetingTeam', meetingTeamList).then(function (response) {
+                    toastr.success("Toplantı saylarına aktarıldı.")
+                }, function () {
 
+                })
             }, function () {
 
             })
 
-            $http.post('/ConstraintEntry/TransferToMeetingTeam', meetingTeamList).then(function (response) {
 
-            }, function () {
-
-            })
             $scope.updateDelayHistory(delayHistory);
         };
         $scope.updateDelayHistory = function (item) {
@@ -1167,7 +1102,7 @@
         $scope.deleteConstraintArchive = function (item) {
             $http.post('/ConstraintEntry/DeleteAll', item).then(function (response) {
                 if (response.data) {
-                    toastr.success("Ekipler ve yan sanayi firmalar toplantı sayfalarına aktarıldı. Seçilenler arşivlendi.");
+                    toastr.success("Seçilenler arşivlendi.");
                     $scope.fetchData();
                 }
             }, function () {
@@ -1175,6 +1110,56 @@
 
             })
         };
+        $scope.sendToArchiveWithoutMeeting = function () {
+            $scope.archiveList = $scope.constraintList.filter(
+                (t) => t.isMarked === true && t.isDelayEntered === true
+            );
+            var item = $scope.archiveList;
+            if ($scope.archiveList.length !== 0) {
+                var delayHistory = [];
+                for (var i = 0; i < item.length; i++) {
+
+                    var listDelay = {
+                        isMarked: true,
+                        isArchive: true,
+                        delayID: item[i].delayID,
+                        productCode: item[i].productCode,
+                        delayCode: item[i].delayCode,
+                        delayAmount: item[i].amount,
+                        delayDate: item[i].delayDate,
+                        delayReason: item[i].delayReason,
+                        delayDetail: item[i].delayDetail,
+                        companyTeam: item[i].companyTeam,
+                        chargePerson: item[i].chargePerson,
+                        madeDate: item[i].dateCurrent,
+                        boundConstraintID: item[i].constraintID,
+                    };
+                    var archiveConstraint = {
+                        constraintID: item[i].constraintID,
+                        materialCode: item[i].materialCode,
+                        materialText: item[i].materialText,
+                        productCode: item[i].productCode,
+                        plannedDate: item[i].plannedDate,
+                        amount: item[i].amount,
+                        customer: item[i].customer,
+                        version: item[i].version,
+                        delayID: item[i].delayID,
+                        delayCode: item[i].delayCode,
+                        delayAmount: item[i].delayAmount,
+                        delayDate: item[i].delayDate,
+                        delayReason: item[i].delayReason,
+                        delayDetail: item[i].delayDetail,
+                        companyTeam: item[i].companyTeam,
+                        chargePerson: item[i].chargePerson,
+                        dateCurrent: item[i].dateCurrent,
+                        aboveLine: item[i].aboveLine,
+                    };
+                    delayHistory.push(listDelay);
+                    $scope.archiveConstraintList.push(archiveConstraint);
+                }
+                $scope.updateDelayHistory(delayHistory);
+            }
+        }
         $scope.updateConstraintForNoMarked = function (item) {
             item.isMarked = false;
             item.isDelayEntered = true;
@@ -1259,8 +1244,8 @@
         };
         $scope.fetchPersons = function () {
             if ($scope.searchMaterial !== "") {
-                $http.get('/ChargePerson/GetManager').then(function (response) {
-                    $scope.persons = response.data.map((x) => x.personName);
+                $http.get('/User/GetManager').then(function (response) {
+                    $scope.persons = response.data.map((x) => x.userName);
                 }, function () {
                     toastr.error("Yüklenemedi.");
                 })
@@ -1437,78 +1422,103 @@
         };
     }])
     constraintApp.controller('excelMontageCtrl', ['$scope', '$filter', '$location', '$http', function ($scope, $filter, $location, $http) {
-        $scope.file = "";
-        $scope.uploading = false;
-        $scope.currentPage = 1;
-        $scope.itemsPerPage = 10;
 
-        $scope.sortBy = function (column) {
-            $scope.sortColumn = column;
-            $scope.reverse = !$scope.reverse;
+        $scope.uploading = true;
+        var formdata = new FormData();
+        $scope.getTheFiles = function ($files) {
+            angular.forEach($files, function (value, key) {
+                formdata.append(key, value);
+            });
         };
-        $scope.selectFile = function (file) {
-            $scope.SelectedFile = file;
-        };
-        $scope.sendFile = function () {
 
-            // var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xls|.xlsx)$/;
-            // if (regex.test($scope.file.name)) {
+        // NOW UPLOAD THE FILES.
+        $scope.uploadFiles =   function () {
             $scope.uploading = false;
-            const formData = new FormData();
-            formData.append("file", $scope.file);
-            $http.post('/MontagePlan/Upload', formData).then(function (response) {
-                $scope.uploading = true;
-                if (response.data)
-                    toastr.success("Yüklendi");
-                else
+            var request = {
+                method: 'POST',
+                url: '/MontagePlan/Upload',
+                data: formdata,
+                headers: {
+                    'Content-Type': undefined
+                }
+            };
+
+
+             $http(request)
+                 .then(  function (d) {
+                    console.log(d.data)
+                    if (d.data) {
+                        $scope.uploading = true;
+                        toastr.success("Yüklendi");
+                        formdata = new FormData;
+                    } else {
+                        $scope.uploading = true;
+                        toastr.error("Doğru dosyayı yüklediğinizden emin olunuz. Tekrar deneyiniz.");
+                        formdata = new FormData;
+                    }
+                    
+                }, function () {
+
+                    $scope.uploading = true;
+
                     toastr.error("Tekrar yükleyiniz.");
+                 });
+        
+        }
 
-
-            }, function () {
-                toastr.error("Tekrar yükleyiniz.");
-            })
-            // }
-            // else {
-            //    toastr.warning("Geçerli bir excel dosyası yükleyiniz.");
-            // }
-        };
     }])
     constraintApp.controller('excelTreeCtrl', ['$scope', '$filter', '$location', '$http', function ($scope, $filter, $location, $http) {
-        $scope.file = "";
-        $scope.uploading = false;
-        $scope.currentPage = 1;
-        $scope.itemsPerPage = 10;
-
-        $scope.sortBy = function (column) {
-            $scope.sortColumn = column;
-            $scope.reverse = !$scope.reverse;
+        $scope.uploading = true;
+        var formdata = new FormData();
+        $scope.getTheFiles = function ($files) {
+            angular.forEach($files, function (value, key) {
+                formdata.append(key, value);
+            });
         };
-        $scope.selectFile = function (file) {
-            $scope.SelectedFile = file;
-        };
-        $scope.sendFile = function () {
 
-            var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xls|.xlsx)$/;
-            if (regex.test($scope.file.name)) {
-                $scope.uploading = false;
-                const formData = new FormData();
-                formData.append("file", $scope.file);
-                $http.post('/ProductTree/Upload', formData).then(function (response) {
-                    $scope.uploading = true;
+        // NOW UPLOAD THE FILES.
+        $scope.uploadFiles = function () {
+            $scope.uploading = false;
+            var request = {
+                method: 'POST',
+                url: '/ProductTree/Upload',
+                data: formdata,
+                headers: {
+                    'Content-Type': undefined
+                }
+            };
+
+
+            $http(request)
+                .then(function (d) {
+                    console.log(d.data)
+                    if (d.data) {
+                        $scope.uploading = true;
+                        toastr.success("Yüklendi");
+                        formdata = new FormData;
+                    } else {
+                        $scope.uploading = true;
+                        toastr.error("Doğru dosyayı yüklediğinizden emin olunuz. Tekrar deneyiniz.");
+                        formdata = new FormData;
+                    }
+
                 }, function () {
+
+                    $scope.uploading = true;
+
                     toastr.error("Tekrar yükleyiniz.");
-                })
-            }
-            else {
-                toastr.warning("Geçerli bir excel dosyası yükleyiniz.");
-            }
-        };
+                    formdata = new FormData;
+                });
+
+        }
+
     }])
     constraintApp.controller('homeCtrl', ['$scope', '$filter', '$location', '$http', function ($scope, $filter, $location, $http) {
         $scope.itemsUsers = [];
         $scope.currentPage = 1;
         $scope.itemsPerPage = 10;
         $scope.blockText = "";
+        $scope.isBlock = false;
         $scope.getData = function () {
 
             $http({
@@ -1518,7 +1528,7 @@
                 $scope.itemsUsers = response.data;
                 $scope.allExpanded = $scope.itemsUsers[0].permissionForConstraint;
             }, function () {
-                alert("Error Occur");
+                toastr.error("Bir şeyler ters gitti.");
             })
         };
 
@@ -1527,28 +1537,27 @@
             $scope.reverse = !$scope.reverse;
         };
         $scope.Block = function () {
-            $scope.uploading = false;
-            const btn = document.getElementById('ConstraintBtn');
             if ($scope.allExpanded) {
-                btn.style.backgroundColor = 'danger';
-                $scope.itemsUsers.map((item) => $scope.updateMethod("Block", item, false));
+                $scope.isBlock = false;
+                $scope.updateMethod("Block", $scope.isBlock);
 
             } else {
-                btn.style.backgroundColor = 'success';
-                $scope.itemsUsers.map((item) => $scope.updateMethod("UnBlock", item, true));
+                $scope.isBlock = true;
+                $scope.updateMethod("UnBlock", $scope.isBlock);
             }
             $scope.allExpanded = !$scope.allExpanded;
         };
-        $scope.updateMethod = function (typeBlock, item, isBlock) {
-            console.log(item)
-            item.permissionForConstraint = isBlock;
-            $http({
-                method: "post",
-                url: "/User/Edit",
-                data: item
-            }).then(function (response) {
+        $scope.updateMethod = function (isBlock) {
+            $scope.uploading = false;
+            $http.post(`/User/BlockOrUnblock?isBlock=${$scope.isBlock}`, $scope.itemsUsers).then(function (result) {
+                if (result.data)
+                    toastr.success("Başarılı");
+                else
+                    toastr.error("Başarısız");
+                $scope.uploading = true;
             }, function () {
-                alert("Error Occur");
+                toastr.error("Bir şeyler ters gitti.");
+                $scope.uploading = true;
             })
         };
     }])
@@ -1643,9 +1652,9 @@
         $scope.endDate = new Date().toISOString().substr(0, 10);
         $scope.message = "";
 
-        $scope.fetchData = function () {
+        $scope.fetchData = async function () {
             $scope.meetingList = [];
-            $http.get('/Meeting/GetManager').then(function (response) {
+            await $http.get('/Meeting/GetManager').then(function (response) {
                 if (response.data != null && response.data.length != 0) {
                     var i = 0;
                     $scope.meetingList = response.data.map((x) => {
@@ -1657,26 +1666,30 @@
                     $scope.uploading = true;
             }, function () {
                 $scope.uploading = true;
-                toastr.error("Yüklenemedi.");
             })
+            $scope.isUsingDateFilter = false;
         };
         $scope.fetchDataFromDate = function () {
             $scope.setDateFilter();
             $http.get('/Meeting/GetByDate?startDate=' + $scope.startDate + '&endDate=' + $scope.endDate).then(function (response) {
+                if (response.data != null && response.data.length != 0) {
 
-                var i = 0;
-                $scope.meetingList = response.data.map((x) => {
-                    return { ...x, id: ++i };
-                });
-                $scope.isUsingDateFilter = true;
+                    var i = 0;
+                    $scope.meetingList = response.data.map((x) => {
+                        return { ...x, id: ++i };
+                    });
+                    $scope.isUsingDateFilter = true;
+                } else
+                    $scope.meetingList = [];
             })
-                .catch((e) => {
-                    $scope.uploading = true;
-                });
+
         };
         $scope.setDateFilter = function () {
-            $scope.endDate = document.getElementById("data-endDate").value;
-            $scope.startDate = document.getElementById("data-startDate").value;
+            if (document.getElementById("data-endDate").value != null && document.getElementById("data-startDate").value != null) {
+                $scope.endDate = document.getElementById("data-endDate").value;
+                $scope.startDate = document.getElementById("data-startDate").value;
+            }
+
         };
 
         $scope.sortBy = function (column) {
@@ -1713,23 +1726,30 @@
                 // $scope.message=("Kopyalandı");
                 //$scope.successModal=true;
             })
-                .catch((e) => {
-                    $scope.message = "Tekrar Deneyiniz! archiveDelayFromModal";
-                    $scope.dangerModal = true;
-                });
         };
         $scope.deleteItem = function (item) {
             $http.post('/Meeting/Delete/' + item.constraintID).then(function (response) {
+                if (response.data)
+                    toastr.success("Silindi");
                 if ($scope.isUsingDateFilter) $scope.fetchDataFromDate();
                 else $scope.fetchData();
             })
-                .catch((e) => {
-                    $scope.message = "Tekrar deneyiniz.deleteDelayFromModal";
-                    $scope.dangerModal = true;
-                });
         };
         $scope.yesItem = function () {
-            if ($scope.meetingList.length !== 0) $scope.meetingList.map((x) => $scope.deleteItem(x));
+            if ($scope.meetingList.length !== 0) {
+                $scope.uploading = false;
+                $http.get('/Meeting/DeleteAll').then(function (response) {
+                    if (response.data)
+                        toastr.success("Hepsi Silindi");
+                    $scope.fetchData();
+                    $scope.uploading = true;
+                }, function () {
+                    toastr.error("Bir sorun oluştu.");
+                    $scope.uploading = true;
+                })
+            }
+            else
+                toastr.warning("Tablo Boş")
         };
         $scope.deleteAllItem = function () {
             $scope.message = "Hepsi silinecek emin misiniz?";
@@ -1764,41 +1784,46 @@
                 if ($scope.isUsingDateFilter) $scope.fetchDataFromDate();
                 else $scope.fetchData();
             })
-                .catch((e) => {
-                    toastr.error("Tekrar Deneyiniz! updateConraintFromModal");
-                });
         };
         $scope.fetchReasons = function () {
-            $http.post('/PostponementReason/GetManager').then(function (response) {
+            $http.get('/PostponementReason/GetManager').then(function (response) {
                 $scope.reasons = response.data.map((x) => x.delayName);
             })
-                .catch((e) => { });
         };
         $scope.fetchPersons = function () {
-            $http.post('/ChargePerson/GetManager').then(function (response) {
-                $scope.persons = response.data.map((x) => x.personName);
+            $http.get('/User/GetManager').then(function (response) {
+                $scope.persons = response.data.map((x) => x.userName);
             })
-                .catch((e) => { });
         };
         $scope.fetchTeams = function () {
 
-            $http.post('/CompanyTeam/GetManager').then(function (response) {
+            $http.get('/CompanyTeam/GetManager').then(function (response) {
 
                 $scope.teams = response.data.map((x) => x.companyName);
             })
-                .catch((e) => { });
         };
         $scope.multipleCopyMethod = function (item) {
             $scope.copylineCount = document.getElementById("data-copyCount").value;
-            for (var i = 0; i < $scope.copylineCount; i++) {
-                $scope.copyLine(item);
+            if ($scope.copylineCount > 0) {
+                $scope.uploading = false;
+                $http.post(`/Meeting/CreateAll?count=${$scope.copylineCount}`, item,).then(function (response) {
+                    if (response.data)
+                        toastr.success("Kopyalandı");
+                    if ($scope.isUsingDateFilter) $scope.fetchDataFromDate();
+                    else $scope.fetchData();
+                    $scope.uploading = true;
+                }, function () {
+                    toastr.error("Bir sorun oluştu.");
+                    $scope.uploading = true;
+                })
             }
+            else
+                toastr.warning("Sıfırdan büyük bir değer giriniz.")
         };
         $scope.toogleMultipleCopy = function (item) {
             $scope.copylineCount = 0;
             $scope.multipleCopyItem = item;
         };
-
     }])
     constraintApp.controller('meetingTeamCtrl', ['$scope', '$filter', '$location', '$http', function ($scope, $filter, $location, $http) {
         $scope.meetingList = [];
@@ -1881,7 +1906,7 @@
                 toastr.error("Bir şeyler ters gitti.");
             })
         };
-        $scope.deleteAll= function () {
+        $scope.deleteAll = function () {
             $http.post('/MeetingTeam/DeleteAll', $scope.meetingList).then(function (response) {
                 if (response.data) {
                     toastr.success("Hepsi silindi.");
@@ -1935,30 +1960,39 @@
                 toastr.success("Güncelleme Başarılı");
                 if ($scope.isUsingDateFilter) $scope.fetchDataFromDate();
                 else $scope.fetchData();
+            }, function () {
+                $scope.uploading = true;
+                toastr.error("Bir şeyler ters gitti.");
             })
-                .catch((e) => {
-                    toastr.error("Tekrar Deneyiniz! updateConraintFromModal");
-                });
         };
         $scope.fetchReasons = function () {
-            $http.post('/PostponementReason/GetManager').then(function (response) {
+            $http.get('/PostponementReason/GetManager').then(function (response) {
                 $scope.reasons = response.data.map((x) => x.delayName);
+            }, function () {
+                $scope.uploading = true;
+                toastr.error("Bir şeyler ters gitti.");
             })
-                .catch((e) => { });
+
         };
         $scope.fetchPersons = function () {
-            $http.post('/ChargePerson/GetManager').then(function (response) {
-                $scope.persons = response.data.map((x) => x.personName);
+            $http.get('/User/GetManager').then(function (response) {
+                $scope.persons = response.data.map((x) => x.userName);
+            }, function () {
+                $scope.uploading = true;
+                toastr.error("Bir şeyler ters gitti.");
             })
-                .catch((e) => { });
+
         };
         $scope.fetchTeams = function () {
 
-            $http.post('/CompanyTeam/GetManager').then(function (response) {
+            $http.get('/CompanyTeam/GetManager').then(function (response) {
 
                 $scope.teams = response.data.map((x) => x.companyName);
+            }, function () {
+                $scope.uploading = true;
+                toastr.error("Bir şeyler ters gitti.");
             })
-                .catch((e) => { });
+
         };
     }])
     constraintApp.controller('montagePlanCtrl', ['$scope', '$filter', '$location', '$http', function ($scope, $filter, $location, $http) {
@@ -2139,7 +2173,7 @@
                 toastr.warning($scope.email + " kullanıcı zaten kayıtlı.");
 
             } else {
-                
+
                 const today = new Date();
                 if ($scope.type === "Kullanıcı") $scope.type = "U";
                 else if ($scope.type === "Yönetici") $scope.type = "A";
@@ -2205,7 +2239,6 @@
                 $scope.uploading = true;
             }, function () {
                 $scope.uploading = true;
-                toastr.error("Yüklenemedi.");
             })
         };
         $scope.fetchTeamName = function () {
@@ -2230,10 +2263,10 @@
                     return { ...x, hide: true };
                 });
                 $scope.isUsingDateFilter = true;
+            }, function () {
+                $scope.uploading = true;
+                toastr.error("Yüklenemedi.");
             })
-                .catch((e) => {
-                    $scope.uploading = true;
-                });
         };
         $scope.fetchDataFromDateReason = function () {
             $scope.setDateFilter();
@@ -2295,8 +2328,8 @@
             }
         };
         /**
- * Iki tarih arasındaki exportlama methodur.
- */
+    * Iki tarih arasındaki exportlama methodur.
+    */
         $scope.ExportByDate = function () {
             if ($scope.meetingList.length !== 0) {
                 $scope.uploading = false;
@@ -2320,23 +2353,30 @@
     }])
     constraintApp.controller('userListCtrl', ['$scope', '$filter', '$location', '$http', function ($scope, $filter, $location, $http) {
         $scope.userList = [];
+        $scope.userType = "";
+        $scope.userID = "";
+        $scope.userName = "";
+        $scope.email = "";
+        $scope.password = "";
+        $scope.permissionForConstraint = "";
+        $scope.isActive = "";
         $scope.uploading = false;
         $scope.currentPage = 1;
         $scope.itemsPerPage = 10;
 
-
         $scope.getData = function () {
-            $http.get('/User/GetManager').then(function (result) {
+            $http.get('/User/GetManager').then(function (response) {
                 $scope.$watch('searchText', function (term) {
-
-                    $scope.userList = $filter('filter')(result.data, term);
+                    $scope.userList = $filter('filter')(response.data, term);
                     $scope.userList = $scope.userList.map((t) => $scope.changeType(t));
                     var i = 0;
                     $scope.userList = $scope.userList.map(x => { return { ...x, id: ++i } });
                     $scope.uploading = true;
                 });
-            });
-        }
+            }, function () {
+                toastr.error("Bir şeyler ters gitti.");
+            })
+        };
 
         $scope.sortBy = function (column) {
             $scope.sortColumn = column;
@@ -2348,24 +2388,68 @@
             return userList;
         };
         $scope.deleteMethod = function (item) {
-            $http.post('/User/Delete/' + item.userID).then(function (result) {
-                if (result.data) {
-                    toastr.success(item.email + " silindi.");
-                    $scope.getData();
+            $http.post('/User/Control/' + item.userID).then(function (result) {
+                if (result.data)
+                    toastr.error("Kendi hesabınızı silemezsiniz");
+                else {
+                    $http.post('/User/Delete/' + item.userID).then(function (result) {
+                        if (result.data) {
+                            toastr.success(item.email + " silindi.");
+                            $scope.getData();
+                        }
+                    }, function () {
+                        toastr.error("Bir şeyler ters gitti.");
+                    })
                 }
-            })
-        };
-        $scope.updateMethod = function (item) {
-            if (item.userType === "Yönetici") item.userType = "U";
-            else if ("Kullanıcı") item.userType = "A";
-            $http.post('/User/Edit', item).then(function (result) {
-                if (result.data != null) {
-                    toastr.success("Hesap türü değiştirildi.");
-                    $scope.getData();
-                }
+            }, function () {
+                toastr.error("Tekrar Deneyiniz.");
             })
 
         };
+        $scope.updateMethod = function () {
+            if ($scope.userType === "Yönetici") $scope.userType = "A";
+            else if ("Kullanıcı") $scope.userType = "U";
+            var item = {
+                userID: $scope.userID,
+                userType: $scope.userType,
+                userName: document.getElementById('userName').value,
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value,
+                permissionForConstraint: $scope.permissionForConstraint,
+                isActive: $scope.isActive
+            };
+            if (item.password.length < 11 && item.password.length > 2) {
+
+                $http.post('/User/Edit', item).then(function (result) {
+                    if (result.data != null) {
+                        $scope.getData();
+                        toastr.success("Güncellendi.");
+                    }
+                }, function () {
+                    toastr.error("Bir şeyler ters gitti.");
+                })
+            } else {
+                toastr.warning("Şifre en az 3 en fazla 10 karakterli olmalıdır.")
+            }
+        };
+        $scope.UpdateData = function (i) {
+            $scope.userType = i.userType;
+            $scope.userID = i.userID;
+            $scope.userName = i.userName;
+            $scope.email = i.email;
+            $scope.password = i.password;
+            $scope.permissionForConstraint = i.permissionForConstraint;
+            $scope.isActive = i.isActive;
+            $scope.controlUserToken(i);
+
+        };
+        $scope.controlUserToken = function (i) {
+            $http.post('/User/Control/' + i.userID).then(function (result) {
+                $scope.control = result.data;
+            })
+
+        };
+
     }])
     constraintApp.controller('versionCtrl', ['$scope', '$filter', '$location', '$http', function ($scope, $filter, $location, $http) {
         $scope.version = [];
@@ -2445,6 +2529,7 @@
         $scope.currentPage = 1;
         $scope.itemsPerPage = 10;
         $scope.isUsingDateFilter = false;
+        $scope.uploading = false;
         $scope.startDate = new Date().toISOString().substr(0, 10);
         $scope.endDate = new Date().toISOString().substr(0, 10);
         $scope.message = "";
@@ -2452,10 +2537,14 @@
         $scope.fetchData = function () {
             $scope.meetingList = [];
             $http.get('/Meeting/GetManager').then(function (response) {
-                var i = 0;
-                $scope.meetingList = response.data.map((x) => {
-                    return { ...x, id: ++i };
-                });
+                if (response.data != null && response.data.length != 0) {
+                    var i = 0;
+                    $scope.meetingList = response.data.map((x) => {
+                        return { ...x, id: ++i };
+                    });
+
+                } else
+                    $scope.meetingList = [];
                 $scope.uploading = true;
             }, function () {
                 $scope.uploading = true;
@@ -2465,16 +2554,19 @@
         $scope.fetchDataFromDate = function () {
             $scope.setDateFilter();
             $http.get('/Meeting/GetByDate?startDate=' + $scope.startDate + '&endDate=' + $scope.endDate).then(function (response) {
-
-                var i = 0;
-                $scope.meetingList = response.data.map((x) => {
-                    return { ...x, id: ++i };
-                });
+                if (response.data != null && response.data.length != 0) {
+                    var i = 0;
+                    $scope.meetingList = response.data.map((x) => {
+                        return { ...x, id: ++i };
+                    });
+                }
+                else
+                    $scope.meetingList = [];
                 $scope.isUsingDateFilter = true;
+            }, function () {
+                $scope.uploading = true;
+                toastr.error("Yüklenemedi.");
             })
-                .catch((e) => {
-                    $scope.uploading = true;
-                });
         };
         $scope.setDateFilter = function () {
             $scope.endDate = document.getElementById("data-endDate").value;
@@ -2530,6 +2622,40 @@
         };
 
     }])
+    constraintApp.controller('profileCtrl', ['$scope', '$filter', '$location', '$http', function ($scope, $filter, $location, $http) {
+        $scope.user = {};
+        $scope.currentPage = 1;
+        $scope.itemsPerPage = 10;
+        $scope.password = "";
+
+        $scope.getData = function () {
+            $http.get('/HomeUser/GetProfile').then(function (result) {
+                if (result.data != null && result.data.length != 0) {
+                    $scope.user = result.data.Data;
+                    if ($scope.user.userType === "A") $scope.user.userType = "Yönetici";
+                    else if ($scope.user.userType === "U") $scope.user.userType = "Kullanıcı";
+                }
+                else
+                    $scope.user = {};
+            });
+        }
+        $scope.update = function () {
+            if ($scope.user.password.length > 2 && $scope.user.password.length < 11) {
+                if ($scope.user.userType === "Yönetici") $scope.user.userType = "A";
+                else if ($scope.user.userType === "Kullanıcı") $scope.user.userType = "U";
+                $http.post(`/User/Edit`, $scope.user).then(function (result) {
+                    if (result.data != null || result.data.length != 0) {
+                        toastr.success("Güncellendi.")
+                        $scope.getData();
+                    } else {
+                        toastr.error("Başarısız.")
+                    }
+                });
+            } else {
+                toastr.warning("Şifreniz en az 3 en fazla 10 karakter olabilir.");
+            }
+        };
+    }])
     constraintApp.directive('stringToNumber', function () {
         return {
             require: 'ngModel',
@@ -2543,5 +2669,18 @@
             }
         };
     });
+    constraintApp.directive('ngFiles', ['$parse', function ($parse) {
+
+        function fn_link(scope, element, attrs) {
+            var onChange = $parse(attrs.ngFiles);
+            element.on('change', function (event) {
+                onChange(scope, { $files: event.target.files });
+            });
+        };
+
+        return {
+            link: fn_link
+        }
+    }]);
 })(window.angular);
 

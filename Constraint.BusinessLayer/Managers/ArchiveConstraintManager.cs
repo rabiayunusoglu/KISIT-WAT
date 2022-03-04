@@ -11,8 +11,8 @@ using System.IO;
 
 namespace Constraint.BusinessLayer.Managers
 {
-    
-     public class ArchiveConstraintManager :IArchiveConstraintManager
+
+    public class ArchiveConstraintManager : IArchiveConstraintManager
     {
         private UnitOfWork _unitOfWork;
         public ArchiveConstraintManager()
@@ -47,10 +47,10 @@ namespace Constraint.BusinessLayer.Managers
             newConstraint.chargePerson = archiveConstraint.chargePerson;
             newConstraint.dateCurrent = archiveConstraint.dateCurrent;
             newConstraint.aboveLine = archiveConstraint.aboveLine;
-            
+
 
             ArchiveConstraint recordValue = _unitOfWork.ArchiveConstraintRepository.Add(newConstraint);
-            
+
             ArchiveConstraintDTO returnValue = new ArchiveConstraintDTO()
             {
                 constraintID = recordValue.constraintID,
@@ -71,7 +71,7 @@ namespace Constraint.BusinessLayer.Managers
                 chargePerson = recordValue.chargePerson,
                 dateCurrent = recordValue.dateCurrent,
                 aboveLine = recordValue.aboveLine,
-                
+
             };
             if (_unitOfWork.Complete() > 0)
             {
@@ -82,6 +82,8 @@ namespace Constraint.BusinessLayer.Managers
 
         public bool DeleteArchive(System.Guid id)
         {
+            if (id == null)
+                return false;
             if (_unitOfWork.ArchiveConstraintRepository.Remove(id))
             {
                 if (_unitOfWork.Complete() > 0)
@@ -94,7 +96,7 @@ namespace Constraint.BusinessLayer.Managers
 
         public List<ArchiveConstraintDTO> GetAllArchives()
         {
-            List<ArchiveConstraint> archivelist = _unitOfWork.ArchiveConstraintRepository.GetAll().OrderBy(x=>x.dateCurrent).ToList();
+            List<ArchiveConstraint> archivelist = _unitOfWork.ArchiveConstraintRepository.GetAll().OrderBy(x => x.dateCurrent).ToList();
             List<ArchiveConstraintDTO> list = new List<ArchiveConstraintDTO>();
             if (archivelist == null)
             {
@@ -104,7 +106,7 @@ namespace Constraint.BusinessLayer.Managers
             {
                 ArchiveConstraintDTO returnValue = new ArchiveConstraintDTO()
                 {
-                  
+
                     constraintID = constraint.constraintID,
                     materialCode = constraint.materialCode,
                     materialText = constraint.materialText,
@@ -113,7 +115,7 @@ namespace Constraint.BusinessLayer.Managers
                     amount = constraint.amount,
                     customer = constraint.customer,
                     version = constraint.version,
-                    delayID=constraint.delayID,
+                    delayID = constraint.delayID,
                     delayCode = constraint.delayCode,
                     delayAmount = constraint.delayAmount,
                     delayDate = constraint.delayDate,
@@ -124,9 +126,9 @@ namespace Constraint.BusinessLayer.Managers
                     dateCurrent = constraint.dateCurrent,
                     aboveLine = constraint.aboveLine,
 
-                }; 
+                };
                 list.Add(returnValue);
-               
+
             }
 
             return list;
@@ -134,6 +136,8 @@ namespace Constraint.BusinessLayer.Managers
 
         public ArchiveConstraintDTO GetArchiveById(System.Guid id)
         {
+            if (id == null)
+                return null;
             ArchiveConstraint recordValue = _unitOfWork.ArchiveConstraintRepository.GetById(id);
 
             if (recordValue == null)
@@ -148,7 +152,7 @@ namespace Constraint.BusinessLayer.Managers
                 amount = recordValue.amount,
                 customer = recordValue.customer,
                 version = recordValue.version,
-                delayID=recordValue.delayID,
+                delayID = recordValue.delayID,
                 delayCode = recordValue.delayCode,
                 delayAmount = recordValue.delayAmount,
                 delayDate = recordValue.delayDate,
@@ -190,7 +194,7 @@ namespace Constraint.BusinessLayer.Managers
             updateArchive.aboveLine = constraint.aboveLine;
 
             ArchiveConstraint recordValue = _unitOfWork.ArchiveConstraintRepository.Update(updateArchive);
-            
+
             ArchiveConstraintDTO returnValue = new ArchiveConstraintDTO()
             {
                 constraintID = recordValue.constraintID,
@@ -201,7 +205,7 @@ namespace Constraint.BusinessLayer.Managers
                 amount = recordValue.amount,
                 customer = recordValue.customer,
                 version = recordValue.version,
-                delayID=recordValue.delayID,
+                delayID = recordValue.delayID,
                 delayCode = recordValue.delayCode,
                 delayAmount = recordValue.delayAmount,
                 delayDate = recordValue.delayDate,
@@ -210,7 +214,7 @@ namespace Constraint.BusinessLayer.Managers
                 companyTeam = recordValue.companyTeam,
                 chargePerson = recordValue.chargePerson,
                 dateCurrent = recordValue.dateCurrent,
-                aboveLine= recordValue.aboveLine,
+                aboveLine = recordValue.aboveLine,
             };
             if (_unitOfWork.Complete() > 0)
             {
@@ -296,13 +300,13 @@ namespace Constraint.BusinessLayer.Managers
                 ws.ColumnWidth = 25;
 
                 //header
-                ws.Cell(1, 1).Value = "Tarih"; 
-                ws.Cell(1, 2).Value = "Sorumlu"; 
+                ws.Cell(1, 1).Value = "Tarih";
+                ws.Cell(1, 2).Value = "Sorumlu";
                 ws.Cell(1, 3).Value = "Malzeme No";
                 ws.Cell(1, 4).Value = "Malzeme Tanımı";
                 ws.Cell(1, 5).Value = "Firma/Ekip";
-                ws.Cell(1, 6).Value = "Ürün"; 
-                ws.Cell(1, 7).Value = "Miktar"; 
+                ws.Cell(1, 6).Value = "Ürün";
+                ws.Cell(1, 7).Value = "Miktar";
                 ws.Cell(1, 8).Value = "Plan Tarih";
                 ws.Cell(1, 9).Value = "Ötelenecek Tarih";
                 ws.Cell(1, 10).Value = "Öteleme Sebebi";
@@ -356,7 +360,7 @@ namespace Constraint.BusinessLayer.Managers
             }
 
         }
-        public byte[] ExporttoExcelByDate(DateTime startDate,DateTime endDate)
+        public byte[] ExporttoExcelByDate(DateTime startDate, DateTime endDate)
         {
             using (var workbook = new XLWorkbook())
             {

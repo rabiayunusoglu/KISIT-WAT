@@ -34,15 +34,18 @@
             <div class="row">
 
                 <div class="col-lg-6">
+
                     <div class="form-group pull-left">
-                        <button type="button" ng-click="sendToArchive()" class="btn btn-primary">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#basicModal1">
                             Seçilenleri Arşivle
                         </button>
                         <button type="button" ng-click="chosenAll()" class="btn btn-info">
                             <span ng-bind="choseAll ? 'Tümünü Seç' : 'Tümünü Seçme'"></span>
                         </button>
+                        <label><input id="searchTextID" type="text" class="form-control" ng-model="searchText" style="font-weight: normal" placeholder="Ara..." /></label>
                     </div>
                 </div>
+              
                 <div class="col-lg-6">
                     <div class="form-group pull-right">
                         <button type="button" ng-click="Export()" class="btn btn-success">
@@ -62,6 +65,8 @@
                 </div>
 
             </div>
+            
+            <br />
 
             <table class="table table-bordered table-hover">
                 <thead>
@@ -138,7 +143,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="i in constraintList  | orderBy: sortColumn: reverse | limitTo: itemsPerPage: (currentPage - 1) * itemsPerPage ">
+                    <tr ng-repeat="i in constraintList  | orderBy: sortColumn: reverse | limitTo: itemsPerPage: (currentPage - 1) * itemsPerPage|filter:searchText ">
                         <td>
                             {{i.id}}
                         </td>
@@ -225,7 +230,25 @@
                     </div>
                 </div>
             </div>
-
+            <div class="modal fade " id="basicModal1" tabindex="-1" role="dialog" aria-labelledby="basicModal1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <center><h4 class="modal-title" id="myModalLabel"></h4></center>
+                        </div>
+                        <div class="modal-body">
+                            <center>
+                                <h4>Seçilenler arşivlenmeden önce toplantı sayfalarına aktarılsın  mı?</h4>
+                            </center>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="btnSave" class="btn btn-success" value="Sil" ng-click="sendToArchive()" data-dismiss="modal">Evet</button>
+                            <button type="button" id="btnSave" class="btn btn-danger" value="Sil" ng-click="sendToArchiveWithoutMeeting()" data-dismiss="modal">Hayır</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </div>

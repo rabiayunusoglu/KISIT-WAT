@@ -29,7 +29,7 @@ namespace Constraint.BusinessLayer.Managers
             newTeam.companyName = companyTeam.companyName;
             newTeam.companyCode = companyTeam.companyCode;
             CompanyTeam recordValue = _unitOfWork.CompanyTeamRepository.Add(newTeam);
-            CompanyTeamDTO returnValue = new CompanyTeamDTO() { companyID = recordValue.companyID, companyName = recordValue.companyName, companyCode=recordValue.companyCode };
+            CompanyTeamDTO returnValue = new CompanyTeamDTO() { companyID = recordValue.companyID, companyName = recordValue.companyName, companyCode = recordValue.companyCode };
             if (_unitOfWork.Complete() > 0)
             {
                 return returnValue;
@@ -39,20 +39,22 @@ namespace Constraint.BusinessLayer.Managers
 
         public bool DeleteTeam(System.Guid id)
         {
+            if (id == null)
+                return false;
             if (_unitOfWork.CompanyTeamRepository.Remove(id))
             {
                 if (_unitOfWork.Complete() > 0)
                 {
                     return true;
                 }
-                
+
             }
             return false;
         }
 
         public List<CompanyTeamDTO> GetAllTeams()
         {
-            List<CompanyTeam> teamList = _unitOfWork.CompanyTeamRepository.GetAll().OrderBy(x=>x.companyName).ToList();
+            List<CompanyTeam> teamList = _unitOfWork.CompanyTeamRepository.GetAll().OrderBy(x => x.companyName).ToList();
             List<CompanyTeamDTO> list = new List<CompanyTeamDTO>();
             if (teamList == null)
             {
@@ -68,6 +70,8 @@ namespace Constraint.BusinessLayer.Managers
 
         public CompanyTeamDTO GetTeamById(System.Guid id)
         {
+            if (id == null)
+                return null;
             CompanyTeam value = _unitOfWork.CompanyTeamRepository.GetById(id);
 
             if (value == null)
@@ -87,7 +91,7 @@ namespace Constraint.BusinessLayer.Managers
             updateTeam.companyName = companyTeam.companyName;
             updateTeam.companyCode = companyTeam.companyCode;
             CompanyTeam recordValue = _unitOfWork.CompanyTeamRepository.Update(updateTeam);
-            CompanyTeamDTO returnValue = new CompanyTeamDTO() { companyID = recordValue.companyID, companyName = recordValue.companyName,companyCode=recordValue.companyCode };
+            CompanyTeamDTO returnValue = new CompanyTeamDTO() { companyID = recordValue.companyID, companyName = recordValue.companyName, companyCode = recordValue.companyCode };
             if (_unitOfWork.Complete() > 0)
             {
                 return returnValue;

@@ -23,5 +23,16 @@ namespace Constraint.ServiceLayer.Controllers
         {
             return View();
         }
+        public ActionResult Profile()
+        {
+            return View();
+        }
+        public JsonResult GetProfile()
+        {
+            UserController user = new UserController();
+            var info = user.Details(new Guid(Session["ID"].ToString()));
+
+            return Json(info, JsonRequestBehavior.AllowGet);
+        }
     }
 }

@@ -7,14 +7,11 @@ using Constraint.BusinessLayer.Managers;
 using Constraint.BusinessLayer.DTO;
 namespace Constraint.ServiceLayer.Controllers
 {
+    [Authorize(Roles = "A")]
     public class MeetingController : Controller
     {
         MeetingManager manager = new MeetingManager();
-        // GET: Meeting
-        public ActionResult Index()
-        {
-            return View();
-        }
+        
         public JsonResult GetManager()
         {
             var _list = manager.GetAllMeetings();
@@ -100,6 +97,34 @@ namespace Constraint.ServiceLayer.Controllers
             {
                 return;
             }
+        }
+        [HttpPost]
+        public JsonResult CreateAll(MeetingDTO managerDTO, int count)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                var _listManager = manager.CreateMeeting(managerDTO);
+                if (_listManager == null)
+                {
+                    return Json(false, JsonRequestBehavior.AllowGet);
+                }
+            }
+
+            return Json(true, JsonRequestBehavior.AllowGet);
+        }
+        [HttpGet]
+        public JsonResult DeleteAll()
+        {
+
+            var _listManager = manager.DeleteAllMeeting();
+            if (!_listManager)
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(true, JsonRequestBehavior.AllowGet);
+
+
         }
     }
 }

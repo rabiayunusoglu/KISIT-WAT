@@ -76,7 +76,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DTO\ArchiveConstraintDTO.cs" />
-    <Compile Include="DTO\ChargePersonDTO.cs" />
     <Compile Include="DTO\CompanyTeamDTO.cs" />
     <Compile Include="DTO\ConstraintDTO.cs" />
     <Compile Include="DTO\DelayHistoryDTO.cs" />
@@ -89,7 +88,6 @@
     <Compile Include="DTO\TeamReasonDTO.cs" />
     <Compile Include="DTO\UserDTO.cs" />
     <Compile Include="DTO\VersionDTO.cs" />
-    <Compile Include="IManagers\IChargePersonManager.cs" />
     <Compile Include="IManagers\IArchiveConstraintManager.cs" />
     <Compile Include="IManagers\ICompanyTeamManager.cs" />
     <Compile Include="IManagers\IConstraintManager.cs" />
@@ -102,7 +100,6 @@
     <Compile Include="IManagers\IUserManager.cs" />
     <Compile Include="IManagers\IVersionManager.cs" />
     <Compile Include="Managers\ArchiveConstraintManager.cs" />
-    <Compile Include="Managers\ChargePersonManager.cs" />
     <Compile Include="Managers\CompanyTeamManager.cs" />
     <Compile Include="Managers\ConstraintManager.cs" />
     <Compile Include="Managers\DelayHistoryManager.cs" />

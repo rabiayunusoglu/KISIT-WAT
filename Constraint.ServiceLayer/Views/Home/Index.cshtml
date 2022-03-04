@@ -13,10 +13,10 @@
 <body ng-app="app" ng-controller="homeCtrl" ng-init="getData()">
     <div class="body-content" style="background: #ebedef; border-color: #ebedef; color:black; padding-top:0px;padding-left:0px;padding-right:0px;">
         <div class="panel panel-default" style=" border-color: #ebedef; background: #ebedef; ">
-            <center><h3>Ana Sayfa</h3></center>
+            <br />
             <div class="panel-body" style=" border-color: #ebedef; background: #ebedef; padding: 0;">
-                <ul class="list-group" style="height:650px;">
-                    <li class="list-group-item" style="height: 50px; border-color: #ebedef; background: #ebedef">
+                <ul class="list-group" style="height:50%;">
+                    <li class="list-group-item" style="height: 60%; border-color: #ebedef; background: #ebedef">
                         <label>Kısıt Giriş: </label>
 
                         <a class="btn btn-primary" ng-click="Block()" id="ConstraintBtn">
@@ -24,9 +24,9 @@
                         </a>
 
                     </li>
-                    <li class="list-group-item" style="height: 300px; border-color: #ebedef; background: #ebedef">
+                    <li class="list-group-item" style="height: 350px; border-color: #ebedef; background: #ebedef">
                         <div class="row">
-                            <div class="col-lg-5">
+                            <div class="col-lg-6">
                                 <div class="panel" style=" border-color: #ebedef; background: #ebedef">
                                     <div class="panel-heading" style="background: #ced2d8; border-color: #ced2d8; ">
                                         <center>
@@ -38,18 +38,25 @@
                                     <div class="panel-body" style=" border-color: #ebedef; background: #ebedef">
                                         <div class="row" style=" border-color: #ebedef; background: #ebedef">
                                             <div class="col-lg-3">
-                                                <a style="width: 150px; height: 150px;text-align:center" class="btn btn-info" href="/Home/ConstraintEntry">
+                                                <a style="width: 100%; height: 100%;text-align:center" class="btn btn-info" href="/Home/ConstraintEntry">
 
                                                     <center>
                                                         <br />
                                                         <i class="glyphicon glyphicon-pencil" style='font-size:40px;'></i>
                                                     </center>
-                                                    <center><h5>Kısıt Giriş</h5></center>
+                                                    <center>
+                                                        <h5>
+                                                            Kısıt Giriş
+                                                        </h5>
+                                                    </center>
+                                                    <br />
+                                                    <br />
+                                                    <p> </p>
                                                 </a>
                                             </div>
                                             <div class="col-lg-3">
 
-                                                <a style="width: 150px; height: 150px" class="btn btn-danger" href="/Home/ConstraintNoMarked">
+                                                <a style="width: 100%; height: 100%" class="btn btn-danger" href="/Home/ConstraintNoMarked">
                                                     <center>
                                                         <br /><i class="glyphicon glyphicon-thumbs-down" style='font-size:40px;'></i>
                                                     </center>
@@ -59,10 +66,11 @@
                                                     <center>
                                                         <h5> Kısıtlar</h5>
                                                     </center>
+                                                    <br />
                                                 </a>
                                             </div>
                                             <div class="col-lg-3">
-                                                <a style="width: 150px; height: 150px" class="btn btn-success" href="/Home/ConstraintMarked">
+                                                <a style="width: 100%; height: 100%" class="btn btn-success" href="/Home/ConstraintMarked">
                                                     <center>
                                                         <br /><i class="glyphicon glyphicon-thumbs-up" style='font-size:40px;'></i>
                                                     </center>
@@ -70,11 +78,12 @@
                                                     <center>
                                                         <h5>Kısıtlar</h5>
                                                     </center>
+                                                    <br />
                                                 </a>
                                             </div>
 
                                             <div class="col-lg-offset-0 col-lg-3">
-                                                <a style="width: 150px; height: 150px" class="btn btn-primary" href="/Home/ArchiveConstraint">
+                                                <a style="width: 100%; height: 100%" class="btn btn-primary" href="/Home/ArchiveConstraint">
                                                     <center>
                                                         <br />
                                                         <i class="glyphicon glyphicon-check" style='font-size:40px;'></i>
@@ -83,6 +92,7 @@
                                                     <center>
                                                         <h5>Kısıtlar</h5>
                                                     </center>
+                                                    <br />
                                                 </a>
                                             </div>
                                         </div>
@@ -91,7 +101,7 @@
 
                                 </div>
                             </div>
-                            <div class="col-lg-5">
+                            <div class="col-lg-6">
                                 <div class="panel" style=" border-color: #ebedef; background: #ebedef">
                                     <div class="panel-heading" style="background: #ced2d8; border-color: #ced2d8; ">
                                         <center>
@@ -103,42 +113,54 @@
                                     <div class="panel-body" style=" border-color: #ebedef; background: #ebedef">
                                         <div class="row" style=" border-color: #ebedef; background: #ebedef">
                                             <div class="col-lg-3">
-                                                <a style="width: 150px; height: 150px; background: #636f83; color: white;" class="btn" href="/Home/ZKP3">
+                                                <a style="width: 100%; height: 100%; background: #636f83; color: white;" class="btn" href="/Home/ZKP3">
                                                     <center>
                                                         <br />
                                                         <i class="glyphicon glyphicon-list-alt" style='font-size:40px;'></i>
                                                     </center>
                                                     <center><h5>ZKP3 Değişiklik</h5></center>
+                                                    <br />
+                                                    <br />
+                                                    <p> </p>
                                                 </a>
                                             </div>
                                             <div class="col-lg-3">
 
-                                                <a style="width: 150px; height: 150px; background: #636f83; color: white;" class="btn" href="/Home/MeetingCompany">
+                                                <a style="width: 100%; height: 100%; background: #636f83; color: white;" class="btn" href="/Home/Meeting">
                                                     <center>
                                                         <br />
                                                         <i class="glyphicon glyphicon-calendar" style='font-size:40px;'></i>
                                                     </center>
                                                     <center><h5>Toplantı-Firma</h5></center>
+                                                    <br />
+                                                    <br />
+                                                    <p> </p>
                                                 </a>
                                             </div>
                                             <div class="col-lg-3">
 
-                                                <a style="width: 150px; height: 150px;" class="btn btn-warning" href="/Home/ReportTeam">
+                                                <a style="width: 100%; height: 100%;" class="btn btn-warning" href="/Home/ReportTeam">
                                                     <center>
                                                         <br />
                                                         <i class="glyphicon glyphicon-list-alt" style='font-size:40px;'></i>
                                                     </center>
                                                     <center><h5>Rapor-Ekip</h5></center>
+                                                    <br />
+                                                    <br />
+                                                    <p> </p>
                                                 </a>
                                             </div>
                                             <div class="col-lg-3 col-lg-offset-0">
 
-                                                <a style="width: 150px; height: 150px" class="btn btn-warning" href="/Home/MeetingTeam">
+                                                <a style="width: 100%; height: 100%" class="btn btn-warning" href="/Home/MeetingTeam">
                                                     <center>
                                                         <br />
                                                         <i class="glyphicon glyphicon-calendar" style='font-size:40px;'></i>
                                                     </center>
                                                     <center><h5>Toplantı-Ekip</h5></center>
+                                                    <br />
+                                                    <br />
+                                                    <p> </p>
                                                 </a>
                                             </div>
                                         </div>
@@ -149,95 +171,45 @@
 
                             </div>
 
-                            <div class="col-lg-2 col-lg-offset-0">
+
+                        </div>
+                    </li>
+                    <li class="list-group-item" style="height: 100%; border-color: #ebedef; background: #ebedef">
+                        <div class="row">
+                            <div class="col-lg-3" style="padding-right: 10px;">
                                 <div class="panel" style=" border-color: #ebedef; background: #ebedef">
                                     <div class="panel-heading" style="background: #ced2d8; border-color: #ced2d8; ">
                                         <center>
                                             <h5>
-                                                <b>Hesap İşlemleri</b>
+                                                <b>Listeleme</b>
                                             </h5>
                                         </center>
                                     </div>
                                     <div class="panel-body" style=" border-color: #ebedef; background: #ebedef">
                                         <div class="row" style=" border-color: #ebedef; background: #ebedef">
                                             <div class="col-lg-6">
-
-                                                <a style="width: 110px; height: 150px" class="btn btn-success" href="/Home/Register">
+                                                <a style="width: 100%; height: 100%" class="btn btn-primary" href="/Home/MontagePlan">
                                                     <center>
                                                         <br />
-                                                        <i class="glyphicon glyphicon-user" style='font-size:40px;'></i>
+                                                        <i class="glyphicon glyphicon-th-list" style='font-size:40px;'></i>
                                                     </center>
-                                                    <center><h5>Hesap Ekle</h5></center>
+                                                    <center><h5>Montaj Üretim</h5></center>
+                                                    <h5> Planı</h5>
+                                                    <br />
                                                 </a>
                                             </div>
                                             <div class="col-lg-6 col-lg-offset-0">
 
-                                                <a style="width: 110px; height: 150px" class="btn btn-success" href="/Home/UserList">
+                                                <a style="width: 100%; height: 100%" class="btn btn-primary" href="/Home/ProductTree">
                                                     <center>
                                                         <br />
-                                                        <i class="glyphicon glyphicon-user" style='font-size:40px;'></i>
+                                                        <i class="glyphicon glyphicon-th-list" style='font-size:40px;'></i>
                                                     </center>
-                                                    <center><h5>Kullanıcılar</h5></center>
+                                                    <center><h5>Ürün</h5></center>
+                                                    <h5> Ağacı</h5>
+                                                    <br />
                                                 </a>
-                                            </div>
-                                        </div>
 
-
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="list-group-item" style="height: 300px; border-color: #ebedef; background: #ebedef">
-                        <div class="row">
-                            <div class="col-lg-5">
-                                <div class="panel" style="background: #ebedef">
-                                    <div class="panel-heading" style="background: #ced2d8; border-color: #ced2d8; ">
-                                        <center>
-                                            <h5>
-                                                <b>Bilgiler</b>
-                                            </h5>
-                                        </center>
-                                    </div>
-                                    <div class="panel-body" style=" border-color: #ebedef; background: #ebedef">
-                                        <div class="row" style=" border-color: #ebedef; background: #ebedef">
-                                            <div class="col-lg-3">
-                                                <a style="width: 150px; height: 150px" class="btn btn-primary" href="/Home/ChargePerson">
-                                                    <center>
-                                                        <br />
-                                                        <i class="glyphicon glyphicon-user" style='font-size:40px;'></i>
-                                                    </center>
-                                                    <center><h5>Sorumlu Bireyler</h5></center>
-                                                </a>
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <a style="width: 150px; height: 150px" class="btn btn-primary" href="/Home/CompanyTeam">
-                                                    <center>
-                                                        <br />
-                                                        <i class="glyphicon glyphicon-book" style='font-size:40px;'></i>
-                                                    </center>
-                                                    <center><h5>Firmalar-Ekipler</h5></center>
-                                                </a>
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <a class="btn" style="width: 150px; height: 150px; background: #636f83; color: white; " href="/Home/DelayReason">
-                                                    <center>
-                                                        <br />
-                                                        <i class="glyphicon glyphicon-tags" style='font-size:40px;'></i>
-                                                    </center>
-                                                    <h5>Öteleme</h5>
-                                                    <h5> Sebepleri</h5>
-                                                </a>
-                                            </div>
-                                            <div class="col-lg-3 col-lg-offset-0">
-                                                <a class="btn" style="width: 150px; height: 150px; background: #636f83; color:white;" href="/Home/Version">
-                                                    <center>
-                                                        <br />
-                                                        <i class="glyphicon glyphicon-road" style='font-size:40px;'></i>
-                                                    </center>
-                                                    <center><h5>Hat Bilgisi</h5></center>
-                                                </a>
                                             </div>
 
 
@@ -251,81 +223,6 @@
                                     <div class="panel-heading" style="background: #ced2d8; border-color: #ced2d8; ">
                                         <center>
                                             <h5>
-                                                <b>Ring</b>
-                                            </h5>
-                                        </center>
-                                    </div>
-                                    <div class="panel-body" style=" border-color: #ebedef; background: #ebedef">
-                                        <div class="row" style=" border-color: #ebedef; background: #ebedef">
-                                            <div class="col-lg-6">
-                                                <a style="width: 180px; height: 150px" class="btn btn-info">
-                                                    <center>
-                                                        <br />
-                                                        Ring Giriş
-                                                    </center>
-                                                </a>
-                                            </div>
-                                            <div class="col-lg-offset-0 col-lg-6">
-                                                <a style="width: 180px; height: 150px" class="btn btn-info">
-                                                    <center>
-                                                        <br />
-                                                        Ring Giriş
-                                                    </center>
-                                                </a>
-
-                                            </div>
-
-
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="col-lg-2" style="padding-right: 10px;">
-                                <div class="panel" style=" border-color: #ebedef; background: #ebedef">
-                                    <div class="panel-heading" style="background: #ced2d8; border-color: #ced2d8; ">
-                                        <center>
-                                            <h5>
-                                                <b>Listeleme</b>
-                                            </h5>
-                                        </center>
-                                    </div>
-                                    <div class="panel-body" style=" border-color: #ebedef; background: #ebedef">
-                                        <div class="row" style=" border-color: #ebedef; background: #ebedef">
-                                            <div class="col-lg-6">
-                                                <a style="width: 110px; height: 150px" class="btn btn-primary" href="/Home/MontagePlan">
-                                                    <center>
-                                                        <br />
-                                                        <i class="glyphicon glyphicon-th-list" style='font-size:40px;'></i>
-                                                    </center>
-                                                    <center><h5>Montaj</h5></center>
-                                                    <h5> Planı</h5>
-                                                </a>
-                                            </div>
-                                            <div class="col-lg-6 col-lg-offset-0">
-
-                                                <a style="width: 110px; height: 150px" class="btn btn-primary" href="/Home/ProductTree">
-                                                    <center>
-                                                        <br />
-                                                        <i class="glyphicon glyphicon-th-list" style='font-size:40px;'></i>
-                                                    </center>
-                                                    <center><h5>Ürün</h5></center>
-                                                    <h5> Ağacı</h5>
-                                                </a>
-
-                                            </div>
-
-
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="col-lg-2" style="padding-right: 10px;">
-                                <div class="panel" style=" border-color: #ebedef; background: #ebedef">
-                                    <div class="panel-heading" style="background: #ced2d8; border-color: #ced2d8; ">
-                                        <center>
-                                            <h5>
                                                 <b>Yükleme</b>
                                             </h5>
                                         </center>
@@ -333,23 +230,25 @@
                                     <div class="panel-body" style=" border-color: #ebedef; background: #ebedef">
                                         <div class="row" style=" border-color: #ebedef; background: #ebedef">
                                             <div class="col-lg-6">
-                                                <a style="width: 110px; height: 150px" class="btn btn-danger">
+                                                <a style="width: 100%; height: 100%" class="btn btn-success" href="/Home/ExcelMontage">
                                                     <center>
                                                         <br />
-                                                        <i class="glyphicon glyphicon-cloud-upload" style='font-size:40px;' href="/Home/ExcelMontage"></i>
+                                                        <i class="glyphicon glyphicon-cloud-upload" style='font-size:40px;' ></i>
                                                     </center>
                                                     <center><h5>Excel</h5></center>
-                                                    <center><h5>Montaj</h5></center>
+                                                    <center><h5>Montaj Üretim Planı</h5></center>
+                                                    <br />
                                                 </a>
                                             </div>
                                             <div class="col-lg-6 col-lg-offset-0">
-                                                <a style="width: 110px; height: 150px" class="btn btn-danger">
+                                                <a style="width: 100%; height: 100%" class="btn btn-success" href="/Home/ExcelTree">
                                                     <center>
                                                         <br />
-                                                        <i class="glyphicon glyphicon-cloud-upload" style='font-size:40px;' href="/Home/ExcelTree"></i>
+                                                        <i class="glyphicon glyphicon-cloud-upload" style='font-size:40px;' ></i>
                                                     </center>
                                                     <center><h5>Excel</h5></center>
                                                     <center><h5>Ürün Ağacı</h5></center>
+                                                    <br />
                                                 </a>
 
                                             </div>
@@ -360,6 +259,108 @@
 
                                 </div>
                             </div>
+                            <div class="col-lg-4">
+                                <div class="panel" style="background: #ebedef">
+                                    <div class="panel-heading" style="background: #ced2d8; border-color: #ced2d8; ">
+                                        <center>
+                                            <h5>
+                                                <b>Bilgiler</b>
+                                            </h5>
+                                        </center>
+                                    </div>
+                                    <div class="panel-body" style=" border-color: #ebedef; background: #ebedef">
+                                        <div class="row" style=" border-color: #ebedef; background: #ebedef">
+
+                                            <div class="col-lg-4">
+                                                <a style="width: 100%; height: 100%" class="btn btn-info" href="/Home/CompanyTeam">
+                                                    <center>
+                                                        <br />
+                                                        <i class="glyphicon glyphicon-book" style='font-size:40px;'></i>
+                                                    </center>
+                                                    <center>
+
+                                                        <h5>Firmalar-Ekipler</h5>
+                                                        <br />
+                                                        <br />
+                                                    </center>
+                                                    <p> </p>
+                                                </a>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <a class="btn" style="width: 100%; height: 100%; background: #636f83; color:white;" href="/Home/Version">
+                                                    <center>
+                                                        <br />
+                                                        <i class="glyphicon glyphicon-road" style='font-size:40px;'></i>
+                                                    </center>
+
+                                                    <center><h5>Hat Bilgisi</h5></center>
+                                                    <br />
+                                                    <br />
+                                                    <p> </p>
+                                                </a>
+                                            </div>
+                                            <div class="col-lg-4 col-lg-offset-0">
+
+                                                <a class="btn btn-primary" style="width: 100%; height: 100%; " href="/Home/PostponementReason">
+                                                    <center>
+                                                        <br />
+                                                        <i class="glyphicon glyphicon-tags" style='font-size:40px;'></i>
+                                                    </center>
+                                                    <h5>Öteleme</h5>
+                                                    <h5> Sebepleri</h5>
+                                                    <br />
+                                                </a>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-lg-2">
+                                <div class="panel" style=" border-color: #ebedef; background: #ebedef">
+                                    <div class="panel-heading" style="background: #ced2d8; border-color: #ced2d8; ">
+                                        <center>
+                                            <h5>
+                                                <b>Hesap İşlemleri</b>
+                                            </h5>
+                                        </center>
+                                    </div>
+                                    <div class="panel-body" style=" border-color: #ebedef; background: #ebedef">
+                                        <div class="row" style=" border-color: #ebedef; background: #ebedef">
+                                            <div class="col-lg-6">
+
+                                                <a style="width: 100%; height: 100%" class="btn btn-danger" href="/Home/Register">
+                                                    <center>
+                                                        <br />
+                                                        <i class="glyphicon glyphicon-user" style='font-size:40px;'></i>
+                                                    </center>
+                                                    <center><h5>Hesap Ekle</h5></center>
+                                                    <br />
+                                                    <br />
+                                                </a>
+                                            </div>
+                                            <div class="col-lg-6 col-lg-offset-0">
+
+                                                <a style="width: 100%; height: 100%" class="btn btn-danger" href="/Home/UserList">
+                                                    <center>
+                                                        <br />
+                                                        <i class="glyphicon glyphicon-user" style='font-size:40px;'></i>
+                                                    </center>
+                                                    <center><h5>Kullanıcılar</h5></center>
+                                                    <br />
+                                                    <br />
+                                                </a>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+                                </div>
+                            </div>
+
                         </div>
                     </li>
                 </ul>

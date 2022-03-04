@@ -14,11 +14,7 @@ namespace Constraint.ServiceLayer.Controllers
     public class MontagePlanController : Controller
     {
         MontageProductPlanManager montage = new MontageProductPlanManager();
-        // GET: MontagePlan
-        public ActionResult Index()
-        {
-            return View();
-        }
+
         public JsonResult GetManager()
         {
             var _listPersons = montage.GetAllPlans();
@@ -26,14 +22,14 @@ namespace Constraint.ServiceLayer.Controllers
 
         }
         [HttpPost]
-        public ActionResult Upload(FormCollection formCollection)
+        public JsonResult Upload(FormCollection formCollection)
         {
             MontageProductPlanManager plan = new MontageProductPlanManager();
             try
             {
                 if (Request != null)
                 {
-                    HttpPostedFileBase file = Request.Files["UploadedFile"];
+                    HttpPostedFileBase file = Request.Files[0];
                     if ((file != null) && (file.ContentLength != 0) && !string.IsNullOrEmpty(file.FileName))
                     {
                         string fileName = file.FileName;
@@ -42,7 +38,40 @@ namespace Constraint.ServiceLayer.Controllers
                         var FileStream = file.InputStream;
                         bool fileData = plan.GetDataFromExcelFile(file.FileName, FileStream);
                         if (fileData)
-                            return RedirectToAction("MontagePlan","Home");
+                            return Json(true, JsonRequestBehavior.AllowGet);
+                        else
+                            return Json(false, JsonRequestBehavior.AllowGet);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+
+            }
+            return Json(false, JsonRequestBehavior.AllowGet);
+
+
+        }
+        [HttpPost]
+        public ActionResult UploadBefore(FormCollection formCollection)
+        {
+            MontageProductPlanManager plan = new MontageProductPlanManager();
+            try
+            {
+                if (Request != null)
+                {
+                    HttpPostedFileBase file = Request.Files[0];
+                    if ((file != null) && (file.ContentLength != 0) && !string.IsNullOrEmpty(file.FileName))
+                    {
+                        string fileName = file.FileName;
+                        string fileContentType = file.ContentType;
+                        byte[] fileBytes = new byte[file.ContentLength];
+                        var FileStream = file.InputStream;
+                        bool fileData = plan.GetDataFromExcelFile(file.FileName, FileStream);
+                        if (fileData)
+                            return RedirectToAction("MontagePlan", "Home");
                         else
                             return RedirectToAction("ExcelMontage", "Home");
                     }

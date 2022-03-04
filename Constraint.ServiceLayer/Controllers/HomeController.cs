@@ -18,10 +18,6 @@ namespace Constraint.ServiceLayer.Controllers
             return View();
         }
 
-        public ActionResult ChargePerson()
-        {
-            return View();
-        }
         public ActionResult CompanyTeam()
         {
             return View();

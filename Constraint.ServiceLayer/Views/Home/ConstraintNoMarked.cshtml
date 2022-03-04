@@ -42,6 +42,8 @@
                         <button type="button" ng-click="chosenAll()" class="btn btn-info">
                             <span ng-bind="choseAll ? 'Tümünü Seç' : 'Tümünü Seçme'"></span>
                         </button>
+                        <label><input id="searchTextID" type="text" class="form-control" ng-model="searchText" style="font-weight: normal" placeholder="Ara..." /></label>
+
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -139,7 +141,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="i in constraintList  | orderBy: sortColumn: reverse | limitTo: itemsPerPage: (currentPage - 1) * itemsPerPage ">
+                    <tr ng-repeat="i in constraintList  | orderBy: sortColumn: reverse | limitTo: itemsPerPage: (currentPage - 1) * itemsPerPage |filter:searchText ">
                         <td>
                             {{i.id}}
                         </td>

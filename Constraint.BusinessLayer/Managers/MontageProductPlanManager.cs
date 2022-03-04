@@ -78,7 +78,7 @@ namespace Constraint.BusinessLayer.Managers
 
         public List<MontageProductPlanDTO> GetAllPlans()
         {
-            List<MontageProductPlan> list = _unitOfWork.MontageProductPlanRepository.GetAll().OrderBy(x => x.productCode).ToList();
+            List<MontageProductPlan> list = _unitOfWork.MontageProductPlanRepository.GetAll().OrderBy(x => x.plannedDate).OrderByDescending(x => x.aboveLine).ToList();
             if (list == null)
             {
                 return null;

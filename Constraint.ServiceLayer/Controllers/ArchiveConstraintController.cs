@@ -13,44 +13,60 @@ namespace Constraint.ServiceLayer.Controllers
     {
         ArchiveConstraintManager ConstraintManager = new ArchiveConstraintManager();
         // GET: ArchiveConstraint
-        public ActionResult Index()
-        {
-            return View();
-        }
+        [Authorize(Roles = "A,U")]
         public JsonResult GetConstraint()
         {
             var _listPersons = ConstraintManager.GetAllArchives();
+            if (_listPersons == null)
+                return Json(_listPersons, JsonRequestBehavior.AllowGet);
             var jsonResult = Json(_listPersons, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
             return jsonResult;
 
         }
+        [Authorize(Roles = "A")]
         public JsonResult Details(Guid id)
         {
+            if (id == null)
+                return Json(null, JsonRequestBehavior.AllowGet);
             var _person = ConstraintManager.GetArchiveById(id);
             return Json(_person, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
+        [Authorize(Roles = "A")]
         public JsonResult Create(ArchiveConstraintDTO ConstraintManagerDTO)
         {
-            ConstraintManager.CreateArchive(ConstraintManagerDTO);
-            return Json(null);
+            if (ConstraintManagerDTO == null)
+                return null;
+            var _manager = ConstraintManager.CreateArchive(ConstraintManagerDTO);
+            if (_manager != null)
+                return Json(_manager, JsonRequestBehavior.AllowGet);
+            return Json(null, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
+        [Authorize(Roles = "A")]
         public JsonResult Edit(ArchiveConstraintDTO ConstraintManagerDTO)
         {
-            var _person = ConstraintManager.UpdateArchive(ConstraintManagerDTO);
-            return Json(_person, JsonRequestBehavior.AllowGet);
+            if (ConstraintManagerDTO == null)
+                return null;
+            var _manager = ConstraintManager.UpdateArchive(ConstraintManagerDTO);
+            if (_manager != null)
+                return Json(_manager, JsonRequestBehavior.AllowGet);
+            return Json(null, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
+        [Authorize(Roles = "A")]
         public JsonResult Delete(Guid id)
         {
             var _person = ConstraintManager.DeleteArchive(id);
             return Json(_person, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
+        [Authorize(Roles = "A")]
         public JsonResult CreateAll(ArchiveConstraintDTO[] managerDTO)
         {
+            if(managerDTO==null || managerDTO.Length==0)
+                return Json(false, JsonRequestBehavior.AllowGet);
             for (int i = 0; i < managerDTO.Length; i++)
             {
                 var _listManager = ConstraintManager.CreateArchive(managerDTO[i]);
@@ -63,8 +79,11 @@ namespace Constraint.ServiceLayer.Controllers
             return Json(true, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
+        [Authorize(Roles = "A")]
         public JsonResult DeleteAll(ArchiveConstraintDTO[] managerDTO)
         {
+            if(managerDTO==null || managerDTO.Length==0)
+                return Json(false, JsonRequestBehavior.AllowGet);
             DelayHistoryManager dh = new DelayHistoryManager();
             for (int i = 0; i < managerDTO.Length; i++)
             {
@@ -74,16 +93,17 @@ namespace Constraint.ServiceLayer.Controllers
                     return Json(false, JsonRequestBehavior.AllowGet);
                 }
                 var _delay = dh.Deletehistory(new Guid(managerDTO[i].delayID));
-                if(!_delay)
+                if (!_delay)
                     return Json(false, JsonRequestBehavior.AllowGet);
             }
             return Json(true, JsonRequestBehavior.AllowGet);
-
-
         }
         [HttpPost]
-        public JsonResult SendToMarked(ConstraintDTO[] managerDTOCT,ArchiveConstraintDTO[] managerDTO)
+        [Authorize(Roles = "A")]
+        public JsonResult SendToMarked(ConstraintDTO[] managerDTOCT, ArchiveConstraintDTO[] managerDTO)
         {
+            if (managerDTO == null || managerDTO.Length == 0)
+                return Json(false, JsonRequestBehavior.AllowGet);
             ConstraintManager ct = new ConstraintManager();
             DelayHistoryManager dh = new DelayHistoryManager();
             for (int i = 0; i < managerDTO.Length; i++)
@@ -119,6 +139,7 @@ namespace Constraint.ServiceLayer.Controllers
 
 
         }
+        [Authorize(Roles = "A,U")]
         public void Export()
         {
             try
@@ -140,11 +161,13 @@ namespace Constraint.ServiceLayer.Controllers
             }
 
         }
+        [Authorize(Roles = "A,U")]
         public void ExportByDate(DateTime startDate, DateTime endDate)
         {
             try
             {
-
+                if (startDate == null || endDate == null)
+                    return;
                 byte[] temp = ConstraintManager.ExporttoExcelByDate(startDate, endDate);
                 if (temp == null)
                     return;
@@ -160,9 +183,14 @@ namespace Constraint.ServiceLayer.Controllers
                 return;
             }
         }
+        [Authorize(Roles = "A,U")]
         public JsonResult GetByDate(DateTime startDate, DateTime endDate)
         {
+            if (startDate == null || endDate == null)
+                Json(null, JsonRequestBehavior.AllowGet);
             List<ArchiveConstraintDTO> list = ConstraintManager.GetAllArchives();
+            if(list==null || list.Count==0)
+                Json(null, JsonRequestBehavior.AllowGet);
             List<ArchiveConstraintDTO> archiveByid = list.Where(x => Convert.ToDateTime(x.dateCurrent) <= endDate && Convert.ToDateTime(x.dateCurrent) >= startDate).ToList();
             if (archiveByid == null)
             {

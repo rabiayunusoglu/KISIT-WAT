@@ -28,13 +28,6 @@
           <Property Name="dateCurrent" Type="varchar" MaxLength="10" />
           <Property Name="aboveLine" Type="varchar" MaxLength="8" />
         </EntityType>
-        <EntityType Name="ChargePerson">
-          <Key>
-            <PropertyRef Name="personID" />
-          </Key>
-          <Property Name="personID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="personName" Type="varchar" MaxLength="100" Nullable="false" />
-        </EntityType>
         <EntityType Name="CompanyTeam">
           <Key>
             <PropertyRef Name="companyID" />
@@ -203,7 +196,6 @@
         </EntityType>
         <EntityContainer Name="ConstraintDBModelStoreContainer">
           <EntitySet Name="ArchiveConstraint" EntityType="Self.ArchiveConstraint" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ChargePerson" EntityType="Self.ChargePerson" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CompanyTeam" EntityType="Self.CompanyTeam" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Constraint" EntityType="Self.Constraint" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DelayHistory" EntityType="Self.DelayHistory" Schema="dbo" store:Type="Tables" />
@@ -221,7 +213,6 @@
       <Schema Namespace="ConstraintDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="ConstraintDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="ArchiveConstraints" EntityType="ConstraintDBModel.ArchiveConstraint" />
-          <EntitySet Name="ChargePersons" EntityType="ConstraintDBModel.ChargePerson" />
           <EntitySet Name="CompanyTeams" EntityType="ConstraintDBModel.CompanyTeam" />
           <EntitySet Name="Constraints" EntityType="ConstraintDBModel.Constraint" />
           <EntitySet Name="Meetings" EntityType="ConstraintDBModel.Meeting" />
@@ -255,13 +246,6 @@
           <Property Name="chargePerson" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="dateCurrent" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="aboveLine" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="ChargePerson">
-          <Key>
-            <PropertyRef Name="personID" />
-          </Key>
-          <Property Name="personID" Type="Guid" Nullable="false" />
-          <Property Name="personName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="CompanyTeam">
           <Key>
@@ -456,14 +440,6 @@
                 <ScalarProperty Name="materialText" ColumnName="materialText" />
                 <ScalarProperty Name="materialCode" ColumnName="materialCode" />
                 <ScalarProperty Name="constraintID" ColumnName="constraintID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ChargePersons">
-            <EntityTypeMapping TypeName="ConstraintDBModel.ChargePerson">
-              <MappingFragment StoreEntitySet="ChargePerson">
-                <ScalarProperty Name="personName" ColumnName="personName" />
-                <ScalarProperty Name="personID" ColumnName="personID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

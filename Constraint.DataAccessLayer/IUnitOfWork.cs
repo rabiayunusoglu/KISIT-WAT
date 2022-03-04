@@ -11,7 +11,6 @@ namespace Constraint.DataAccessLayer
     {
         IArchiveConstraintRepository ArchiveConstraintRepository { get;   }
 
-        IChargePersonRepository ChargePersonRepository { get;   }
         ICompanyTeamRepository CompanyTeamRepository { get;   }
 
         IConstraintRepository ConstraintRepository { get;   }

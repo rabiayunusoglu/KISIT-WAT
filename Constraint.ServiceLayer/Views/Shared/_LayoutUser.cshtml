@@ -39,10 +39,23 @@
                         <a href="/HomeUser/ArchiveConstraint"><span class="glyphicon glyphicon-check" style="right: 10px"></span>Arşivlenmiş Kısıtlar</a>
                     </li>
                 </ul>
-
+               
             </li>
-            
+            <li>
+
+                <i class="fas fa-copy"></i>
+                <a>Profil</a>
+
+                
+                <ul class="list-unstyled">
+                    <li>
+                      <a href="/HomeUser/Profile"><span class="glyphicon glyphicon-user" style="right: 10px"></span> @HttpContext.Current.Session["Email"].ToString()</a>
+                    </li>
+                </ul>
+            </li>
+
         </ul>
+       
 
     </nav>
     <div class="body-content" id="content">

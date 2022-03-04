@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewBag.Title = "Profile";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <script src="~/Scripts/angular.js"></script>
+    <script src="~/App/controller.js"></script>
+</head>
+<body ng-app="app" ng-controller="profileCtrl">
+    <br />
+    <div class="container-fluid">
+        <div class="row">
+            <center style=" margin: auto; width: 60%; padding: 75px;">
+                <div class="panel panel-default" ng-init="getData()">
+                    <div class="panel-heading">
+                        <center>
+                            <h4>
+                                Profil Bilgisi
+                            </h4>
+                        </center>
+                    </div>
+                    <div class="panel-body">
+                        <br />
+
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon2"><i class=" glyphicon glyphicon-user"></i></span>
+                            <input type="text" class="form-control" placeholder="Ad ve Soyad giriniz..." aria-describedby="basic-addon2" ng-model="user.userType" disabled>
+                        </div>
+                        <br />
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon2"><i class=" glyphicon glyphicon-user"></i></span>
+                            <input type="text" class="form-control" placeholder="Ad ve Soyad giriniz..." aria-describedby="basic-addon2" ng-model="user.userName" disabled>
+                        </div>
+                        <br />
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1"><i class=" glyphicon glyphicon-plus"></i></span>
+                            <input type="text" class="form-control" placeholder="Sicil giriniz..." aria-describedby="basic-addon1" ng-model="user.email" disabled>
+                        </div>
+                        <br />
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1"><i class=" glyphicon glyphicon-lock"></i></span>
+                            <input type="text" class="form-control" placeholder="Şifre giriniz..." aria-describedby="basic-addon1" ng-model="user.password">
+                        </div>
+                        <br />
+                    </div>
+                    <div class="panel-footer">
+                        <button type="button" id="btnSave" class="btn btn-success" value="Düzenle" ng-click="update()" data-dismiss="modal">Şifreyi Güncelle</button>
+                    </div>
+                </div>
+            </center>
+        </div>
+    </div>
+</body>
+</html>
+
+
+

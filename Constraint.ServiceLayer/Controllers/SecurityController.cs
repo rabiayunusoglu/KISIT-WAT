@@ -35,6 +35,7 @@ namespace Constraint.ServiceLayer.Controllers
                     FormsAuthentication.SetAuthCookie(userInfo[0].email, true);
                     HttpContext.Response.SetCookie(new HttpCookie("email", userInfo[0].email));
                     Session["Email"] = userInfo[0].userName;
+                    Session["ID"] = userInfo[0].userID;
                     Session["Block"] = userInfo[0].userType;
                     if (userInfo[0].userType == "A")
                         return RedirectToAction("Index", "Home");
@@ -65,9 +66,15 @@ namespace Constraint.ServiceLayer.Controllers
         {
             Session["Block"] = null;
             Session["Email"] = null;
+            Session["ID"] = null;
             FormsAuthentication.SignOut();
             return RedirectToAction("Login");
         }
-       
+        [HttpGet]
+        public String GetUserName()
+        {
+            return Session["Email"].ToString();
+        }
+
     }
 }

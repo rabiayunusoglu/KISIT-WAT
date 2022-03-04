@@ -14,11 +14,7 @@ namespace Constraint.ServiceLayer.Controllers
     public class ProductTreeController : Controller
     {
         ProductTreeManager productTree = new ProductTreeManager();
-        // GET: ProductTree
-        public ActionResult Index()
-        {
-            return View();
-        }
+        
         public JsonResult GetManager()
         {
             var _listPersons = productTree.GetAllTrees();
@@ -29,14 +25,14 @@ namespace Constraint.ServiceLayer.Controllers
 
         }
         [HttpPost]
-        public ActionResult Upload(FormCollection formCollection)
+        public JsonResult Upload(FormCollection formCollection)
         {
             ProductTreeManager tree = new ProductTreeManager(); 
             try
             {
                 if (Request != null)
                 {
-                    HttpPostedFileBase file = Request.Files["UploadedFile"];
+                    HttpPostedFileBase file = Request.Files[0];
                     if ((file != null) && (file.ContentLength != 0) && !string.IsNullOrEmpty(file.FileName))
                     {
                         string fileName = file.FileName;
@@ -45,9 +41,9 @@ namespace Constraint.ServiceLayer.Controllers
                         var FileStream = file.InputStream;
                         bool fileData = tree.GetDataFromExcelFile(file.FileName, FileStream);
                         if (fileData)
-                            return RedirectToAction("ProductTree", "Home");
+                            return Json(true, JsonRequestBehavior.AllowGet);
                         else
-                            return RedirectToAction("ExcelTree", "Home");
+                            return Json(false, JsonRequestBehavior.AllowGet);
                     }
                 }
 

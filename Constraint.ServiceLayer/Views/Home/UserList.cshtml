@@ -10,9 +10,9 @@
     <script src="~/Scripts/angular.js"></script>
     <script src="~/App/controller.js"></script>
 </head>
-<body ng-app="app">
+<body ng-app="app" ng-controller="userListCtrl">
     <br />
-    <div class="panel panel-default" ng-controller="userListCtrl" ng-init="getData()">
+    <div class="panel panel-default" ng-init="getData()">
 
         <div class="panel-heading">
             <center>
@@ -31,18 +31,17 @@
             </div>
         </div>
         <div class="panel-body" ng-if="uploading">
-            <div class="row">
 
-                <br />
-            </div>
             <div class="row">
 
                 <div class="col-lg-6">
                     <div class="form-group pull-left">
+
                         <label>Ara</label>
                         <label>
-                            <input type="text" class="form-control" ng-model="searchText" style="font-weight: normal" />
+                            <input type="text" class="form-control" data-ng-model="searchText" style="font-weight: normal" />
                         </label>
+
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -81,16 +80,16 @@
                             <span class="glyphicon" ng-show="sortColumn=='userName'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
                         </th>
                         <th>
-                            Türü Değiştir
+                            Düzenle
                         </th>
-                       
+
                         <th>
                             Sil
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="i in userList | orderBy: sortColumn: reverse | limitTo: itemsPerPage: (currentPage - 1) * itemsPerPage">
+                    <tr ng-repeat="i in userList | orderBy: sortColumn: reverse | limitTo: itemsPerPage: (currentPage - 1) * itemsPerPage |filter:searchText">
                         <td>
                             {{i.id}}
                         </td>
@@ -104,10 +103,15 @@
                             {{i.userName}}
                         </td>
                         <td>
-                            <input type="button" class="btn  btn-primary" value="Değiştir" ng-click="updateMethod(i)" />
+                            <button type="button" class="btn btn-info" ng-click="UpdateData(i)" data-toggle="modal" data-target="#basicModalUpdate" >
+                                <i class="glyphicon glyphicon-edit"></i>
+                            </button>
+
                         </td>
                         <td>
-                            <input type="button" class="btn btn-danger" value="Sil" ng-click="deleteMethod(i)" />
+                            <button type="button" class="btn btn-danger" ng-click="deleteMethod(i)">
+                                <i class="glyphicon glyphicon-trash"></i>
+                            </button>
                         </td>
                     </tr>
                     <tr ng-if="!userList || userList.length == 0">
@@ -130,8 +134,61 @@
                     </div>
                 </div>
             </div>
+            <div class="modal fade" id="basicModalUpdate" tabindex="-1" role="dialog" aria-labelledby="basicModalUpdate" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title" id="myModalLabel">Kullanıcı Düzenle</h4>
+                        </div>
+                        <div class="modal-body">
+                            <br />
+
+                            <form ng-if="!control">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <label class="col-lg-2 control-label">Hesap Türü:</label>
+                                        <div class="col-lg-10">
+                                            <select class="form-control" ng-model="userType" ng-options="x for x in ['Yönetici','Kullanıcı']">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <br />
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon2"><i class=" glyphicon glyphicon-user"></i></span>
+                                <input type="text" class="form-control" id="userName" placeholder="Ad ve Soyad giriniz..." aria-describedby="basic-addon2" ng-model="userName">
+                            </div>
+                            <br />
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class=" glyphicon glyphicon-plus"></i></span>
+                                <input type="text" class="form-control" id="email" placeholder="Sicil giriniz..." aria-describedby="basic-addon1" ng-model="email">
+                            </div>
+                            <br />
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class=" glyphicon glyphicon-lock"></i></span>
+                                <input type="text" class="form-control" id="password" placeholder="Şifre giriniz..." aria-describedby="basic-addon1" ng-model="password">
+                            </div>
+                            <br />
+                        </div>
+                        <div class="modal-footer">
+                            <center>
+                                <button type="button" id="btnSaveUpdate" class="btn btn-info" ng-click="updateMethod()" data-dismiss="modal">Düzenle</button>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </div>
 </body>
 </html>
+<script>
+         controlUserToken = function (i) {
+             if (i.userID === `@HttpContext.Current.Session["ID"].ToString()`)
+                 return false;
+             return true
+        };
+</script>

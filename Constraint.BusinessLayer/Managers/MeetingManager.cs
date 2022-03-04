@@ -28,7 +28,7 @@ namespace Constraint.BusinessLayer.Managers
             {
                 return null;
             }
-           
+
             CompanyTeamManager team = new CompanyTeamManager();
             List<CompanyTeamDTO> subIndustryTeams = team.GetHaveCodeTeams();
             var c = subIndustryTeams.Where(t => t.companyName.Equals(Meeting.companyTeam)).ToList();
@@ -53,12 +53,12 @@ namespace Constraint.BusinessLayer.Managers
                 newMeeting.companyTeam = Meeting.companyTeam;
                 newMeeting.chargePerson = Meeting.chargePerson;
                 newMeeting.dateCurrent = Meeting.dateCurrent;
-                
+
                 newMeeting.changedAmount = 1;
                 newMeeting.companyTeamCode = t.companyCode;
 
                 Meeting recordValue = _unitOfWork.MeetingRepository.Add(newMeeting);
-                
+
                 MeetingDTO returnValue = new MeetingDTO()
                 {
                     constraintID = recordValue.constraintID,
@@ -78,7 +78,7 @@ namespace Constraint.BusinessLayer.Managers
                     companyTeam = recordValue.companyTeam,
                     chargePerson = recordValue.chargePerson,
                     dateCurrent = recordValue.dateCurrent,
-                    
+
                     changedAmount = recordValue.changedAmount,
                     companyTeamCode = recordValue.companyTeamCode,
 
@@ -87,7 +87,7 @@ namespace Constraint.BusinessLayer.Managers
                 {
                     return returnValue;
                 }
-               
+
             }
             return null;
         }
@@ -100,17 +100,24 @@ namespace Constraint.BusinessLayer.Managers
                 {
                     return true;
                 }
-               
+
             }
             return false;
         }
-
+        public bool DeleteAllMeeting()
+        {
+            if (_unitOfWork.MontageProductPlanRepository.RemoveAll("Meeting"))
+            {
+                return true;
+            }
+            return false;
+        }
         public List<MeetingDTO> GetAllMeetings()
         {
             List<Meeting> list = _unitOfWork.MeetingRepository.GetAll().OrderBy(x => x.plannedDate).ToList();
             if (list == null || list.Count == 0)
                 return null;
-            list=list.OrderBy(x => x.dateCurrent).ToList();
+            list = list.OrderBy(x => x.dateCurrent).ToList();
 
             List<MeetingDTO> dtoList = new List<MeetingDTO>();
             if (list == null)
@@ -138,7 +145,7 @@ namespace Constraint.BusinessLayer.Managers
                     companyTeam = recordValue.companyTeam,
                     chargePerson = recordValue.chargePerson,
                     dateCurrent = recordValue.dateCurrent,
-                  
+
                     changedAmount = recordValue.changedAmount,
                     companyTeamCode = recordValue.companyTeamCode,
 
@@ -171,7 +178,7 @@ namespace Constraint.BusinessLayer.Managers
                 companyTeam = recordValue.companyTeam,
                 chargePerson = recordValue.chargePerson,
                 dateCurrent = recordValue.dateCurrent,
-               
+
                 changedAmount = recordValue.changedAmount,
                 companyTeamCode = recordValue.companyTeamCode,
 
@@ -204,12 +211,12 @@ namespace Constraint.BusinessLayer.Managers
             newMeeting.companyTeam = Meeting.companyTeam;
             newMeeting.chargePerson = Meeting.chargePerson;
             newMeeting.dateCurrent = Meeting.dateCurrent;
-           
+
             newMeeting.changedAmount = Meeting.changedAmount;
             newMeeting.companyTeamCode = Meeting.companyTeamCode;
 
             Meeting recordValue = _unitOfWork.MeetingRepository.Update(newMeeting);
-            
+
             MeetingDTO returnValue = new MeetingDTO()
             {
                 constraintID = recordValue.constraintID,
@@ -229,7 +236,7 @@ namespace Constraint.BusinessLayer.Managers
                 companyTeam = recordValue.companyTeam,
                 chargePerson = recordValue.chargePerson,
                 dateCurrent = recordValue.dateCurrent,
-                
+
                 changedAmount = recordValue.changedAmount,
                 companyTeamCode = recordValue.companyTeamCode,
 
@@ -342,7 +349,7 @@ namespace Constraint.BusinessLayer.Managers
                     ws.Cell(i, 5).Value = Convert.ToString(item.delayReason);
                     ws.Cell(i, 6).Value = Convert.ToString(item.companyTeam).TrimEnd();
                     ws.Cell(i, 7).Value = Convert.ToString(item.chargePerson);
-                    
+
                     i++;
                 }
                 using (var stream = new MemoryStream())
@@ -404,7 +411,7 @@ namespace Constraint.BusinessLayer.Managers
                 }
                 using (var stream = new MemoryStream())
                 {
-                   
+
                     workbook.SaveAs(stream);
                     byte[] content = stream.ToArray();
                     return content;

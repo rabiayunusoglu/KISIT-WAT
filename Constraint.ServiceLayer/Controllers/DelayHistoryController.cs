@@ -6,15 +6,14 @@ using System.Web.Mvc;
 using Constraint.BusinessLayer.Managers;
 using Constraint.BusinessLayer.DTO;
 namespace Constraint.ServiceLayer.Controllers
+
 {
+    [Authorize(Roles = "A,U")]
     public class DelayHistoryController : Controller
     {
         DelayHistoryManager manager = new DelayHistoryManager();
         // GET: DelayHistory
-        public ActionResult Index()
-        {
-            return View();
-        }
+
         public JsonResult GetManager()
         {
             var _list = manager.GetAllHistories();
@@ -26,7 +25,7 @@ namespace Constraint.ServiceLayer.Controllers
         public JsonResult Details(Guid id)
         {
             var _listManager = manager.GetHistoryById(id);
-            if(_listManager==null)
+            if (_listManager == null)
                 return Json(false, JsonRequestBehavior.AllowGet);
             return Json(true, JsonRequestBehavior.AllowGet);
         }
@@ -34,7 +33,7 @@ namespace Constraint.ServiceLayer.Controllers
         public JsonResult Create(DelayHistoryDTO managerDTO)
         {
             //burayi silme bu delayi icerde kullaniyorum id'si gerek bana
-           var delay= manager.Createhistory(managerDTO);
+            var delay = manager.Createhistory(managerDTO);
             return Json(delay);
         }
         [HttpPost]
@@ -65,6 +64,6 @@ namespace Constraint.ServiceLayer.Controllers
 
             return Json(true, JsonRequestBehavior.AllowGet);
         }
-       
+
     }
 }

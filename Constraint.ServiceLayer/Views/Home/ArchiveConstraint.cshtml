@@ -48,12 +48,14 @@
                             </button>
 
                         </div>
+
                     </div>
                 </div>
                 <div class="col-lg-1 ">
 
                 </div>
                 <div class="col-lg-4">
+
                     <div class="form-group pull-right">
 
                         <button type="button" ng-click="fetchData()" class="btn btn-warning">
@@ -65,7 +67,7 @@
                         <button type="button" ng-click="sendToMarked()" class="btn btn-primary">
                             Seçilenleri Arşivden Çıkar
                         </button>
-                        <button type="button"  class="btn btn-danger" data-toggle="modal" data-target="#basicModal1">
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#basicModal1">
                             Tümünü Sil
                         </button>
                     </div>
@@ -80,9 +82,16 @@
                     </div>
                     <div class="col-lg-3">
                         <input id="data-endDate" type="date" class="form-control" name="name" ng-value="endDate" />
+
                     </div>
+                    <div class="col-lg-3">
+                        <label><input id="searchTextID" type="text" class="form-control" ng-model="searchText" style="font-weight: normal" placeholder="Ara..." /></label>
+
+                    </div>
+
                 </div>
                 <div class="col-lg-5">
+
                     <div class="form-group pull-right">
                         Sayfalar
                         <label>
@@ -101,7 +110,7 @@
 
             </div>
 
-            <table class="table table-bordered table-hover">
+            <table class="table table-bordered table-hover" id="table1">
                 <thead>
                     <tr>
                         <th>
@@ -177,7 +186,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="i in archiveConstraintList  | orderBy: sortColumn: reverse | limitTo: itemsPerPage: (currentPage - 1) * itemsPerPage ">
+                    <tr ng-repeat="i in archiveConstraintList  | orderBy: sortColumn: reverse | limitTo: itemsPerPage: (currentPage - 1) * itemsPerPage  |filter:searchText">
                         <td>
                             {{i.id}}
                         </td>

@@ -10,11 +10,7 @@ namespace Constraint.ServiceLayer.Controllers
     public class UserController : Controller
     {
         UserManager manager = new UserManager();
-        // GET: User
-        public ActionResult Index()
-        {
-            return View();
-        }
+        [Authorize(Roles = "A,U")]
         public JsonResult GetManager()
         {
             var _list = manager.GetAllUsers();
@@ -23,12 +19,14 @@ namespace Constraint.ServiceLayer.Controllers
             return jsonResult;
 
         }
+        [Authorize(Roles = "A,U")]
         public JsonResult Details(Guid id)
         {
             var _listManager = manager.GetUserById(id);
             return Json(_listManager, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
+        [Authorize(Roles = "A")]
         public JsonResult Create(UserDTO managerDTO)
         {
             var user=manager.CreateUser(managerDTO);
@@ -36,12 +34,28 @@ namespace Constraint.ServiceLayer.Controllers
             return Json(user, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
+        [Authorize(Roles = "A,U")]
         public JsonResult Edit(UserDTO managerDTO)
         {
             var _listManager = manager.UpdateUser(managerDTO);
             return Json(_listManager, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
+        public JsonResult BlockOrUnblock(UserDTO[] managerDTO, bool isBlock)
+        {
+            if(managerDTO==null || managerDTO.Length==0)
+                return Json(false, JsonRequestBehavior.AllowGet);
+            for (var i=0;i<managerDTO.Length;i++)
+            {
+                managerDTO[i].permissionForConstraint = isBlock;
+                var _listManager = manager.UpdateUser(managerDTO[i]);
+                if(_listManager==null)
+                    return Json(false, JsonRequestBehavior.AllowGet);
+            }
+            return Json(true, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        [Authorize(Roles = "A")]
         public JsonResult Delete(Guid id)
         {
             var _listManager = manager.DeleteUser(id);
@@ -62,7 +76,14 @@ namespace Constraint.ServiceLayer.Controllers
                 //yani kisitta bloklama yoksa, kisit giris kitli degildir diyor.
                 return Json(false, JsonRequestBehavior.AllowGet);
             }
-            return Json("valu", JsonRequestBehavior.AllowGet);
+            return Json("value", JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public JsonResult Control(Guid id)
+        {
+            if (Session["ID"].ToString() == id.ToString())
+                return Json(true, JsonRequestBehavior.AllowGet);
+            return Json(false, JsonRequestBehavior.AllowGet);
         }
     }
 }

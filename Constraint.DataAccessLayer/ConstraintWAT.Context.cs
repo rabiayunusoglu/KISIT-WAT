@@ -34,8 +34,6 @@ public partial class ConstraintDBEntities : DbContext
 
     public DbSet<ArchiveConstraint> ArchiveConstraints { get; set; }
 
-    public DbSet<ChargePerson> ChargePersons { get; set; }
-
     public DbSet<CompanyTeam> CompanyTeams { get; set; }
 
     public DbSet<Constraint> Constraints { get; set; }

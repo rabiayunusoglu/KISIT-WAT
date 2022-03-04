@@ -121,7 +121,6 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ArchiveConstraintController.cs" />
-    <Compile Include="Controllers\ChargePersonController.cs" />
     <Compile Include="Controllers\CompanyTeamController.cs" />
     <Compile Include="Controllers\ConstraintEntryController.cs" />
     <Compile Include="Controllers\DelayHistoryController.cs" />
@@ -211,7 +210,6 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\ArchiveConstraint.cshtml" />
-    <Content Include="Views\Home\ChargePerson.cshtml" />
     <Content Include="Views\Home\CompanyTeam.cshtml" />
     <Content Include="Views\Home\ConstraintEntry.cshtml" />
     <Content Include="Views\Home\ConstraintMarked.cshtml" />
@@ -233,6 +231,7 @@
     <Content Include="Views\HomeUser\Index.cshtml" />
     <Content Include="Views\HomeUser\ConstraintEntry.cshtml" />
     <Content Include="Views\HomeUser\ArchiveConstraint.cshtml" />
+    <Content Include="Views\HomeUser\Profile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

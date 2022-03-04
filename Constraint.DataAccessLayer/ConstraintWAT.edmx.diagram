@@ -6,7 +6,6 @@
     <edmx:Diagrams>
       <Diagram DiagramId="900b1db0f8c549aeaa099424f74c4c49" Name="Diagram1">
         <EntityTypeShape EntityType="ConstraintDBModel.ArchiveConstraint" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="ConstraintDBModel.ChargePerson" Width="1.5" PointX="2.75" PointY="0.75" />
         <EntityTypeShape EntityType="ConstraintDBModel.CompanyTeam" Width="1.5" PointX="2.75" PointY="3.75" />
         <EntityTypeShape EntityType="ConstraintDBModel.Constraint" Width="1.5" PointX="4.75" PointY="0.75" />
         <EntityTypeShape EntityType="ConstraintDBModel.Meeting" Width="1.5" PointX="0.75" PointY="6.75" />

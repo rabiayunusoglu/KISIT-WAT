@@ -11,35 +11,41 @@ namespace Constraint.ServiceLayer.Controllers
     {
         CompanyTeamManager manager = new CompanyTeamManager();
 
-        // GET: CompanyTeam
-        public ActionResult Index()
-        {
-            return View();
-        }
+        [Authorize(Roles = "A,U")]
         public JsonResult GetManager()
         {
+            
             var _list = manager.GetAllTeams();
             return Json(_list, JsonRequestBehavior.AllowGet);
 
         }
+
+        [Authorize(Roles = "A")]
+
         public JsonResult Details(Guid id)
         {
             var _listManager = manager.GetTeamById(id);
             return Json(_listManager, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
+        [Authorize(Roles = "A")]
+
         public JsonResult Create(CompanyTeamDTO managerDTO)
         {
-            manager.CreateTeam(managerDTO);
-            return Json(null);
+           var _manager= manager.CreateTeam(managerDTO);
+            return Json(_manager, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
+        [Authorize(Roles = "A")]
+
         public JsonResult Edit(CompanyTeamDTO managerDTO)
         {
             var _listManager = manager.UpdateTeam(managerDTO);
             return Json(_listManager, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
+        [Authorize(Roles = "A")]
+
         public JsonResult Delete(Guid id)
         {
             var _listManager = manager.DeleteTeam(id);

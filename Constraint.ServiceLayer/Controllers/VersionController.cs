@@ -10,11 +10,7 @@ namespace Constraint.ServiceLayer.Controllers
     public class VersionController : Controller
     {
         VersionManager manager = new VersionManager();
-        // GET: Version
-        public ActionResult Index()
-        {
-            return View();
-        }
+        [Authorize(Roles = "A,U")]
         public JsonResult GetManager()
         {
             var _list = manager.GetAllVersions();
@@ -23,24 +19,32 @@ namespace Constraint.ServiceLayer.Controllers
             return jsonResult;
 
         }
+        [Authorize(Roles = "A")]
+
         public JsonResult Details(Guid id)
         {
             var _listManager = manager.GetVersionById(id);
             return Json(_listManager, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
+        [Authorize(Roles = "A")]
+
         public JsonResult Create(VersionDTO managerDTO)
         {
             manager.CreateVersion(managerDTO);
             return Json(null);
         }
         [HttpPost]
+        [Authorize(Roles = "A")]
+
         public JsonResult Edit(VersionDTO managerDTO)
         {
             var _listManager = manager.UpdateVersion(managerDTO);
             return Json(_listManager, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
+        [Authorize(Roles = "A")]
+
         public JsonResult Delete(Guid id)
         {
             var _listManager = manager.DeleteVersion(id);

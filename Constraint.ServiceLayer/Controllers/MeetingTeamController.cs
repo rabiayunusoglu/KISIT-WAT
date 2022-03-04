@@ -7,14 +7,12 @@ using Constraint.BusinessLayer.Managers;
 using Constraint.BusinessLayer.DTO;
 namespace Constraint.ServiceLayer.Controllers
 {
+    [Authorize(Roles = "A")]
+
     public class MeetingTeamController : Controller
     {
         MeetingTeamManager manager = new MeetingTeamManager();
-        // GET: MeetingTeam
-        public ActionResult Index()
-        {
-            return View();
-        }
+       
         public JsonResult GetManager()
         {
             var _list = manager.GetAllMeetingTeams();

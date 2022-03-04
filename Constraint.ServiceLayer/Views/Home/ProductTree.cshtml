@@ -108,7 +108,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="i in productTree | orderBy: sortColumn: reverse | limitTo: itemsPerPage: (currentPage - 1) * itemsPerPage">
+                    <tr ng-repeat="i in productTree | orderBy: sortColumn: reverse | limitTo: itemsPerPage: (currentPage - 1) * itemsPerPage |filter:searchText">
                         <td>
                             {{i.id}}
                         </td>

@@ -11,7 +11,7 @@
 </head>
 <body ng-app="app" ng-controller="montagePlanCtrl">
     <br />
-    <div class="panel panel-default" ng-init="getData()">
+    <div class="panel panel-default" ng-init="getData()" style="overflow-x:auto;">
 
         <div class="panel-heading">
             <center>
@@ -133,7 +133,7 @@
                     </tr>
                     <tr ng-if="!montagePlan || montagePlan.length == 0">
                         <td colspan="8" style="text-align:center">
-                            <h3>Tablo Boş</h3>
+                            <h3>Tablo Boş <i class="glyphicon glyphicon-ban-circle" style="color:red"></i></h3>
                         </td>
                     </tr>
                 </tbody>

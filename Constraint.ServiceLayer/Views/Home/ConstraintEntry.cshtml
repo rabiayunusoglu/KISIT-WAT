@@ -9,7 +9,7 @@
     <script src="~/Scripts/angular.js"></script>
     <script src="~/App/controller.js"></script>
 </head>
-<body ng-app="app" ng-controller="constraintEntryCtrl">
+<body ng-app="app" ng-controller="constraintEntryCtrl" style="overflow-x:auto;">
     <br />
     <div ng-init="controlIsBlock()">
         <div ng-if="!uploadingFirst">
@@ -60,7 +60,7 @@
 
 
             <br />
-            <div class="panel panel-default" ng-if="displayConstraintTable">
+            <div class="panel panel-default" ng-if="displayConstraintTable" style="overflow-x:auto;">
 
                 <div class="panel-heading">
                     <center>
@@ -132,7 +132,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="panel-body">
+                <div class="panel-body" style="overflow-x:auto;">
                     <table class="table table-striped table-hover">
                         <thead>
                             <tr>
@@ -285,7 +285,7 @@
             </div>
             <br />
 
-            <div class="panel panel-default">
+            <div class="panel panel-default" style="overflow-x:auto;">
 
                 <div class="panel-heading">
                     <center>
@@ -295,7 +295,7 @@
                     </center>
                 </div>
 
-                <div class="panel-body" ng-if="!uploading">
+                <div class="panel-body" ng-if="!uploading" style="overflow-x:auto;">
                     <div class="spin-container">
                         <div class="spin" id="loader"></div>
                         <div class="spin" id="loader2"></div>
@@ -304,7 +304,7 @@
                         <span id="text">Yükleniyor...</span>
                     </div>
                 </div>
-                <div class="panel-body" ng-if="uploading">
+                <div class="panel-body" ng-if="uploading" style="overflow-x:auto;">
 
                     <div class="row">
 
@@ -489,7 +489,7 @@
                             </tr>
                             <tr ng-if="!constraintList || constraintList.length == 0">
                                 <td colspan="11" style="text-align:center">
-                                    <h3>Tablo Boş</h3>
+                                    <h3>Tablo Boş <i class="glyphicon glyphicon-ban-circle" style="color:red"></i></h3>
                                 </td>
                             </tr>
 

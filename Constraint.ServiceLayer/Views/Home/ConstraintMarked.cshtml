@@ -11,7 +11,7 @@
 </head>
 <body ng-app="app" ng-controller="constraintMarkedCtrl">
     <br />
-    <div class="panel panel-default" ng-init="fetchData()">
+    <div class="panel panel-default" ng-init="fetchData()" style="overflow-x:auto;">
 
         <div class="panel-heading">
             <center>
@@ -209,7 +209,7 @@
                     </tr>
                     <tr ng-if="!constraintList || constraintList.length == 0">
                         <td colspan="17" style="text-align:center">
-                            <h3>Tablo Boş</h3>
+                            <h3>Tablo Boş <i class="glyphicon glyphicon-ban-circle" style="color:red"></i></h3>
                         </td>
                     </tr>
 

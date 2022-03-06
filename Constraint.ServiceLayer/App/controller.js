@@ -356,9 +356,11 @@
                     $scope.constraintList.map(x => x._delayList = x._delayList.map(t => { return { ...t, constraintID: x.constraintID, materialCode: x.materialCode, materialText: x.materialText, plannedDate: x.plannedDate, amount: x.amount, customer: x.customer, constraintDelayID: x.delayID, version: x.version, aboveLine: x.aboveLine, mip: x.mip, tob: x.tob, treeAmount: x.treeAmount, madeDate: x.dateCurrent } }));
                     $scope.uploading = true;
                 }, function () {
+                    $scope.uploading = true;
                     toastr.error("Yüklenemedi.");
                 });
             }, function () {
+                $scope.uploading = true;
                 toastr.error("Yüklenemedi.");
             })
         }
@@ -379,6 +381,7 @@
                     $scope.fetchPersons();
                     $scope.fetchData();
                 }, function () {
+                    $scope.uploading = true;
                     toastr.error("Yüklenemedi.");
                 })
             }
@@ -416,6 +419,7 @@
                     $scope.constraintList.map(x => x._delayList = x._delayList.map(t => { return { ...t, constraintID: x.constraintID, materialCode: x.materialCode, materialText: x.materialText, plannedDate: x.plannedDate, amount: x.amount, customer: x.customer, constraintDelayID: x.delayID, version: x.version, aboveLine: x.aboveLine, mip: x.mip, tob: x.tob, treeAmount: x.treeAmount, madeDate: x.dateCurrent } }));
                     $scope.uploading = true;
                 }, function () {
+                    $scope.uploading = true;
                     toastr.error("Yüklenemedi.");
                 });
             }
@@ -1432,7 +1436,7 @@
         };
 
         // NOW UPLOAD THE FILES.
-        $scope.uploadFiles =   function () {
+        $scope.uploadFiles = function () {
             $scope.uploading = false;
             var request = {
                 method: 'POST',
@@ -1444,8 +1448,8 @@
             };
 
 
-             $http(request)
-                 .then(  function (d) {
+            $http(request)
+                .then(function (d) {
                     console.log(d.data)
                     if (d.data) {
                         $scope.uploading = true;
@@ -1456,14 +1460,14 @@
                         toastr.error("Doğru dosyayı yüklediğinizden emin olunuz. Tekrar deneyiniz.");
                         formdata = new FormData;
                     }
-                    
+
                 }, function () {
 
                     $scope.uploading = true;
 
                     toastr.error("Tekrar yükleyiniz.");
-                 });
-        
+                });
+
         }
 
     }])
@@ -1685,7 +1689,7 @@
 
         };
         $scope.setDateFilter = function () {
-            if (document.getElementById("data-endDate").value != null && document.getElementById("data-startDate").value != null) {
+            if (document.getElementById("data-endDate") != null && document.getElementById("data-startDate") != null) {
                 $scope.endDate = document.getElementById("data-endDate").value;
                 $scope.startDate = document.getElementById("data-startDate").value;
             }
@@ -2655,6 +2659,34 @@
                 toastr.warning("Şifreniz en az 3 en fazla 10 karakter olabilir.");
             }
         };
+    }])
+    constraintApp.controller('constraintsCtrl', ['$scope', '$filter', '$location', '$http', function ($scope, $filter, $location, $http) {
+        $scope.constraintList = [];
+        $scope.currentPage = 1;
+        $scope.itemsPerPage = 10;
+        $scope.uploading = true;
+
+
+        $scope.fetchData = function () {
+            $scope.constraintList = [];
+            $scope.uploading = false;
+            $http.get('/ConstraintEntry/GetDelayEntered').then(function (response) {
+                var i = 0;
+                $scope.constraintList = response.data.map((x) => {
+                    return { ...x, id: ++i };
+                });
+                $scope.uploading = true;
+            }, function () {
+                $scope.uploading = true;
+                toastr.error("Yüklenemedi.");
+            })
+        };
+
+        $scope.sortBy = function (column) {
+            $scope.sortColumn = column;
+            $scope.reverse = !$scope.reverse;
+        };
+
     }])
     constraintApp.directive('stringToNumber', function () {
         return {

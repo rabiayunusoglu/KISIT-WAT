@@ -12,7 +12,7 @@
 </head>
 <body ng-app="app" ng-controller="meetingTeamCtrl">
     <br />
-    <div class="panel panel-default" ng-init="fetchData()">
+    <div class="panel panel-default" ng-init="fetchData()" style="overflow-x:auto;">
 
         <div class="panel-heading">
             <center>
@@ -75,6 +75,11 @@
                     </div>
                     <div class="col-lg-3">
                         <input id="data-endDate" type="date" class="form-control" name="name" ng-value="endDate" />
+
+                    </div>
+                     <div class="col-lg-3">
+                        <label><input id="searchTextID" type="text" class="form-control" ng-model="searchText" style="font-weight: normal" placeholder="Ara..." /></label>
+
                     </div>
                 </div>
                 <div class="col-lg-4">
@@ -153,7 +158,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="i in meetingList  | orderBy: sortColumn: reverse | limitTo: itemsPerPage: (currentPage - 1) * itemsPerPage ">
+                        <tr ng-repeat="i in meetingList  | orderBy: sortColumn: reverse | limitTo: itemsPerPage: (currentPage - 1) * itemsPerPage |filter:searchText">
                             <td>
                                 {{i.id}}
                             </td>
@@ -204,7 +209,7 @@
                         </tr>
                         <tr ng-if="!meetingList || meetingList.length == 0">
                             <td colspan="13" style="text-align:center">
-                                <h3>Tablo Boş</h3>
+                                <h3>Tablo Boş <i class="glyphicon glyphicon-ban-circle" style="color:red"></i></h3>
                             </td>
                         </tr>
 

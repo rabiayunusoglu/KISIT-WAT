@@ -27,6 +27,22 @@ namespace Constraint.ServiceLayer.Controllers
             return jsonResult;
 
         }
+        public JsonResult GetDelayEntered()
+        {
+            List<ConstraintDTO> list = manager.GetAllConstraints();
+            if (list == null)
+                return Json(null, JsonRequestBehavior.AllowGet);
+            List<ConstraintDTO> byid = list.Where(x => x.isDelayEntered == true).OrderBy(t => t.dateCurrent).OrderByDescending(t => t.isMarked).ToList();
+            if (byid == null)
+            {
+                return Json(null, JsonRequestBehavior.AllowGet);
+
+            }
+            var jsonResult = Json(byid, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+            return jsonResult;
+
+        }
         public JsonResult Details(Guid id)
         {
             var _listManager = manager.GetConstraintById(id);
@@ -58,35 +74,47 @@ namespace Constraint.ServiceLayer.Controllers
         public JsonResult GetMaterial(string material)
         {
             List<ConstraintDTO> list = manager.GetAllConstraints();
-            List<ConstraintDTO> byid = list.Where(x => x.materialCode == material).ToList();
+            if(list==null)
+                return Json(null, JsonRequestBehavior.AllowGet);
+            List<ConstraintDTO> byid = list.Where(x => x.materialCode == material).OrderBy(t => t.dateCurrent).ToList();
             if (byid == null)
             {
                 return Json(null, JsonRequestBehavior.AllowGet);
 
             }
-            return Json(byid, JsonRequestBehavior.AllowGet);
+            var jsonResult = Json(byid, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+            return jsonResult;
         }
         public JsonResult GetNoMarkedList()
         {
             List<ConstraintDTO> list = manager.GetAllConstraints();
-            List<ConstraintDTO> byid = list.Where(x => x.isMarked == false && x.isDelayEntered == true).ToList();
+            if (list == null)
+                return Json(null, JsonRequestBehavior.AllowGet);
+            List<ConstraintDTO> byid = list.Where(x => x.isMarked == false && x.isDelayEntered == true).OrderBy(t => t.dateCurrent).ToList();
             if (byid == null)
             {
                 return Json(null, JsonRequestBehavior.AllowGet);
 
             }
-            return Json(byid, JsonRequestBehavior.AllowGet);
+            var jsonResult = Json(byid, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+            return jsonResult;
         }
         public JsonResult GetMarkedList()
         {
             List<ConstraintDTO> list = manager.GetAllConstraints();
-            List<ConstraintDTO> byid = list.Where(x => x.isMarked == true && x.isDelayEntered == true).ToList();
+            if (list == null)
+                return Json(null, JsonRequestBehavior.AllowGet);
+            List<ConstraintDTO> byid = list.Where(x => x.isMarked == true && x.isDelayEntered == true).OrderBy(t => t.dateCurrent).ToList();
             if (byid == null)
             {
                 return Json(null, JsonRequestBehavior.AllowGet);
 
             }
-            return Json(byid, JsonRequestBehavior.AllowGet);
+            var jsonResult = Json(byid, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+            return jsonResult;
         }
         [HttpPost]
         public JsonResult EditList(ConstraintDTO[] managerDTO)

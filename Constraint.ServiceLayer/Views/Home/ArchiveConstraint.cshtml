@@ -109,156 +109,158 @@
                 </div>
 
             </div>
+            <div style="overflow-x:auto;">
+                <table class="table table-bordered table-hover" id="table1">
+                    <thead>
+                        <tr>
+                            <th>
+                                #
+                            </th>
+                            <th>
+                                Seç
+                            </th>
+                            <th ng-click="sortBy('aboveLine')">
+                                Hat Bilgisi
+                                <span class="glyphicon" ng-show="sortColumn=='aboveLine'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                            </th>
+                            <th ng-click="sortBy('materialCode')">
+                                Öteleme Kodu
+                                <span class="glyphicon" ng-show="sortColumn=='materialCode'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                            </th>
+                            <th ng-click="sortBy('materialText')">
+                                Malzeme Tanımı
+                                <span class="glyphicon" ng-show="sortColumn=='materialText'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                            </th>
+                            <th ng-click="sortBy('productCode')">
+                                Ürün Kodu
+                                <span class="glyphicon" ng-show="sortColumn=='productCode'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                            </th>
+                            <th ng-click="sortBy('plannedDate')">
+                                Plan Tarihi
+                                <span class="glyphicon" ng-show="sortColumn=='plannedDate'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                            </th>
+                            <th ng-click="sortBy('amount')">
+                                Plandaki Miktar
+                                <span class="glyphicon" ng-show="sortColumn=='amount'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                            </th>
+                            <th ng-click="sortBy('version')">
+                                Hat Bilgisi
+                                <span class="glyphicon" ng-show="sortColumn=='version'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                            </th>
+                            <th ng-click="sortBy('customer')">
+                                Müşteri
+                                <span class="glyphicon" ng-show="sortColumn=='customer'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                            </th>
+                            <th ng-click="sortBy('delayAmount')">
+                                Öteleme Miktarı
+                                <span class="glyphicon" ng-show="sortColumn=='delayAmount'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                            </th>
+                            <th ng-click="sortBy('delayDate')">
+                                Ötelenecek Tarih
+                                <span class="glyphicon" ng-show="sortColumn=='delayDate'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                            </th>
+                            <th ng-click="sortBy('delayReason')">
+                                Öteleme Sebebi
+                                <span class="glyphicon" ng-show="sortColumn=='delayReason'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                            </th>
 
-            <table class="table table-bordered table-hover" id="table1">
-                <thead>
-                    <tr>
-                        <th>
-                            #
-                        </th>
-                        <th>
-                            Seç
-                        </th>
-                        <th ng-click="sortBy('aboveLine')">
-                            Hat Bilgisi
-                            <span class="glyphicon" ng-show="sortColumn=='aboveLine'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
-                        </th>
-                        <th ng-click="sortBy('materialCode')">
-                            Öteleme Kodu
-                            <span class="glyphicon" ng-show="sortColumn=='materialCode'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
-                        </th>
-                        <th ng-click="sortBy('materialText')">
-                            Malzeme Tanımı
-                            <span class="glyphicon" ng-show="sortColumn=='materialText'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
-                        </th>
-                        <th ng-click="sortBy('productCode')">
-                            Ürün Kodu
-                            <span class="glyphicon" ng-show="sortColumn=='productCode'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
-                        </th>
-                        <th ng-click="sortBy('plannedDate')">
-                            Plan Tarihi
-                            <span class="glyphicon" ng-show="sortColumn=='plannedDate'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
-                        </th>
-                        <th ng-click="sortBy('amount')">
-                            Plandaki Miktar
-                            <span class="glyphicon" ng-show="sortColumn=='amount'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
-                        </th>
-                        <th ng-click="sortBy('version')">
-                            Hat Bilgisi
-                            <span class="glyphicon" ng-show="sortColumn=='version'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
-                        </th>
-                        <th ng-click="sortBy('customer')">
-                            Müşteri
-                            <span class="glyphicon" ng-show="sortColumn=='customer'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
-                        </th>
-                        <th ng-click="sortBy('delayAmount')">
-                            Öteleme Miktarı
-                            <span class="glyphicon" ng-show="sortColumn=='delayAmount'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
-                        </th>
-                        <th ng-click="sortBy('delayDate')">
-                            Ötelenecek Tarih
-                            <span class="glyphicon" ng-show="sortColumn=='delayDate'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
-                        </th>
-                        <th ng-click="sortBy('delayReason')">
-                            Öteleme Sebebi
-                            <span class="glyphicon" ng-show="sortColumn=='delayReason'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
-                        </th>
+                            <th ng-click="sortBy('delayDetail')">
+                                Öteleme Açıklama
+                                <span class="glyphicon" ng-show="sortColumn=='delayDetail'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                            </th>
+                            <th ng-click="sortBy('companyTeam')">
+                                Firma-Takım
+                                <span class="glyphicon" ng-show="sortColumn=='companyTeam'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                            </th>
+                            <th ng-click="sortBy('chargePerson')">
+                                Sorumlu Birey
+                                <span class="glyphicon" ng-show="sortColumn=='chargePerson'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                            </th>
+                            <th ng-click="sortBy('dateCurrent')">
+                                Girildiği Tarih
+                                <span class="glyphicon" ng-show="sortColumn=='dateCurrent'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                            </th>
+                            <th>
+                                Sil
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="i in archiveConstraintList  | orderBy: sortColumn: reverse | limitTo: itemsPerPage: (currentPage - 1) * itemsPerPage  |filter:searchText">
+                            <td>
+                                {{i.id}}
+                            </td>
+                            <td>
+                                <center>
+                                    <input class="checkbox" style=" width: 30px; height: 30px;" type="checkbox" ng-click="i.isMarked = !i.isMarked" ng-model="i.isMarked">
+                                </center>
+                            </td>
+                            <td>
+                                {{i.aboveLine}}
+                            </td>
+                            <td>
+                                {{i.materialCode}}
+                            </td>
+                            <td>
+                                {{i.materialText}}
+                            </td>
+                            <td>
+                                {{i.productCode}}
+                            </td>
+                            <td>
+                                {{i.plannedDate}}
+                            </td>
+                            <td>
+                                {{i.amount}}
+                            </td>
+                            <td>
+                                {{i.customer}}
+                            </td>
+                            <td>
+                                {{i.version}}
+                            </td>
+                            <td>
+                                {{i.delayAmount}}
+                            </td>
+                            <td>
+                                {{i.delayDate}}
+                            </td>
+                            <td>
+                                {{i.delayReason}}
+                            </td>
+                            <td>
+                                {{i.delayDetail}}
+                            </td>
 
-                        <th ng-click="sortBy('delayDetail')">
-                            Öteleme Açıklama
-                            <span class="glyphicon" ng-show="sortColumn=='delayDetail'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
-                        </th>
-                        <th ng-click="sortBy('companyTeam')">
-                            Firma-Takım
-                            <span class="glyphicon" ng-show="sortColumn=='companyTeam'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
-                        </th>
-                        <th ng-click="sortBy('chargePerson')">
-                            Sorumlu Birey
-                            <span class="glyphicon" ng-show="sortColumn=='chargePerson'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
-                        </th>
-                        <th ng-click="sortBy('dateCurrent')">
-                            Girildiği Tarih
-                            <span class="glyphicon" ng-show="sortColumn=='dateCurrent'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
-                        </th>
-                        <th>
-                            Sil
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="i in archiveConstraintList  | orderBy: sortColumn: reverse | limitTo: itemsPerPage: (currentPage - 1) * itemsPerPage  |filter:searchText">
-                        <td>
-                            {{i.id}}
-                        </td>
-                        <td>
-                            <center>
-                                <input class="checkbox" style=" width: 30px; height: 30px;" type="checkbox" ng-click="i.isMarked = !i.isMarked" ng-model="i.isMarked">
-                            </center>
-                        </td>
-                        <td>
-                            {{i.aboveLine}}
-                        </td>
-                        <td>
-                            {{i.materialCode}}
-                        </td>
-                        <td>
-                            {{i.materialText}}
-                        </td>
-                        <td>
-                            {{i.productCode}}
-                        </td>
-                        <td>
-                            {{i.plannedDate}}
-                        </td>
-                        <td>
-                            {{i.amount}}
-                        </td>
-                        <td>
-                            {{i.customer}}
-                        </td>
-                        <td>
-                            {{i.version}}
-                        </td>
-                        <td>
-                            {{i.delayAmount}}
-                        </td>
-                        <td>
-                            {{i.delayDate}}
-                        </td>
-                        <td>
-                            {{i.delayReason}}
-                        </td>
-                        <td>
-                            {{i.delayDetail}}
-                        </td>
+                            <td>
+                                {{i.companyTeam}}
+                            </td>
 
-                        <td>
-                            {{i.companyTeam}}
-                        </td>
+                            <td>
+                                {{i.chargePerson}}
+                            </td>
 
-                        <td>
-                            {{i.chargePerson}}
-                        </td>
+                            <td>
+                                {{i.dateCurrent}}
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-danger" ng-click="deleteMethod(i)" data-toggle="modal" data-target="#basicModal">
+                                    <i class="glyphicon glyphicon-trash"></i>
+                                </button>
+                            </td>
 
-                        <td>
-                            {{i.dateCurrent}}
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-danger" ng-click="deleteMethod(i)" data-toggle="modal" data-target="#basicModal">
-                                <i class="glyphicon glyphicon-trash"></i>
-                            </button>
-                        </td>
+                        </tr>
+                        <tr ng-if="!archiveConstraintList || archiveConstraintList.length == 0">
+                            <td colspan="17" style="text-align:center">
+                                <h3>Tablo Boş <i class="glyphicon glyphicon-ban-circle" style="color:red"></i></h3>
+                            </td>
+                        </tr>
 
-                    </tr>
-                    <tr ng-if="!archiveConstraintList || archiveConstraintList.length == 0">
-                        <td colspan="17" style="text-align:center">
-                            <h3>Tablo Boş</h3>
-                        </td>
-                    </tr>
+                    </tbody>
 
-                </tbody>
+                </table>
 
-            </table>
+            </div>
 
             <div class="row">
                 <div class="col-lg-6">

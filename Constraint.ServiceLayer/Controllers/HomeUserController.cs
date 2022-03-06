@@ -34,5 +34,9 @@ namespace Constraint.ServiceLayer.Controllers
 
             return Json(info, JsonRequestBehavior.AllowGet);
         }
+        public ActionResult Constraints()
+        {
+            return View();
+        }
     }
 }

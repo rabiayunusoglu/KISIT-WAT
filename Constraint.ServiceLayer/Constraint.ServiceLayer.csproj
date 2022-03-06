@@ -232,6 +232,7 @@
     <Content Include="Views\HomeUser\ConstraintEntry.cshtml" />
     <Content Include="Views\HomeUser\ArchiveConstraint.cshtml" />
     <Content Include="Views\HomeUser\Profile.cshtml" />
+    <Content Include="Views\HomeUser\Constraints.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

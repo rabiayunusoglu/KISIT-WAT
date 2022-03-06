@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "ArchiveConstraint";
+    ViewBag.Title = "Constraints";
     Layout = "~/Views/Shared/_LayoutUser.cshtml";
 }
 
@@ -10,13 +10,14 @@
     <script src="~/Scripts/angular.js"></script>
     <script src="~/App/controller.js"></script>
 </head>
-<body ng-app="app">
+<body ng-app="app" ng-controller="constraintsCtrl" style="overflow-x:auto;">
     <br />
-    <div class="panel panel-default" ng-controller="archiveConstraintCtrl" style="overflow-x:auto;">
-        <div class="panel-heading" ng-init="fetchData()">
+    <div class="panel panel-default" ng-init="fetchData()" style="overflow-x:auto;">
+
+        <div class="panel-heading">
             <center>
                 <h4>
-                    Arşivlenmiş Kısıtlar
+                    Girilen  Kısıtlar
                 </h4>
             </center>
         </div>
@@ -30,58 +31,18 @@
             </div>
         </div>
         <div class="panel-body" ng-if="uploading">
+
             <div class="row">
-                <div class="col-lg-7">
-                    <div class="form-group" style="align-content:end">
-                        <div class="col-lg-1">
-                            <label class="control-label">Başlangıç:</label>
-                        </div>
-                        <div class="col-lg-3">
-                            <input id="data-startDate" type="date" class="form-control" name="name" ng-value="startDate" />
-                        </div>
 
-                        <div class="form-group col-lg-3">
-                            <button type="button" ng-click="fetchDataFromDate()" class="btn btn-info">
-                                Getir
-                            </button>
-                            <button type="button" ng-click="ExportByDate()" class="btn btn-success">
-                                Excel Aktar
-                            </button>
+                <div class="col-lg-6">
+                    <div class="form-group pull-left">
+                        <label><input id="searchTextID" type="text" class="form-control" ng-model="searchText" style="font-weight: normal" placeholder="Ara..." /></label>
 
-                        </div>
                     </div>
                 </div>
-                <div class="col-lg-1 ">
-
-                </div>
-                <div class="col-lg-4">
+                <div class="col-lg-6">
                     <div class="form-group pull-right">
-
-                        <button type="button" ng-click="fetchData()" class="btn btn-warning">
-                            Tümünü Getir
-                        </button>
-                        <button type="button" ng-click="Export()" style="background: #636f83; color: white;" class="btn ">
-                            Excel Aktar
-                        </button>
                        
-                    </div>
-                </div>
-
-
-            </div>
-            <div class="row">
-                <div class="col-lg-7">
-                    <div class="col-lg-1">
-                        <label class="control-label">Bitiş:</label>
-                    </div>
-                    <div class="col-lg-3">
-                        <input id="data-endDate" type="date" class="form-control" name="name" ng-value="endDate" />
-                    </div>
-                    <label><input id="searchTextID" type="text" class="form-control" ng-model="searchText" style="font-weight: normal" placeholder="Ara..." /></label>
-
-                </div>
-                <div class="col-lg-5">
-                    <div class="form-group pull-right">
                         Sayfalar
                         <label>
                             <select class="form-control" ng-model="itemsPerPage" style="font-weight: normal">
@@ -89,11 +50,9 @@
                                 <option ng-value="10">10</option>
                                 <option ng-value="25">25</option>
                                 <option ng-value="50">50</option>
-                                <option ng-value="100">100</option>
-                                <option ng-value="200">200</option>
-                                <option ng-value="500">500</option>
                             </select>
                         </label>
+
                     </div>
                 </div>
 
@@ -105,38 +64,41 @@
                         <th>
                             #
                         </th>
-                       
                         <th ng-click="sortBy('aboveLine')">
                             Hat Bilgisi
                             <span class="glyphicon" ng-show="sortColumn=='aboveLine'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
                         </th>
-                        <th ng-click="sortBy('materialCode')">
-                            Öteleme Kodu
-                            <span class="glyphicon" ng-show="sortColumn=='materialCode'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                        <th ng-click="sortBy('dateCurrent')">
+                            Girildiği Tarih
+                            <span class="glyphicon" ng-show="sortColumn=='dateCurrent'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                        </th>
+                        <th ng-click="sortBy('chargePerson')">
+                            Sorumlu Birey
+                            <span class="glyphicon" ng-show="sortColumn=='chargePerson'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                        </th>
+                        <th ng-click="sortBy('companyTeam')">
+                            Firma-Takım
+                            <span class="glyphicon" ng-show="sortColumn=='companyTeam'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
                         </th>
                         <th ng-click="sortBy('materialText')">
                             Malzeme Tanımı
                             <span class="glyphicon" ng-show="sortColumn=='materialText'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
                         </th>
+                        <th ng-click="sortBy('materialCode')">
+                            Malzeme Kodu
+                            <span class="glyphicon" ng-show="sortColumn=='materialCode'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                        </th>
                         <th ng-click="sortBy('productCode')">
                             Ürün Kodu
                             <span class="glyphicon" ng-show="sortColumn=='productCode'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
-                        </th>
-                        <th ng-click="sortBy('plannedDate')">
-                            Plan Tarihi
-                            <span class="glyphicon" ng-show="sortColumn=='plannedDate'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
                         </th>
                         <th ng-click="sortBy('amount')">
                             Plandaki Miktar
                             <span class="glyphicon" ng-show="sortColumn=='amount'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
                         </th>
-                        <th ng-click="sortBy('version')">
-                            Hat Bilgisi
-                            <span class="glyphicon" ng-show="sortColumn=='version'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
-                        </th>
-                        <th ng-click="sortBy('customer')">
-                            Müşteri
-                            <span class="glyphicon" ng-show="sortColumn=='customer'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                        <th ng-click="sortBy('plannedDate')">
+                            Plan Tarihi
+                            <span class="glyphicon" ng-show="sortColumn=='plannedDate'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
                         </th>
                         <th ng-click="sortBy('delayAmount')">
                             Öteleme Miktarı
@@ -155,50 +117,45 @@
                             Öteleme Açıklama
                             <span class="glyphicon" ng-show="sortColumn=='delayDetail'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
                         </th>
-                        <th ng-click="sortBy('companyTeam')">
-                            Firma-Takım
-                            <span class="glyphicon" ng-show="sortColumn=='companyTeam'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                        <th ng-click="sortBy('version')">
+                            Hat Bilgisi
+                            <span class="glyphicon" ng-show="sortColumn=='version'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
                         </th>
-                        <th ng-click="sortBy('chargePerson')">
-                            Sorumlu Birey
-                            <span class="glyphicon" ng-show="sortColumn=='chargePerson'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
-                        </th>
-                        <th ng-click="sortBy('dateCurrent')">
-                            Girildiği Tarih
-                            <span class="glyphicon" ng-show="sortColumn=='dateCurrent'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
-                        </th>
-                       
+
                     </tr>
                 </thead>
-                <tbody>
-                    <tr ng-repeat="i in archiveConstraintList  | orderBy: sortColumn: reverse | limitTo: itemsPerPage: (currentPage - 1) * itemsPerPage ">
+                <tbody ng-repeat="i in constraintList  | orderBy: sortColumn: reverse | limitTo: itemsPerPage: (currentPage - 1) * itemsPerPage |filter:searchText ">
+                    <tr style="background: #92D050" ng-if="i.isMarked">
                         <td>
                             {{i.id}}
                         </td>
-                       
+
                         <td>
                             {{i.aboveLine}}
                         </td>
                         <td>
-                            {{i.materialCode}}
+                            {{i.dateCurrent}}
+                        </td>
+                        <td>
+                            {{i.chargePerson}}
+                        </td>
+                        <td>
+                            {{i.companyTeam}}
                         </td>
                         <td>
                             {{i.materialText}}
                         </td>
                         <td>
-                            {{i.productCode}}
+                            {{i.materialCode}}
                         </td>
                         <td>
-                            {{i.plannedDate}}
+                            {{i.productCode}}
                         </td>
                         <td>
                             {{i.amount}}
                         </td>
                         <td>
-                            {{i.customer}}
-                        </td>
-                        <td>
-                            {{i.version}}
+                            {{i.plannedDate}}
                         </td>
                         <td>
                             {{i.delayAmount}}
@@ -212,29 +169,74 @@
                         <td>
                             {{i.delayDetail}}
                         </td>
-
                         <td>
-                            {{i.companyTeam}}
+                            {{i.version}}
+                        </td>
+
+                    </tr>
+                    <tr ng-if="!i.isMarked">
+                        <td>
+                            {{i.id}}
                         </td>
 
                         <td>
-                            {{i.chargePerson}}
+                            {{i.aboveLine}}
                         </td>
-
                         <td>
                             {{i.dateCurrent}}
                         </td>
-                        
+                        <td>
+                            {{i.chargePerson}}
+                        </td>
+                        <td>
+                            {{i.companyTeam}}
+                        </td>
+                        <td>
+                            {{i.materialText}}
+                        </td>
+                        <td>
+                            {{i.materialCode}}
+                        </td>
+                        <td>
+                            {{i.productCode}}
+                        </td>
+                        <td>
+                            {{i.amount}}
+                        </td>
+                        <td>
+                            {{i.plannedDate}}
+                        </td>
+                        <td>
+                            {{i.delayAmount}}
+                        </td>
+                        <td>
+                            {{i.delayDate}}
+                        </td>
+                        <td>
+                            {{i.delayReason}}
+                        </td>
+                        <td>
+                            {{i.delayDetail}}
+                        </td>
+                        <td>
+                            {{i.version}}
+                        </td>
 
                     </tr>
-                    <tr ng-if="!archiveConstraintList || archiveConstraintList.length == 0">
+                    <tr ng-if="!constraintList || constraintList.length == 0">
                         <td colspan="17" style="text-align:center">
-                            <h3>Tablo Boş</h3>
+
+                            <h3>Girilen Bir Kısıt Yok  <i class="glyphicon glyphicon-ban-circle" style="color:red"></i></h3>
                         </td>
                     </tr>
 
                 </tbody>
+                <tr ng-if="!constraintList || constraintList.length == 0">
+                    <td colspan="17" style="text-align:center">
 
+                        <h3>Girilen Bir Kısıt Yok  <i class="glyphicon glyphicon-ban-circle" style="color:red"></i></h3>
+                    </td>
+                </tr>
             </table>
 
             <div class="row">
@@ -246,13 +248,13 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="pull-right">
-                        <ul uib-pagination total-items="archiveConstraintList.length" items-per-page="itemsPerPage" ng-model="currentPage" max-size="5" boundary-links="true" num-pages="numPages"></ul>
+                        <ul uib-pagination total-items="constraintList.length" items-per-page="itemsPerPage" ng-model="currentPage" max-size="5" boundary-links="true" num-pages="numPages"></ul>
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
+
 </body>
 </html>
-
-

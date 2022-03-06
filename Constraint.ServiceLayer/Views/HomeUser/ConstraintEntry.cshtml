@@ -9,7 +9,7 @@
     <script src="~/Scripts/angular.js"></script>
     <script src="~/App/controller.js"></script>
 </head>
-<body ng-app="app" ng-controller="constraintEntryCtrl">
+<body ng-app="app" ng-controller="constraintEntryCtrl" style="overflow-x:auto;">
     <br />
     <div ng-init="controlIsBlock()">
         <div ng-if="!uploadingFirst">
@@ -60,7 +60,7 @@
 
 
             <br />
-            <div class="panel panel-default" ng-if="displayConstraintTable">
+            <div class="panel panel-default" ng-if="displayConstraintTable" style="overflow-x:auto;">
 
                 <div class="panel-heading">
                     <center>
@@ -91,7 +91,7 @@
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-lg-3">
-                                            <input id="data-amount-input" type="number" class="form-control " min="0" />
+                                            <input id="data-amount-input" type="number" class="form-control " min="0" name="quantity" string-to-number ng-model="inputBoxDelayAmount" max="totalDelayAmount" />
                                         </div>
                                         <div class="col-lg-9">
                                             <button type="button" class="btn btn-info" ng-click="divideForFaraway()">
@@ -124,19 +124,21 @@
                                         <option ng-value="10">10</option>
                                         <option ng-value="25">25</option>
                                         <option ng-value="50">50</option>
-                                        <option ng-value="50">100</option>
-                                        <option ng-value="50">200</option>
+                                        <option ng-value="100">100</option>
+                                        <option ng-value="200">200</option>
                                     </select>
                                 </label>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="panel-body">
+                <div class="panel-body" style="overflow-x:auto;">
                     <table class="table table-striped table-hover">
                         <thead>
                             <tr>
-
+                                <th>
+                                    Seçilen Sıra
+                                </th>
                                 <th>
                                     Hat Bilgisi
 
@@ -196,9 +198,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="item in checkedConstraint | orderBy: sortColumn: reverse | limitTo: itemsPerPage: (currentPage - 1) * itemsPerPage">
+                            <tr ng-repeat="item in checkedConstraint | limitTo: itemsPerPage2: (currentPage2 - 1) * itemsPerPage2">
 
-
+                                <td>
+                                    {{item.id}}
+                                </td>
                                 <td>
                                     {{item.aboveLine}}
                                 </td>
@@ -215,7 +219,7 @@
                                     <input type="text" class="form-control " placeholder="Öteleme Kodunu Giriniz" ng-value="item.delayCode" ng-model="item.delayCode" disabled />
                                 </td>
                                 <td>
-                                    <input id="data-amount" type="number" class="form-control " max="item.amount" min="0" placeholder="Öteleme Miktarını Giriniz" string-to-number ng-model="item.delayAmount" ng-change="changeEnteredDelayAmount(item)" ng-bind="item.delayAmount" />
+                                    <input id="data-amount" type="number" class="form-control " max="item.amount" min="0" placeholder="Öteleme Miktarını Giriniz" string-to-number ng-model="item.delayAmount" ng-mousemove="changeEnteredDelayAmount(item)" ng-bind="item.delayAmount" />
 
                                 </td>
                                 <td>
@@ -272,7 +276,7 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="pull-right">
-                                <ul uib-pagination total-items="checkedConstraint.length" items-per-page="itemsPerPage2" ng-model="currentPage2" max-size="5" boundary-links="true" num-pages="numPages"></ul>
+                                <ul uib-pagination total-items="checkedConstraint.length" items-per-page="itemsPerPage2" ng-model="currentPage2" max-size="5" boundary-links="true" num-pages="numPages2"></ul>
                             </div>
                         </div>
                     </div>
@@ -281,7 +285,7 @@
             </div>
             <br />
 
-            <div class="panel panel-default">
+            <div class="panel panel-default" style="overflow-x:auto;">
 
                 <div class="panel-heading">
                     <center>
@@ -291,7 +295,7 @@
                     </center>
                 </div>
 
-                <div class="panel-body" ng-if="!uploading">
+                <div class="panel-body" ng-if="!uploading" style="overflow-x:auto;">
                     <div class="spin-container">
                         <div class="spin" id="loader"></div>
                         <div class="spin" id="loader2"></div>
@@ -300,7 +304,7 @@
                         <span id="text">Yükleniyor...</span>
                     </div>
                 </div>
-                <div class="panel-body" ng-if="uploading">
+                <div class="panel-body" ng-if="uploading" style="overflow-x:auto;">
 
                     <div class="row">
 
@@ -328,8 +332,9 @@
                                         <option ng-value="10">10</option>
                                         <option ng-value="25">25</option>
                                         <option ng-value="50">50</option>
-                                        <option ng-value="50">100</option>
-                                        <option ng-value="50">200</option>
+                                        <option ng-value="100">100</option>
+                                        <option ng-value="200">200</option>
+                                        <option ng-value="500">500</option>
                                     </select>
                                 </label>
 
@@ -468,10 +473,11 @@
                                                 <td>{{order.delayDetail}}</td>
                                                 <td>{{order.madeDate}}</td>
                                                 <td>
-                                                    <button type="button" class="btn btn-primary" ng-click="toogleDelay(order)" data-toggle="modal" data-target="#basicModal">
+
+                                                    <button type="button" class="btn btn-primary" ng-click="toogleDelay(order)" data-toggle="modal" data-target="#basicModal" ng-if="order.boundConstraintID==order.constraintID">
                                                         <i class="glyphicon glyphicon-edit"></i>
                                                     </button>
-                                                    <button type="button" class="btn btn-danger" ng-click="deleteDelayHistory(order)">
+                                                    <button type="button" class="btn btn-danger" ng-click="deleteDelayHistory(order)" ng-if="order.boundConstraintID==order.constraintID">
                                                         <i class="glyphicon glyphicon-trash"></i>
                                                     </button>
                                                 </td>
@@ -621,5 +627,6 @@
 
 </body>
 </html>
+
 
 

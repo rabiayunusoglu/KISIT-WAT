@@ -54,6 +54,8 @@ public partial class ArchiveConstraint
 
     public string aboveLine { get; set; }
 
+    public string boundMontageID { get; set; }
+
 }
 
 }

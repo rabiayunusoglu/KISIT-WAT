@@ -32,11 +32,7 @@ public partial class ConstraintDBEntities : DbContext
     }
 
 
-    public DbSet<ArchiveConstraint> ArchiveConstraints { get; set; }
-
     public DbSet<CompanyTeam> CompanyTeams { get; set; }
-
-    public DbSet<Constraint> Constraints { get; set; }
 
     public DbSet<Meeting> Meetings { get; set; }
 
@@ -50,9 +46,13 @@ public partial class ConstraintDBEntities : DbContext
 
     public DbSet<Version> Versions { get; set; }
 
-    public DbSet<DelayHistory> DelayHistories { get; set; }
-
     public DbSet<User> Users { get; set; }
+
+    public DbSet<ArchiveConstraint> ArchiveConstraints { get; set; }
+
+    public DbSet<Constraint> Constraints { get; set; }
+
+    public DbSet<DelayHistory> DelayHistories { get; set; }
 
 }
 

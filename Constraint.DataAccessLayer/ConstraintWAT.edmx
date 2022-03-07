@@ -27,6 +27,7 @@
           <Property Name="chargePerson" Type="varchar" MaxLength="250" />
           <Property Name="dateCurrent" Type="varchar" MaxLength="10" />
           <Property Name="aboveLine" Type="varchar" MaxLength="8" />
+          <Property Name="boundMontageID" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="CompanyTeam">
           <Key>
@@ -63,6 +64,7 @@
           <Property Name="treeAmount" Type="varchar" MaxLength="250" />
           <Property Name="mip" Type="varchar" MaxLength="100" />
           <Property Name="tob" Type="varchar" MaxLength="100" />
+          <Property Name="boundMontageID" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="DelayHistory">
           <Key>
@@ -81,6 +83,7 @@
           <Property Name="chargePerson" Type="varchar" MaxLength="250" />
           <Property Name="madeDate" Type="varchar" MaxLength="10" />
           <Property Name="boundConstraintID" Type="varchar" MaxLength="50" />
+          <Property Name="boundMontageID" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Meeting">
           <Key>
@@ -212,41 +215,18 @@
     <edmx:ConceptualModels>
       <Schema Namespace="ConstraintDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="ConstraintDBEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="ArchiveConstraints" EntityType="ConstraintDBModel.ArchiveConstraint" />
           <EntitySet Name="CompanyTeams" EntityType="ConstraintDBModel.CompanyTeam" />
-          <EntitySet Name="Constraints" EntityType="ConstraintDBModel.Constraint" />
           <EntitySet Name="Meetings" EntityType="ConstraintDBModel.Meeting" />
           <EntitySet Name="MeetingTeams" EntityType="ConstraintDBModel.MeetingTeam" />
           <EntitySet Name="MontageProductPlans" EntityType="ConstraintDBModel.MontageProductPlan" />
           <EntitySet Name="Postponement_reasons" EntityType="ConstraintDBModel.Postponement_reasons" />
           <EntitySet Name="ProductTrees" EntityType="ConstraintDBModel.ProductTree" />
           <EntitySet Name="Versions" EntityType="ConstraintDBModel.Version" />
-          <EntitySet Name="DelayHistories" EntityType="ConstraintDBModel.DelayHistory" />
           <EntitySet Name="Users" EntityType="ConstraintDBModel.User" />
+          <EntitySet Name="ArchiveConstraints" EntityType="ConstraintDBModel.ArchiveConstraint" />
+          <EntitySet Name="Constraints" EntityType="ConstraintDBModel.Constraint" />
+          <EntitySet Name="DelayHistories" EntityType="ConstraintDBModel.DelayHistory" />
         </EntityContainer>
-        <EntityType Name="ArchiveConstraint">
-          <Key>
-            <PropertyRef Name="constraintID" />
-          </Key>
-          <Property Name="constraintID" Type="Guid" Nullable="false" />
-          <Property Name="materialCode" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="materialText" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="productCode" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="plannedDate" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="amount" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="customer" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="version" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="delayID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="delayCode" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="delayAmount" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="delayDate" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="delayReason" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="delayDetail" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="companyTeam" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="chargePerson" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="dateCurrent" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="aboveLine" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="CompanyTeam">
           <Key>
             <PropertyRef Name="companyID" />
@@ -254,34 +234,6 @@
           <Property Name="companyID" Type="Guid" Nullable="false" />
           <Property Name="companyName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="companyCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="Constraint">
-          <Key>
-            <PropertyRef Name="constraintID" />
-          </Key>
-          <Property Name="isMarked" Type="Boolean" Nullable="false" />
-          <Property Name="isDelayEntered" Type="Boolean" Nullable="false" />
-          <Property Name="constraintID" Type="Guid" Nullable="false" />
-          <Property Name="materialCode" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="materialText" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="productCode" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="plannedDate" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="amount" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="customer" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="version" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="delayID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="delayCode" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="delayAmount" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="delayDate" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="delayReason" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="delayDetail" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="companyTeam" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="chargePerson" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="dateCurrent" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="aboveLine" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
-          <Property Name="treeAmount" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="mip" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="tob" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Meeting">
           <Key>
@@ -382,6 +334,72 @@
           <Property Name="versionName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="versionValue" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="userID" />
+          </Key>
+          <Property Name="userID" Type="Guid" Nullable="false" />
+          <Property Name="userType" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="password" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="email" Type="String" Nullable="false" MaxLength="75" FixedLength="false" Unicode="true" />
+          <Property Name="isActive" Type="Boolean" />
+          <Property Name="permissionForConstraint" Type="Boolean" />
+          <Property Name="createdTime" Type="DateTime" Precision="0" />
+          <Property Name="userName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ArchiveConstraint">
+          <Key>
+            <PropertyRef Name="constraintID" />
+          </Key>
+          <Property Name="constraintID" Type="Guid" Nullable="false" />
+          <Property Name="materialCode" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="materialText" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="productCode" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="plannedDate" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="amount" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="customer" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="version" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="delayID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="delayCode" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="delayAmount" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="delayDate" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="delayReason" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="delayDetail" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="companyTeam" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="chargePerson" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="dateCurrent" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="aboveLine" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="boundMontageID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Constraint">
+          <Key>
+            <PropertyRef Name="constraintID" />
+          </Key>
+          <Property Name="isMarked" Type="Boolean" Nullable="false" />
+          <Property Name="isDelayEntered" Type="Boolean" Nullable="false" />
+          <Property Name="constraintID" Type="Guid" Nullable="false" />
+          <Property Name="materialCode" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="materialText" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="productCode" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="plannedDate" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="amount" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="customer" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="version" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="delayID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="delayCode" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="delayAmount" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="delayDate" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="delayReason" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="delayDetail" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="companyTeam" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="chargePerson" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="dateCurrent" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="aboveLine" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="treeAmount" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="mip" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="tob" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="boundMontageID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
         <EntityType Name="DelayHistory">
           <Key>
             <PropertyRef Name="delayID" />
@@ -399,19 +417,7 @@
           <Property Name="chargePerson" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="madeDate" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="boundConstraintID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="User">
-          <Key>
-            <PropertyRef Name="userID" />
-          </Key>
-          <Property Name="userID" Type="Guid" Nullable="false" />
-          <Property Name="userType" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="password" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="email" Type="String" Nullable="false" MaxLength="75" FixedLength="false" Unicode="true" />
-          <Property Name="isActive" Type="Boolean" />
-          <Property Name="permissionForConstraint" Type="Boolean" />
-          <Property Name="createdTime" Type="DateTime" Precision="0" />
-          <Property Name="userName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="boundMontageID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -419,65 +425,12 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="ConstraintDBModelStoreContainer" CdmEntityContainer="ConstraintDBEntities">
-          <EntitySetMapping Name="ArchiveConstraints">
-            <EntityTypeMapping TypeName="ConstraintDBModel.ArchiveConstraint">
-              <MappingFragment StoreEntitySet="ArchiveConstraint">
-                <ScalarProperty Name="aboveLine" ColumnName="aboveLine" />
-                <ScalarProperty Name="dateCurrent" ColumnName="dateCurrent" />
-                <ScalarProperty Name="chargePerson" ColumnName="chargePerson" />
-                <ScalarProperty Name="companyTeam" ColumnName="companyTeam" />
-                <ScalarProperty Name="delayDetail" ColumnName="delayDetail" />
-                <ScalarProperty Name="delayReason" ColumnName="delayReason" />
-                <ScalarProperty Name="delayDate" ColumnName="delayDate" />
-                <ScalarProperty Name="delayAmount" ColumnName="delayAmount" />
-                <ScalarProperty Name="delayCode" ColumnName="delayCode" />
-                <ScalarProperty Name="delayID" ColumnName="delayID" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="customer" ColumnName="customer" />
-                <ScalarProperty Name="amount" ColumnName="amount" />
-                <ScalarProperty Name="plannedDate" ColumnName="plannedDate" />
-                <ScalarProperty Name="productCode" ColumnName="productCode" />
-                <ScalarProperty Name="materialText" ColumnName="materialText" />
-                <ScalarProperty Name="materialCode" ColumnName="materialCode" />
-                <ScalarProperty Name="constraintID" ColumnName="constraintID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="CompanyTeams">
             <EntityTypeMapping TypeName="ConstraintDBModel.CompanyTeam">
               <MappingFragment StoreEntitySet="CompanyTeam">
                 <ScalarProperty Name="companyCode" ColumnName="companyCode" />
                 <ScalarProperty Name="companyName" ColumnName="companyName" />
                 <ScalarProperty Name="companyID" ColumnName="companyID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Constraints">
-            <EntityTypeMapping TypeName="ConstraintDBModel.Constraint">
-              <MappingFragment StoreEntitySet="Constraint">
-                <ScalarProperty Name="tob" ColumnName="tob" />
-                <ScalarProperty Name="mip" ColumnName="mip" />
-                <ScalarProperty Name="treeAmount" ColumnName="treeAmount" />
-                <ScalarProperty Name="aboveLine" ColumnName="aboveLine" />
-                <ScalarProperty Name="dateCurrent" ColumnName="dateCurrent" />
-                <ScalarProperty Name="chargePerson" ColumnName="chargePerson" />
-                <ScalarProperty Name="companyTeam" ColumnName="companyTeam" />
-                <ScalarProperty Name="delayDetail" ColumnName="delayDetail" />
-                <ScalarProperty Name="delayReason" ColumnName="delayReason" />
-                <ScalarProperty Name="delayDate" ColumnName="delayDate" />
-                <ScalarProperty Name="delayAmount" ColumnName="delayAmount" />
-                <ScalarProperty Name="delayCode" ColumnName="delayCode" />
-                <ScalarProperty Name="delayID" ColumnName="delayID" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="customer" ColumnName="customer" />
-                <ScalarProperty Name="amount" ColumnName="amount" />
-                <ScalarProperty Name="plannedDate" ColumnName="plannedDate" />
-                <ScalarProperty Name="productCode" ColumnName="productCode" />
-                <ScalarProperty Name="materialText" ColumnName="materialText" />
-                <ScalarProperty Name="materialCode" ColumnName="materialCode" />
-                <ScalarProperty Name="constraintID" ColumnName="constraintID" />
-                <ScalarProperty Name="isDelayEntered" ColumnName="isDelayEntered" />
-                <ScalarProperty Name="isMarked" ColumnName="isMarked" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -586,9 +539,79 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="ConstraintDBModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="userName" ColumnName="userName" />
+                <ScalarProperty Name="createdTime" ColumnName="createdTime" />
+                <ScalarProperty Name="permissionForConstraint" ColumnName="permissionForConstraint" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="userType" ColumnName="userType" />
+                <ScalarProperty Name="userID" ColumnName="userID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ArchiveConstraints">
+            <EntityTypeMapping TypeName="ConstraintDBModel.ArchiveConstraint">
+              <MappingFragment StoreEntitySet="ArchiveConstraint">
+                <ScalarProperty Name="boundMontageID" ColumnName="boundMontageID" />
+                <ScalarProperty Name="aboveLine" ColumnName="aboveLine" />
+                <ScalarProperty Name="dateCurrent" ColumnName="dateCurrent" />
+                <ScalarProperty Name="chargePerson" ColumnName="chargePerson" />
+                <ScalarProperty Name="companyTeam" ColumnName="companyTeam" />
+                <ScalarProperty Name="delayDetail" ColumnName="delayDetail" />
+                <ScalarProperty Name="delayReason" ColumnName="delayReason" />
+                <ScalarProperty Name="delayDate" ColumnName="delayDate" />
+                <ScalarProperty Name="delayAmount" ColumnName="delayAmount" />
+                <ScalarProperty Name="delayCode" ColumnName="delayCode" />
+                <ScalarProperty Name="delayID" ColumnName="delayID" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="customer" ColumnName="customer" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="plannedDate" ColumnName="plannedDate" />
+                <ScalarProperty Name="productCode" ColumnName="productCode" />
+                <ScalarProperty Name="materialText" ColumnName="materialText" />
+                <ScalarProperty Name="materialCode" ColumnName="materialCode" />
+                <ScalarProperty Name="constraintID" ColumnName="constraintID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Constraints">
+            <EntityTypeMapping TypeName="ConstraintDBModel.Constraint">
+              <MappingFragment StoreEntitySet="Constraint">
+                <ScalarProperty Name="boundMontageID" ColumnName="boundMontageID" />
+                <ScalarProperty Name="tob" ColumnName="tob" />
+                <ScalarProperty Name="mip" ColumnName="mip" />
+                <ScalarProperty Name="treeAmount" ColumnName="treeAmount" />
+                <ScalarProperty Name="aboveLine" ColumnName="aboveLine" />
+                <ScalarProperty Name="dateCurrent" ColumnName="dateCurrent" />
+                <ScalarProperty Name="chargePerson" ColumnName="chargePerson" />
+                <ScalarProperty Name="companyTeam" ColumnName="companyTeam" />
+                <ScalarProperty Name="delayDetail" ColumnName="delayDetail" />
+                <ScalarProperty Name="delayReason" ColumnName="delayReason" />
+                <ScalarProperty Name="delayDate" ColumnName="delayDate" />
+                <ScalarProperty Name="delayAmount" ColumnName="delayAmount" />
+                <ScalarProperty Name="delayCode" ColumnName="delayCode" />
+                <ScalarProperty Name="delayID" ColumnName="delayID" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="customer" ColumnName="customer" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="plannedDate" ColumnName="plannedDate" />
+                <ScalarProperty Name="productCode" ColumnName="productCode" />
+                <ScalarProperty Name="materialText" ColumnName="materialText" />
+                <ScalarProperty Name="materialCode" ColumnName="materialCode" />
+                <ScalarProperty Name="constraintID" ColumnName="constraintID" />
+                <ScalarProperty Name="isDelayEntered" ColumnName="isDelayEntered" />
+                <ScalarProperty Name="isMarked" ColumnName="isMarked" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="DelayHistories">
             <EntityTypeMapping TypeName="ConstraintDBModel.DelayHistory">
               <MappingFragment StoreEntitySet="DelayHistory">
+                <ScalarProperty Name="boundMontageID" ColumnName="boundMontageID" />
                 <ScalarProperty Name="boundConstraintID" ColumnName="boundConstraintID" />
                 <ScalarProperty Name="madeDate" ColumnName="madeDate" />
                 <ScalarProperty Name="chargePerson" ColumnName="chargePerson" />
@@ -602,20 +625,6 @@
                 <ScalarProperty Name="delayID" ColumnName="delayID" />
                 <ScalarProperty Name="isArchive" ColumnName="isArchive" />
                 <ScalarProperty Name="isMarked" ColumnName="isMarked" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="ConstraintDBModel.User">
-              <MappingFragment StoreEntitySet="User">
-                <ScalarProperty Name="userName" ColumnName="userName" />
-                <ScalarProperty Name="createdTime" ColumnName="createdTime" />
-                <ScalarProperty Name="permissionForConstraint" ColumnName="permissionForConstraint" />
-                <ScalarProperty Name="isActive" ColumnName="isActive" />
-                <ScalarProperty Name="email" ColumnName="email" />
-                <ScalarProperty Name="password" ColumnName="password" />
-                <ScalarProperty Name="userType" ColumnName="userType" />
-                <ScalarProperty Name="userID" ColumnName="userID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

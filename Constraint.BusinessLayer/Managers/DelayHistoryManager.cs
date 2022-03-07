@@ -38,8 +38,9 @@ namespace Constraint.BusinessLayer.Managers
             newHistory.chargePerson = history.chargePerson;
             newHistory.madeDate = history.madeDate;
             newHistory.boundConstraintID = history.boundConstraintID;
+            newHistory.boundMontageID = history.boundMontageID;
             DelayHistory recordValue = _unitOfWork.DelayHistoryRepository.Add(newHistory);
-           
+
             DelayHistoryDTO returnValue = new DelayHistoryDTO()
             {
                 isMarked = recordValue.isMarked,
@@ -54,8 +55,8 @@ namespace Constraint.BusinessLayer.Managers
                 delayDetail = recordValue.delayDetail,
                 companyTeam = recordValue.companyTeam,
                 chargePerson = recordValue.chargePerson,
-                boundConstraintID= recordValue.boundConstraintID,
-                
+                boundConstraintID = recordValue.boundConstraintID,
+                boundMontageID = recordValue.boundMontageID,
             };
             if (_unitOfWork.Complete() > 0)
             {
@@ -76,7 +77,7 @@ namespace Constraint.BusinessLayer.Managers
 
         public List<DelayHistoryDTO> GetAllHistories()
         {
-            List<DelayHistory> list = _unitOfWork.DelayHistoryRepository.GetAll().OrderBy(x=>x.madeDate).ToList();
+            List<DelayHistory> list = _unitOfWork.DelayHistoryRepository.GetAll().OrderBy(x => x.madeDate).ToList();
             List<DelayHistoryDTO> dtoList = new List<DelayHistoryDTO>();
             if (list == null)
             {
@@ -91,7 +92,7 @@ namespace Constraint.BusinessLayer.Managers
                     delayID = constraint.delayID,
                     productCode = constraint.productCode,
                     madeDate = constraint.madeDate,
-                    
+
                     delayCode = constraint.delayCode,
                     delayAmount = constraint.delayAmount,
                     delayDate = constraint.delayDate,
@@ -99,14 +100,33 @@ namespace Constraint.BusinessLayer.Managers
                     delayDetail = constraint.delayDetail,
                     companyTeam = constraint.companyTeam,
                     chargePerson = constraint.chargePerson,
-                    boundConstraintID=constraint.boundConstraintID
-                    
+                    boundConstraintID = constraint.boundConstraintID,
+                    boundMontageID = constraint.boundMontageID
+
                 };
                 dtoList.Add(returnValue);
             }
             return dtoList;
         }
-
+        public bool DeleteAllArchiveHistories()
+        {
+            List<DelayHistory> list = _unitOfWork.DelayHistoryRepository.GetAll().ToList();
+            if (list == null)
+                return true;
+            list = list.Where(x => x.isMarked == true & x.isArchive == true).ToList();
+            if (list == null)
+            {
+                return true;
+            }
+            DelayHistoryManager delay = new DelayHistoryManager();
+            foreach (DelayHistory constraint in list)
+            {
+                var value = delay.Deletehistory(constraint.delayID);
+                if (value == false)
+                    return false;
+            }
+            return true;
+        }
         public DelayHistoryDTO GetHistoryById(System.Guid id)
         {
             DelayHistory recordValue = _unitOfWork.DelayHistoryRepository.GetById(id);
@@ -126,7 +146,8 @@ namespace Constraint.BusinessLayer.Managers
                 delayDetail = recordValue.delayDetail,
                 companyTeam = recordValue.companyTeam,
                 chargePerson = recordValue.chargePerson,
-                boundConstraintID=recordValue.boundConstraintID
+                boundConstraintID = recordValue.boundConstraintID,
+                boundMontageID = recordValue.boundMontageID,
 
             };
             return returnValue;
@@ -152,6 +173,7 @@ namespace Constraint.BusinessLayer.Managers
             newHistory.chargePerson = history.chargePerson;
             newHistory.madeDate = history.madeDate;
             newHistory.boundConstraintID = history.boundConstraintID;
+            newHistory.boundMontageID = history.boundMontageID;
             DelayHistory recordValue = _unitOfWork.DelayHistoryRepository.Update(newHistory);
             DelayHistoryDTO returnValue = new DelayHistoryDTO()
             {
@@ -167,7 +189,8 @@ namespace Constraint.BusinessLayer.Managers
                 delayDetail = recordValue.delayDetail,
                 companyTeam = recordValue.companyTeam,
                 chargePerson = recordValue.chargePerson,
-                boundConstraintID=recordValue.boundConstraintID
+                boundConstraintID = recordValue.boundConstraintID,
+                boundMontageID = recordValue.boundMontageID
 
             };
             if (_unitOfWork.Complete() > 0)

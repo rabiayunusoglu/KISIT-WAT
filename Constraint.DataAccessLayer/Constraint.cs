@@ -64,6 +64,8 @@ public partial class Constraint
 
     public string tob { get; set; }
 
+    public string boundMontageID { get; set; }
+
 }
 
 }

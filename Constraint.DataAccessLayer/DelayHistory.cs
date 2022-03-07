@@ -16,7 +16,7 @@ using System;
     using System.Collections.Generic;
     
 public partial class DelayHistory
-{
+    {
 
     public bool isMarked { get; set; }
 
@@ -43,6 +43,8 @@ public partial class DelayHistory
     public string madeDate { get; set; }
 
     public string boundConstraintID { get; set; }
+
+    public string boundMontageID { get; set; }
 
 }
 

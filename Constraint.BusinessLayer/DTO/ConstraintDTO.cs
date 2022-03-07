@@ -36,5 +36,6 @@ namespace Constraint.BusinessLayer.DTO
         public string mip { get; set; }
 
         public string tob { get; set; }
+        public string boundMontageID { get; set; }
     }
 }

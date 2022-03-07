@@ -48,7 +48,7 @@ namespace Constraint.BusinessLayer.Managers
             newConstraint.treeAmount = constraint.treeAmount;
             newConstraint.mip = constraint.mip;
             newConstraint.tob = constraint.tob;
-
+            newConstraint.boundMontageID = constraint.boundMontageID;
 
             newConstraint.aboveLine = constraint.aboveLine;
 
@@ -77,8 +77,8 @@ namespace Constraint.BusinessLayer.Managers
                 aboveLine = recordValue.aboveLine,
                 treeAmount = recordValue.treeAmount,
                 mip = recordValue.mip,
-                tob = recordValue.tob
-
+                tob = recordValue.tob,
+                boundMontageID=recordValue.boundMontageID
 
             };
             if (_unitOfWork.Complete() > 0)
@@ -132,6 +132,7 @@ namespace Constraint.BusinessLayer.Managers
                     mip = constraint.mip,
                     tob = constraint.tob,
                     aboveLine = constraint.aboveLine,
+                    boundMontageID = constraint.boundMontageID
                 };
                 dtoList.Add(returnValue);
             }
@@ -170,6 +171,7 @@ namespace Constraint.BusinessLayer.Managers
                 mip = recordValue.mip,
                 tob = recordValue.tob,
                 aboveLine = recordValue.aboveLine,
+                boundMontageID = recordValue.boundMontageID
             };
             return returnValue;
         }
@@ -202,6 +204,7 @@ namespace Constraint.BusinessLayer.Managers
             newConstraint.mip = constraint.mip;
             newConstraint.tob = constraint.tob;
             newConstraint.aboveLine = constraint.aboveLine;
+            newConstraint.boundMontageID = constraint.boundMontageID;
             Constraint.DataAccessLayer.Constraint recordValue = _unitOfWork.ConstraintRepository.Update(newConstraint);
 
             ConstraintDTO returnValue = new ConstraintDTO()
@@ -230,6 +233,7 @@ namespace Constraint.BusinessLayer.Managers
                 mip = recordValue.mip,
                 tob = recordValue.tob,
                 aboveLine = recordValue.aboveLine,
+                boundMontageID=recordValue.boundMontageID
             };
             if (_unitOfWork.Complete() > 0)
             {

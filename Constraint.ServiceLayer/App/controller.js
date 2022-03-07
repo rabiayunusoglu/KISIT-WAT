@@ -82,7 +82,7 @@
             if ($scope.archiveConstraintList == null || $scope.archiveConstraintList.length == 0)
                 toastr.warning("Tablo Boş");
             else
-                $http.post('/ArchiveConstraint/DeleteAll', $scope.archiveConstraintList).then(function (response) {
+                $http.get('/ArchiveConstraint/DeleteAll').then(function (response) {
                     if (response.data) {
                         if ($scope.isUsingDateFilter) $scope.fetchDataFromDate();
                         else $scope.fetchData();
@@ -335,6 +335,7 @@
                 });
 
                 $scope.storeConstraintList = [];
+                $scope.toggleAboveLine = true;
                 $http.get('/ConstraintEntry/GetMaterial?material=' + $scope.searchMaterial).then(function (response) {
                     var i = 0;
                     $scope.toogleConstraintTable();
@@ -352,8 +353,9 @@
                             (x.delayDetail = "")
                         )
                     );
-                    $scope.constraintList.map(x => ($scope.delayHistoryList.map(t => (t.productCode === x.productCode && t.boundConstraintID === x.constraintID) ? x._delayList.push(t) : true, x.aboveLine == "Hat Üstü" ? x._isAboveLine = true : x._isAboveLine = false)));
+                    $scope.constraintList.map(x => ($scope.delayHistoryList.map(t => (t.productCode === x.productCode && t.boundMontageID === x.boundMontageID) ? x._delayList.push(t) : true, x.aboveLine == "Hat Üstü" ? x._isAboveLine = true : x._isAboveLine = false)));
                     $scope.constraintList.map(x => x._delayList = x._delayList.map(t => { return { ...t, constraintID: x.constraintID, materialCode: x.materialCode, materialText: x.materialText, plannedDate: x.plannedDate, amount: x.amount, customer: x.customer, constraintDelayID: x.delayID, version: x.version, aboveLine: x.aboveLine, mip: x.mip, tob: x.tob, treeAmount: x.treeAmount, madeDate: x.dateCurrent } }));
+                    console.log($scope.constraintList)
                     $scope.uploading = true;
                 }, function () {
                     $scope.uploading = true;
@@ -415,8 +417,9 @@
                     );
                     if ($scope.constraintList.length !== 0)
                         $scope.searchMaterialText = $scope.constraintList[0].materialText;
-                    $scope.constraintList.map(x => ($scope.delayHistoryList.map(t => (t.productCode === x.productCode && t.boundConstraintID === x.constraintID) ? x._delayList.push(t) : true, x.aboveLine == "Hat Üstü" ? x._isAboveLine = true : x._isAboveLine = false)));
+                    $scope.constraintList.map(x => ($scope.delayHistoryList.map(t => (t.productCode === x.productCode && t.boundMontageID === x.boundMontageID) ? x._delayList.push(t) : true, x.aboveLine == "Hat Üstü" ? x._isAboveLine = true : x._isAboveLine = false)));
                     $scope.constraintList.map(x => x._delayList = x._delayList.map(t => { return { ...t, constraintID: x.constraintID, materialCode: x.materialCode, materialText: x.materialText, plannedDate: x.plannedDate, amount: x.amount, customer: x.customer, constraintDelayID: x.delayID, version: x.version, aboveLine: x.aboveLine, mip: x.mip, tob: x.tob, treeAmount: x.treeAmount, madeDate: x.dateCurrent } }));
+                    
                     $scope.uploading = true;
                 }, function () {
                     $scope.uploading = true;
@@ -572,6 +575,7 @@
                 chargePerson: item.chargePerson,
                 madeDate: item.dateCurrent,
                 boundConstraintID: item.constraintID,
+                boundMontageID: item.boundMontageID,
             };
             $http.post('/DelayHistory/Create', data).then(function (response) {
 
@@ -826,6 +830,7 @@
                 chargePerson: delay.chargePerson,
                 madeDate: delay.madeDate,
                 boundConstraintID: delay.boundConstraintID,
+                boundMontageID: delay.boundMontageID,
             };
             $http.post('/DelayHistory/Edit', data).then(function (response) {
                 $scope.toogleConstraintTable();
@@ -1050,6 +1055,7 @@
                     chargePerson: item[i].chargePerson,
                     madeDate: item[i].dateCurrent,
                     boundConstraintID: item[i].constraintID,
+                    boundMontageID: item[i].boundMontageID,
                 };
                 var archiveConstraint = {
                     constraintID: item[i].constraintID,
@@ -1137,6 +1143,7 @@
                         chargePerson: item[i].chargePerson,
                         madeDate: item[i].dateCurrent,
                         boundConstraintID: item[i].constraintID,
+                        boundMontageID: item[i].boundMontageID,
                     };
                     var archiveConstraint = {
                         constraintID: item[i].constraintID,
@@ -1371,6 +1378,7 @@
                         chargePerson: item.chargePerson,
                         madeDate: item.dateCurrent,
                         boundConstraintID: item.constraintID,
+                        boundMontageID: item.boundMontageID,
                     };
                     $http.post('/DelayHistory/Edit', data).then(function (response) {
                         toastr.success('Güncellleme Başarılı');
@@ -1911,7 +1919,7 @@
             })
         };
         $scope.deleteAll = function () {
-            $http.post('/MeetingTeam/DeleteAll', $scope.meetingList).then(function (response) {
+            $http.get('/MeetingTeam/DeleteAll').then(function (response) {
                 if (response.data) {
                     toastr.success("Hepsi silindi.");
                 } else {

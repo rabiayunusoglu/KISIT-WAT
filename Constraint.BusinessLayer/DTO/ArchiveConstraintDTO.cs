@@ -26,6 +26,7 @@ namespace Constraint.BusinessLayer.DTO
         public string chargePerson { get; set; }
         public string dateCurrent { get; set; }
         public string aboveLine { get; set; }
+        public string boundMontageID { get; set; }
 
     }
 }

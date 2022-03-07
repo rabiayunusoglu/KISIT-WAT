@@ -78,7 +78,14 @@ namespace Constraint.BusinessLayer.Managers
             }
             return false;
         }
-
+        public bool DeleteAllMeeting()
+        {
+            if (_unitOfWork.MeetingTeamRepository.RemoveAll("MeetingTeam"))
+            {
+                return true;
+            }
+            return false;
+        }
         public List<MeetingTeamDTO> GetAllMeetingTeams()
         {
             List<MeetingTeam> list = _unitOfWork.MeetingTeamRepository.GetAll().OrderBy(x => x.plannedDate).ToList();

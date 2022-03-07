@@ -143,18 +143,19 @@ namespace Constraint.ServiceLayer.Controllers
             return Json(teamNameList, JsonRequestBehavior.AllowGet);
 
         }
-        [HttpPost]
-        public JsonResult DeleteAll(MeetingTeamDTO[] managerDTO)
+        [HttpGet]
+        public JsonResult DeleteAll()
         {
-            for (int i = 0; i < managerDTO.Length; i++)
+
+            var _listManager = manager.DeleteAllMeeting();
+            if (!_listManager)
             {
-                var _listManager = manager.DeleteMeetingTeam(managerDTO[i].constraintID);
-                if (!_listManager)
-                {
-                    return Json(false, JsonRequestBehavior.AllowGet);
-                }
+                return Json(false, JsonRequestBehavior.AllowGet);
             }
+
             return Json(true, JsonRequestBehavior.AllowGet);
+
+
         }
     }
 }

@@ -47,6 +47,7 @@ namespace Constraint.BusinessLayer.Managers
             newConstraint.chargePerson = archiveConstraint.chargePerson;
             newConstraint.dateCurrent = archiveConstraint.dateCurrent;
             newConstraint.aboveLine = archiveConstraint.aboveLine;
+            newConstraint.boundMontageID = archiveConstraint.boundMontageID;
 
 
             ArchiveConstraint recordValue = _unitOfWork.ArchiveConstraintRepository.Add(newConstraint);
@@ -71,6 +72,7 @@ namespace Constraint.BusinessLayer.Managers
                 chargePerson = recordValue.chargePerson,
                 dateCurrent = recordValue.dateCurrent,
                 aboveLine = recordValue.aboveLine,
+                boundMontageID = recordValue.boundMontageID,
 
             };
             if (_unitOfWork.Complete() > 0)
@@ -93,7 +95,14 @@ namespace Constraint.BusinessLayer.Managers
             }
             return false;
         }
-
+        public bool DeleteAllArchive()
+        {
+            if (_unitOfWork.ArchiveConstraintRepository.RemoveAll("ArchiveConstraint"))
+            {
+                return true;
+            }
+            return false;
+        }
         public List<ArchiveConstraintDTO> GetAllArchives()
         {
             List<ArchiveConstraint> archivelist = _unitOfWork.ArchiveConstraintRepository.GetAll().OrderBy(x => x.dateCurrent).ToList();
@@ -125,6 +134,7 @@ namespace Constraint.BusinessLayer.Managers
                     chargePerson = constraint.chargePerson,
                     dateCurrent = constraint.dateCurrent,
                     aboveLine = constraint.aboveLine,
+                    boundMontageID = constraint.boundMontageID,
 
                 };
                 list.Add(returnValue);
@@ -162,6 +172,7 @@ namespace Constraint.BusinessLayer.Managers
                 chargePerson = recordValue.chargePerson,
                 dateCurrent = recordValue.dateCurrent,
                 aboveLine = recordValue.aboveLine,
+                boundMontageID = recordValue.boundMontageID,
             };
 
             return returnValue;
@@ -192,6 +203,7 @@ namespace Constraint.BusinessLayer.Managers
             updateArchive.chargePerson = constraint.chargePerson;
             updateArchive.dateCurrent = constraint.dateCurrent;
             updateArchive.aboveLine = constraint.aboveLine;
+            updateArchive.boundMontageID = constraint.boundMontageID;
 
             ArchiveConstraint recordValue = _unitOfWork.ArchiveConstraintRepository.Update(updateArchive);
 
@@ -215,6 +227,7 @@ namespace Constraint.BusinessLayer.Managers
                 chargePerson = recordValue.chargePerson,
                 dateCurrent = recordValue.dateCurrent,
                 aboveLine = recordValue.aboveLine,
+                boundMontageID = recordValue.boundMontageID,
             };
             if (_unitOfWork.Complete() > 0)
             {

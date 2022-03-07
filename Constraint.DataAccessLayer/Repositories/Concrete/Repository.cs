@@ -74,7 +74,7 @@ namespace Constraint.DataAccessLayer.Repositories.Concrete
         {
             try
             {
-                _context.Database.ExecuteSqlCommand("INSERT INTO [Constraint] ([materialCode],[materialText],[productCode],[plannedDate],[amount],[customer],[version],[aboveLine],[treeAmount],[mip],[tob]) select p.materialCode,p.materialText, m.productCode, m.plannedDate, m.amount,m.customerType, m.[version],m.aboveLine,p.amount,p.mip,p.tob from [MontageProductPlan] m inner join [ProductTree] p on m.productCode = p.productCode");
+                _context.Database.ExecuteSqlCommand("INSERT INTO [Constraint] ([materialCode],[materialText],[productCode],[plannedDate],[amount],[customer],[version],[aboveLine],[treeAmount],[mip],[tob],[boundMontageID]) select p.materialCode,p.materialText, m.productCode, m.plannedDate, m.amount,m.customerType, m.[version],m.aboveLine,p.amount,p.mip,p.tob,m.montageID from [MontageProductPlan] m inner join [ProductTree] p on m.productCode = p.productCode");
                 return true;
             }
             catch (Exception e)

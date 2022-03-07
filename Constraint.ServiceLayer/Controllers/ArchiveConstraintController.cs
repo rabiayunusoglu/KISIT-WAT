@@ -78,25 +78,24 @@ namespace Constraint.ServiceLayer.Controllers
 
             return Json(true, JsonRequestBehavior.AllowGet);
         }
-        [HttpPost]
+       
         [Authorize(Roles = "A")]
-        public JsonResult DeleteAll(ArchiveConstraintDTO[] managerDTO)
+        public JsonResult DeleteAll()
         {
-            if(managerDTO==null || managerDTO.Length==0)
-                return Json(false, JsonRequestBehavior.AllowGet);
-            DelayHistoryManager dh = new DelayHistoryManager();
-            for (int i = 0; i < managerDTO.Length; i++)
+            DelayHistoryManager df = new DelayHistoryManager();
+            var _delay = df.DeleteAllArchiveHistories();
+            if (!_delay)
             {
-                var _listManager = ConstraintManager.DeleteArchive(managerDTO[i].constraintID);
-                if (!_listManager)
-                {
-                    return Json(false, JsonRequestBehavior.AllowGet);
-                }
-                var _delay = dh.Deletehistory(new Guid(managerDTO[i].delayID));
-                if (!_delay)
-                    return Json(false, JsonRequestBehavior.AllowGet);
+                return Json(false, JsonRequestBehavior.AllowGet);
             }
+            var _listManager = ConstraintManager.DeleteAllArchive();
+            if (!_listManager)
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+            
             return Json(true, JsonRequestBehavior.AllowGet);
+
         }
         [HttpPost]
         [Authorize(Roles = "A")]
@@ -125,6 +124,7 @@ namespace Constraint.ServiceLayer.Controllers
                 d.chargePerson = _constraint.chargePerson;
                 d.madeDate = _constraint.dateCurrent;
                 d.boundConstraintID = _constraint.constraintID.ToString();
+                d.boundMontageID = _constraint.boundMontageID;
                 var _delay = dh.UpdateHistory(d);
                 if (_delay == null)
                     return Json(false, JsonRequestBehavior.AllowGet);

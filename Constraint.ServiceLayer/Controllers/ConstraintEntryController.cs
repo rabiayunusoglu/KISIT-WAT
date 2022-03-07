@@ -245,6 +245,7 @@ namespace Constraint.ServiceLayer.Controllers
                 dh.chargePerson = managerDTO[i].chargePerson;
                 dh.madeDate = managerDTO[i].dateCurrent;
                 dh.boundConstraintID = managerDTO[i].constraintID.ToString();
+                dh.boundMontageID = managerDTO[i].boundMontageID;
                 var _listManager = manager.Save(managerDTO[i], dh);
                 if (!_listManager)
                 {

@@ -106,7 +106,7 @@ namespace Constraint.BusinessLayer.Managers
         }
         public bool DeleteAllMeeting()
         {
-            if (_unitOfWork.MontageProductPlanRepository.RemoveAll("Meeting"))
+            if (_unitOfWork.MeetingRepository.RemoveAll("Meeting"))
             {
                 return true;
             }

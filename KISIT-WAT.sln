@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Constraint.DataAccessLayer"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Constraint.BusinessLayer", "Constraint.BusinessLayer\Constraint.BusinessLayer.csproj", "{7C49FF7F-279B-4E83-A40D-F4DF54332FA1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Constraint.ServiceLayer", "Constraint.ServiceLayer\Constraint.ServiceLayer.csproj", "{DF64068B-F61E-425C-97F8-C0FE1237E0FE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Constraint.PresentationLayer", "Constraint.ServiceLayer\Constraint.PresentationLayer.csproj", "{DF64068B-F61E-425C-97F8-C0FE1237E0FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

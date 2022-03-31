@@ -197,7 +197,9 @@ namespace Constraint.ServiceLayer.Controllers
                 return Json(null, JsonRequestBehavior.AllowGet);
 
             }
-            return Json(archiveByid, JsonRequestBehavior.AllowGet);
+            var jsonResult = Json(archiveByid, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+            return jsonResult;
 
         }
     }

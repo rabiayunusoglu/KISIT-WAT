@@ -9,6 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Constraint.BusinessLayer", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Constraint.PresentationLayer", "Constraint.ServiceLayer\Constraint.PresentationLayer.csproj", "{DF64068B-F61E-425C-97F8-C0FE1237E0FE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "User Manual", "User Manual", "{FA91E5AA-AD77-41A7-97F8-176A333CCD4D}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\Arçelik\OEG400\Kısıt Takip-Proje Detayları\1)Kullanım Kılavuzu\Kısıt Takip-Kullanım Kılavuzu.pdf = ..\..\Arçelik\OEG400\Kısıt Takip-Proje Detayları\1)Kullanım Kılavuzu\Kısıt Takip-Kullanım Kılavuzu.pdf
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
